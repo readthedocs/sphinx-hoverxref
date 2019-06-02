@@ -9,9 +9,18 @@ class HoverXRefStandardDomain(StandardDomain):
 
     def _resolve_ref_xref(self, env, fromdocname, builder, typ, target, node, contnode):
         refnode = super()._resolve_ref_xref(env, fromdocname, builder, typ, target, node, contnode)
+        if refnode is None:
+            return
+
+        project = env.config.hoverxref_project
+        version = env.config.hoverxref_version
+
+        if not project or not version:
+            return refnode
+
         refnode._hoverxref = {
-            'data-project': env.config.hoverxref_project,
-            'data-version': env.config.hoverxref_version,
+            'data-project': project,
+            'data-version': version,
             'data-doc': node.get('refdoc'),
             'data-section': node.get('reftarget'),
         }
@@ -30,9 +39,12 @@ class HoverXRefHTMLTranslator(HTMLTranslator):
 
 def setup(app):
     # Hovercard extension
+
+    # ``override`` was introduced in 1.8
+    app.require_sphinx('1.8')
+
     default_project = os.environ.get('READTHEDOCS_PROJECT')
     default_version = os.environ.get('READTHEDOCS_VERSION')
-
     app.add_config_value('hoverxref_project', default_project, 'html')
     app.add_config_value('hoverxref_version', default_version, 'html')
 
