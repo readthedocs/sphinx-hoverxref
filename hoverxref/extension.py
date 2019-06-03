@@ -1,12 +1,19 @@
 import os
-from sphinx.writers.html import HTMLTranslator
 from sphinx.domains.std import StandardDomain
+from sphinx.util.fileutil import copy_asset
+from sphinx.writers.html import HTMLTranslator
+
+ASSETS_FILES = [
+    'js/tooltipster.bundle.min.js',
+    'js/main.js',
+    'css/tooltipster.bundle.min.css',
+    'css/tooltipster-sideTip-shadow.min.css',
+]
 
 
 class HoverXRefStandardDomain(StandardDomain):
 
     # NOTE: We could override more ``_resolve_xref`` method apply hover in more places
-
     def _resolve_ref_xref(self, env, fromdocname, builder, typ, target, node, contnode):
         refnode = super()._resolve_ref_xref(env, fromdocname, builder, typ, target, node, contnode)
         if refnode is None:
@@ -38,6 +45,14 @@ class HoverXRefHTMLTranslator(HTMLTranslator):
         return super().starttag(node, tagname, suffix, empty, **attributes)
 
 
+def copy_asset_files(app, exception):
+    if exception is None:  # build succeeded
+        for f in ASSETS_FILES:
+            path = os.path.join(os.path.dirname(__file__), '_static', f)
+            # TODO: render JS files with extension configs
+            copy_asset(path, os.path.join(app.outdir, '_static', f.split('.')[-1]))
+
+
 def setup(app):
     # Hovercard extension
 
@@ -52,10 +67,10 @@ def setup(app):
     app.set_translator('html', HoverXRefHTMLTranslator, override=True)
     app.add_domain(HoverXRefStandardDomain, override=True)
 
-    app.add_js_file('js/tooltipster.bundle.min.js')
-    app.add_js_file('js/main.js')
-    app.add_css_file('css/tooltipster.bundle.min.css')
-    app.add_css_file('css/tooltipster-sideTip-shadow.min.css')
+    app.connect('build-finished', copy_asset_files)
 
-    static_path = os.path.join(os.path.dirname(__file__), '_static')
-    app.config.html_static_path.append(static_path)
+    for f in ASSETS_FILES:
+        if f.endswith('.js'):
+            app.add_js_file(f)
+        if f.endswith('.css'):
+            app.add_css_file(f)
