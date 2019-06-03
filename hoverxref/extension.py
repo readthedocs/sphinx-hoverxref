@@ -55,6 +55,7 @@ def setup(app):
     app.add_js_file('js/tooltipster.bundle.min.js')
     app.add_js_file('js/main.js')
     app.add_css_file('css/tooltipster.bundle.min.css')
+    app.add_css_file('css/tooltipster-sideTip-shadow.min.css')
 
     static_path = os.path.join(os.path.dirname(__file__), '_static')
     app.config.html_static_path.append(static_path)
