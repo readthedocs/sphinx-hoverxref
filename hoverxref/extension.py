@@ -5,7 +5,7 @@ from sphinx.writers.html import HTMLTranslator
 
 ASSETS_FILES = [
     'js/tooltipster.bundle.min.js',
-    'js/main.js',
+    'js/main.js_t',
     'css/tooltipster.bundle.min.css',
     'css/tooltipster-sideTip-shadow.min.css',
 ]
@@ -26,11 +26,17 @@ class HoverXRefStandardDomain(StandardDomain):
             return refnode
 
         refnode.replace_attr('classes', ['hoverxref'])
+
+        # TODO: consider other cases of ``:ref:`` usage
+        reftarget = doc = section = node.get('reftarget')
+        if ':' in reftarget:
+            doc, section = reftarget.split(':', 1)
+
         refnode._hoverxref = {
             'data-project': project,
             'data-version': version,
-            'data-doc': node.get('refdoc'),
-            'data-section': node.get('reftarget'),
+            'data-doc': doc,
+            'data-section': section,
         }
 
         return refnode
@@ -47,10 +53,25 @@ class HoverXRefHTMLTranslator(HTMLTranslator):
 
 def copy_asset_files(app, exception):
     if exception is None:  # build succeeded
+
+        context = {}
+        for attr in app.config.values:
+            if attr.startswith('hoverxref_'):
+                # First, add the default values to the context
+                context[attr] = app.config.values[attr][0]
+
+        for attr in dir(app.config):
+            if attr.startswith('hoverxref_'):
+                # Then, add the values that the user overrides
+                context[attr] = getattr(app.config, attr)
+
         for f in ASSETS_FILES:
             path = os.path.join(os.path.dirname(__file__), '_static', f)
-            # TODO: render JS files with extension configs
-            copy_asset(path, os.path.join(app.outdir, '_static', f.split('.')[-1]))
+            copy_asset(
+                path,
+                os.path.join(app.outdir, '_static', f.split('.')[-1].replace('js_t', 'js')),
+                context=context,
+            )
 
 
 def setup(app):
@@ -64,13 +85,20 @@ def setup(app):
     app.add_config_value('hoverxref_project', default_project, 'html')
     app.add_config_value('hoverxref_version', default_version, 'html')
 
+    app.add_config_value('hoverxref_tooltip_theme', 'tooltipster-shadow', 'env')
+    app.add_config_value('hoverxref_tooltip_interactive', True, 'env')
+    app.add_config_value('hoverxref_tooltip_maxwidth', 450, 'env')
+    app.add_config_value('hoverxref_tooltip_animation', 'fade', 'env')
+    app.add_config_value('hoverxref_tooltip_animation_duration', 0, 'env')
+    app.add_config_value('hoverxref_tooltip_content', 'Loading...', 'env')
+
     app.set_translator('html', HoverXRefHTMLTranslator, override=True)
     app.add_domain(HoverXRefStandardDomain, override=True)
 
     app.connect('build-finished', copy_asset_files)
 
     for f in ASSETS_FILES:
-        if f.endswith('.js'):
-            app.add_js_file(f)
+        if f.endswith('.js') or f.endswith('.js_t'):
+            app.add_js_file(f.replace('.js_t', '.js'))
         if f.endswith('.css'):
             app.add_css_file(f)

@@ -1,10 +1,11 @@
 $(document).ready(function() {
     $('.hoverxref').tooltipster({
-        theme: 'tooltipster-shadow',
-        interactive: true,
-        animation: 'fade',
-        animationDuration: 0,
-        content: 'Loading...',
+        theme: '{{ hoverxref_tooltip_theme }}',
+        interactive: {{ hoverxref_tooltip_interactive|yesno:"true,false" }},
+        maxWidth: {{ hoverxref_tooltip_maxwidth }},
+        animation: '{{ hoverxref_tooltip_animation }}',
+        animationDuration: {{ hoverxref_tooltip_animation_duration }},
+        content: '{{ hoverxref_tooltip_content }}',
 
         functionBefore: function(instance, helper) {
             var $origin = $(helper.origin);
