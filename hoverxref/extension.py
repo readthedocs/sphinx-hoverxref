@@ -5,7 +5,7 @@ from sphinx.writers.html import HTMLTranslator
 
 ASSETS_FILES = [
     'js/tooltipster.bundle.min.js',
-    'js/main.js_t',
+    'js/hoverxref.js_t',
     'css/tooltipster.bundle.min.css',
     'css/tooltipster-sideTip-shadow.min.css',
 ]
