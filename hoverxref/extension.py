@@ -18,6 +18,7 @@ class HoverXRefStandardDomain(StandardDomain):
         if not project or not version:
             return refnode
 
+        refnode.replace_attr('classes', ['hoverxref'])
         refnode._hoverxref = {
             'data-project': project,
             'data-version': version,
@@ -50,3 +51,10 @@ def setup(app):
 
     app.set_translator('html', HoverXRefHTMLTranslator, override=True)
     app.add_domain(HoverXRefStandardDomain, override=True)
+
+    app.add_js_file('js/tooltipster.bundle.min.js')
+    app.add_js_file('js/main.js')
+    app.add_css_file('css/tooltipster.bundle.min.css')
+
+    static_path = os.path.join(os.path.dirname(__file__), '_static')
+    app.config.html_static_path.append(static_path)

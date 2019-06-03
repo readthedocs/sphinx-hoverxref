@@ -1,2 +1,5 @@
 prune common
 include LICENSE
+include hoverxref/_static/js/main.js
+include hoverxref/_static/js/tooltipster.bundle.min.js
+include hoverxref/_static/css/tooltipster.bundle.min.css
