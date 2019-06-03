@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('.hoverxref').tooltipster({
         theme: '{{ hoverxref_tooltip_theme }}',
-        interactive: {{ hoverxref_tooltip_interactive|yesno:"true,false" }},
+        interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
         maxWidth: {{ hoverxref_tooltip_maxwidth }},
         animation: '{{ hoverxref_tooltip_animation }}',
         animationDuration: {{ hoverxref_tooltip_animation_duration }},
