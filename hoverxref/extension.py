@@ -4,14 +4,25 @@ from sphinx.util.fileutil import copy_asset
 from sphinx.writers.html import HTMLTranslator
 
 ASSETS_FILES = [
+    'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
     'js/tooltipster.bundle.min.js',
-    'js/hoverxref.js_t',
     'css/tooltipster.bundle.min.css',
     'css/tooltipster-sideTip-shadow.min.css',
 ]
 
 
 class HoverXRefStandardDomain(StandardDomain):
+
+    """
+    Override ``StandardDomain`` to save the values after the xref resolution.
+
+    ``:ref:`` are treating as a different node in Sphinx
+    (``sphinx.addnodes.pending_xref``). These nodes are translated to regular
+    ``docsutils.nodes.reference`` for this domain class.
+
+    Before loosing the data used to resolve the reference, our customized domain
+    saves it inside the node itself to be used later by the ``HTMLTranslator``.
+    """
 
     # NOTE: We could override more ``_resolve_xref`` method apply hover in more places
     def _resolve_ref_xref(self, env, fromdocname, builder, typ, target, node, contnode):
@@ -44,6 +55,13 @@ class HoverXRefStandardDomain(StandardDomain):
 
 class HoverXRefHTMLTranslator(HTMLTranslator):
 
+    """
+    Override ``HTMLTranslator`` to render extra data saved in reference nodes.
+
+    It adds all the values saved under ``_hoverxref`` as attributes of the HTML
+    reference tag.
+    """
+
     def starttag(self, node, tagname, suffix='\n', empty=False, **attributes):
         if tagname == 'a' and hasattr(node, '_hoverxref'):
             attributes.update(node._hoverxref)
@@ -52,6 +70,12 @@ class HoverXRefHTMLTranslator(HTMLTranslator):
 
 
 def copy_asset_files(app, exception):
+    """
+    Copy all assets after build finished successfully.
+
+    Assets that are templates (ends with ``_t``) are previously rendered using
+    using all the configs starting with ``hoverxref_`` as a context.
+    """
     if exception is None:  # build succeeded
 
         context = {}
@@ -75,7 +99,7 @@ def copy_asset_files(app, exception):
 
 
 def setup(app):
-    # Hovercard extension
+    """Setup ``hoverxref`` Sphinx extension."""
 
     # ``override`` was introduced in 1.8
     app.require_sphinx('1.8')
