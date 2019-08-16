@@ -3,5 +3,5 @@
 ================================
 
 
-This is an example of how a :ref:`hoverxref link works <hoverxref>`.
+This is an example of how a :ref:`hoverxref link works <hoverxref:hoverxref>`.
 Hover on the link and discover it by yourself.
