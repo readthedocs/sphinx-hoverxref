@@ -14,6 +14,8 @@ $(document).ready(function() {
             var doc = $origin.data('doc');
             var section = $origin.data('section');
 
+            console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' section=' + section):
+
             // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
             if ($origin.data('loaded') !== true) {
                 // TODO: improve URL handling here
