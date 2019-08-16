@@ -7,6 +7,7 @@ from sphinx.writers.html import HTMLTranslator
 ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
     'js/tooltipster.bundle.min.js',
+    'css/tooltipster.custom.css',
     'css/tooltipster.bundle.min.css',
     'css/tooltipster-sideTip-shadow.min.css',
 ]
@@ -115,7 +116,7 @@ def setup(app):
     app.add_config_value('hoverxref_version', default_version, 'html')
 
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
-    app.add_config_value('hoverxref_tooltip_theme', 'tooltipster-shadow', 'env')
+    app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
     app.add_config_value('hoverxref_tooltip_interactive', True, 'env')
     app.add_config_value('hoverxref_tooltip_maxwidth', 450, 'env')
     app.add_config_value('hoverxref_tooltip_animation', 'fade', 'env')
