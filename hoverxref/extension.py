@@ -123,6 +123,11 @@ def setup(app):
     app.add_config_value('hoverxref_tooltip_content', 'Loading...', 'env')
 
     app.set_translator('html', HoverXRefHTMLTranslator, override=True)
+
+    # Read the Docs use ``readthedocs`` as the name of the build, so we need to
+    # replace this as well
+    app.set_translator('readthedocs', HoverXRefHTMLTranslator, override=True)
+
     app.add_domain(HoverXRefStandardDomain, override=True)
 
     app.connect('build-finished', copy_asset_files)
