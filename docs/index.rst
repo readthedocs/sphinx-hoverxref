@@ -1,6 +1,7 @@
-Welcome to sphinx-hoverxref's!
-============================================
+================================
+ Welcome to sphinx-hoverxref's!
+================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents
+
+This is an example of how a :ref:`hoverxref link works <hoverxref>`.
+Hover on the link and discover it by yourself.
