@@ -40,13 +40,19 @@ release = ''
 # ones.
 extensions = [
     'sphinx.ext.autosectionlabel',
+    'autoapi.extension',
     'hoverxref.extension',
 ]
 
 hoverxref_tooltip_api_host = 'http://localhost:8000'
 if os.environ.get('READTHEDOCS') == 'True':
     hoverxref_tooltip_api_host = 'https://readthedocs.org'
+hoverxref_tooltip_maxwidth = 650
+
 autosectionlabel_prefix_document = True
+
+autoapi_dirs = ['../hoverxref']
+autoapi_add_toctree_entry = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -178,3 +184,8 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
+
+
+def setup(app):
+  app.add_object_type('confval', 'confval',
+    'pair: %s; configuration value')
