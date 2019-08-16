@@ -10,4 +10,4 @@ python:
 sphinx:
   configuration: docs/conf.py
   
-formats: all
+formats: []
