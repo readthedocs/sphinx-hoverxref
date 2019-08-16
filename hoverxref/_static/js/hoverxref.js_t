@@ -14,12 +14,12 @@ $(document).ready(function() {
             var doc = $origin.data('doc');
             var section = $origin.data('section');
 
-            console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' section=' + section):
+            console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' section=' + section);
 
             // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
             if ($origin.data('loaded') !== true) {
                 // TODO: improve URL handling here
-                var url = 'https://readthedocs.org/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&section=' + section;
+                var url = '{{ hoverxref_tooltip_api_host }}' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&section=' + section;
                 $.get(url, function(data) {
 
                     // call the 'content' method to update the content of our tooltip with the returned data.
