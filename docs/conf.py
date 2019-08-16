@@ -12,7 +12,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -44,6 +44,8 @@ extensions = [
 ]
 
 hoverxref_tooltip_api_host = 'http://localhost:8000'
+if os.environ.get('READTHEDOCS') == 'True':
+    hoverxref_tooltip_api_host = 'https://readthedocs.org'
 autosectionlabel_prefix_document = True
 
 # Add any paths that contain templates here, relative to this directory.
