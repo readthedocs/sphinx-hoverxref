@@ -1,5 +1,6 @@
 import os
 from sphinx.domains.std import StandardDomain
+from sphinx.util import logging
 from sphinx.util.fileutil import copy_asset
 from sphinx.writers.html import HTMLTranslator
 
@@ -9,6 +10,8 @@ ASSETS_FILES = [
     'css/tooltipster.bundle.min.css',
     'css/tooltipster-sideTip-shadow.min.css',
 ]
+
+logger = logging.getLogger(__name__)
 
 
 class HoverXRefStandardDomain(StandardDomain):
@@ -49,6 +52,7 @@ class HoverXRefStandardDomain(StandardDomain):
             'data-doc': doc,
             'data-section': section,
         }
+        logger.info('_hoverxref injected: fromdocname=%s %s', fromdocname, refnode._hoverxref)
 
         return refnode
 
@@ -65,6 +69,7 @@ class HoverXRefHTMLTranslator(HTMLTranslator):
     def starttag(self, node, tagname, suffix='\n', empty=False, **attributes):
         if tagname == 'a' and hasattr(node, '_hoverxref'):
             attributes.update(node._hoverxref)
+            logger.info('_hoverxref attributes: %s', attributes)
 
         return super().starttag(node, tagname, suffix, empty, **attributes)
 
