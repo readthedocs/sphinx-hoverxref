@@ -16,8 +16,10 @@ Badges:
 Live example
 ------------
 
-This is an example of how a ``hoverxref`` link works.
-You can include the :ref:`content of another document and section <hoverxref:hoverxref>`.
+This are some examples of how a ``hoverxref`` link works.
+
+* Include the :ref:`content of another whole document <hoverxref:hoverxref>`.
+* Include the :ref:`content of a specific section in another document <hoverxref:sub-section>`.
 
 .. toctree::
    :maxdepth: 1
