@@ -63,8 +63,7 @@ class HoverXRefStandardDomain(StandardDomain):
                 else:
                     # reference to named label; the final node will
                     # contain the section name after the label
-                    docname, labelid, sectname = self.data['labels'].get(target,
-                                                                         ('', '', ''))
+                    docname, labelid, sectname = self.data['labels'].get(target, ('', '', ''))
             else:
                 # Borrowed from https://github.com/sphinx-doc/sphinx/blob/47cd262b3e50ed650a82f272ba128a1f872cda4d/sphinx/domains/std.py#L681-L689
                 if node['refexplicit']:
