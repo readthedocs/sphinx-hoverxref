@@ -196,9 +196,24 @@ epub_title = project
 epub_exclude_files = ['search.html']
 
 
+def confval_parse_node(env, string, node):
+    from sphinx import addnodes
+    node += addnodes.desc_name(string, string)
+
+    # By default the structure that Sphinx creates put the ids in the inner
+    # ``dt`` HTML tag. This makes the Read the Docs API to return just the title
+    # of it instead the full content. Here, we put the ids in the outer ``dl``
+    # HTML tag instead.
+    node_id = 'confval-{string}'.format(string=string)
+    node.parent['ids'].append(node_id)
+
+    return string
+
+
 def setup(app):
     app.add_object_type(
         'confval',  # directivename
         'confval',  # rolename
         'pair: %s; configuration value',  # indextemplate
+        parse_node=confval_parse_node,
     )

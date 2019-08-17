@@ -84,6 +84,35 @@ class HoverXRefStandardDomain(StandardDomain):
             )
         return refnode
 
+    def _resolve_obj_xref(self, env, fromdocname, builder, typ, target, node, contnode):
+        refnode = super()._resolve_obj_xref(env, fromdocname, builder, typ, target, node, contnode)
+        if refnode is None:
+            return
+
+        if typ == 'confval':
+            objtypes = self.objtypes_for_role(typ) or []
+            if sphinx.version_info < (2, 0):
+                # Borrowed from https://github.com/sphinx-doc/sphinx/blob/6ef08a42df4534dbb2664d49dc10a16f6df2acb2/sphinx/domains/std.py#L851-L855
+                for objtype in objtypes:
+                    if (objtype, target) in self.data['objects']:
+                        docname, labelid = self.data['objects'][objtype, target]
+                        break
+            else:
+                # Borrowed from https://github.com/sphinx-doc/sphinx/blob/47cd262b3e50ed650a82f272ba128a1f872cda4d/sphinx/domains/std.py#L812-L816
+                for objtype in objtypes:
+                    if (objtype, target) in self.objects:
+                        docname, labelid = self.objects[objtype, target]
+                        break
+
+            if self._is_hoverxref_configured(env):
+                self._inject_hoverxref_data(env, refnode, docname, labelid)
+                logger.info(
+                    ':confval: _hoverxref injected: fromdocname=%s %s',
+                    fromdocname,
+                    refnode._hoverxref,
+                )
+        return refnode
+
 
 class HoverXRefHTMLTranslator(HTMLTranslator):
 
@@ -98,6 +127,12 @@ class HoverXRefHTMLTranslator(HTMLTranslator):
         if tagname == 'a' and hasattr(node, '_hoverxref'):
             attributes.update(node._hoverxref)
             logger.info('_hoverxref attributes: %s', attributes)
+
+        elif tagname == 'dt':
+            if node.parent.get('ids') == node.get('ids'):
+                # Remove duplicated ids from node that were added by
+                # ``confval_parse_node`` to the parent
+                node.replace_attr('ids', [])
 
         return super().starttag(node, tagname, suffix, empty, **attributes)
 
@@ -149,6 +184,7 @@ def setup(app):
     app.add_config_value('hoverxref_tooltip_animation', 'fade', 'env')
     app.add_config_value('hoverxref_tooltip_animation_duration', 0, 'env')
     app.add_config_value('hoverxref_tooltip_content', 'Loading...', 'env')
+    app.add_config_value('hoverxref_tooltip_class', 'rst-content', 'env')
 
     app.set_translator('html', HoverXRefHTMLTranslator, override=True)
 

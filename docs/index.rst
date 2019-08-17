@@ -20,6 +20,7 @@ This are some examples of how a ``hoverxref`` link works.
 
 * Include the :ref:`content of another whole document <hoverxref:hoverxref>`.
 * Include the :ref:`content of a specific section in another document <hoverxref:sub-section>`.
+* Include the :confval:`content of a custom object type value <hoverxref_project>` (``confval``).
 
 .. toctree::
    :maxdepth: 1
