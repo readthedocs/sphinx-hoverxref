@@ -46,9 +46,17 @@ extensions = [
     'hoverxref.extension',
 ]
 
+# Used when building the documentation from the terminal and using a local Read
+# the Docs instance as backend
 hoverxref_tooltip_api_host = 'http://localhost:8000'
+
 if os.environ.get('READTHEDOCS') == 'True':
+    # Building on Read the Docs
     hoverxref_tooltip_api_host = 'https://readthedocs.org'
+if os.environ.get('LOCAL_READTHEDOCS') == 'True':
+    # Building on a local Read the Docs instance
+    hoverxref_tooltip_api_host = 'http://dev.readthedocs.io:8000'
+
 hoverxref_tooltip_maxwidth = 650
 
 autosectionlabel_prefix_document = True
