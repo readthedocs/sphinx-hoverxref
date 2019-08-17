@@ -44,7 +44,7 @@ def test_project_version_settings(app, status, warning):
     content = open(path).read()
 
     chunks = [
-        '<a class="hoverxref reference internal" data-doc="chapter-i" data-project="myproject" data-section="chapter i" data-version="myversion" href="chapter-i.html#chapter-i"><span class="std std-ref">This a reference to Chapter I</span></a>',
+        '<a class="hoverxref reference internal" data-doc="chapter-i" data-project="myproject" data-section="chapter-i" data-version="myversion" href="chapter-i.html#chapter-i"><span class="std std-ref">This a reference to Chapter I</span></a>',
     ]
 
     for chunk in chunks:

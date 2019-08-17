@@ -1,4 +1,5 @@
 import os
+import sphinx
 from sphinx.domains.std import StandardDomain
 from sphinx.util import logging
 from sphinx.util.fileutil import copy_asset
@@ -28,33 +29,60 @@ class HoverXRefStandardDomain(StandardDomain):
     saves it inside the node itself to be used later by the ``HTMLTranslator``.
     """
 
+    def _is_hoverxref_configured(self, env):
+        project = env.config.hoverxref_project
+        version = env.config.hoverxref_version
+        return project and version
+
+    def _inject_hoverxref_data(self, env, refnode, docname, labelid):
+        refnode.replace_attr('classes', ['hoverxref'])
+
+        project = env.config.hoverxref_project
+        version = env.config.hoverxref_version
+        refnode._hoverxref = {
+            'data-project': project,
+            'data-version': version,
+            'data-doc': docname,
+            'data-section': labelid,
+        }
+
     # NOTE: We could override more ``_resolve_xref`` method apply hover in more places
     def _resolve_ref_xref(self, env, fromdocname, builder, typ, target, node, contnode):
         refnode = super()._resolve_ref_xref(env, fromdocname, builder, typ, target, node, contnode)
         if refnode is None:
             return
 
-        project = env.config.hoverxref_project
-        version = env.config.hoverxref_version
+        if self._is_hoverxref_configured(env):
+            if sphinx.version_info < (2, 1):
+                # Borrowed from https://github.com/sphinx-doc/sphinx/blob/6ef08a42df4534dbb2664d49dc10a16f6df2acb2/sphinx/domains/std.py#L702-L711
+                if node['refexplicit']:
+                    # reference to anonymous label; the reference uses
+                    # the supplied link caption
+                    docname, labelid = self.data['anonlabels'].get(target, ('', ''))
+                    sectname = node.astext()
+                else:
+                    # reference to named label; the final node will
+                    # contain the section name after the label
+                    docname, labelid, sectname = self.data['labels'].get(target,
+                                                                         ('', '', ''))
+            else:
+                # Borrowed from https://github.com/sphinx-doc/sphinx/blob/47cd262b3e50ed650a82f272ba128a1f872cda4d/sphinx/domains/std.py#L681-L689
+                if node['refexplicit']:
+                    # reference to anonymous label; the reference uses
+                    # the supplied link caption
+                    docname, labelid = self.anonlabels.get(target, ('', ''))
+                    sectname = node.astext()
+                else:
+                    # reference to named label; the final node will
+                    # contain the section name after the label
+                    docname, labelid, sectname = self.labels.get(target, ('', '', ''))
 
-        if not project or not version:
-            return refnode
-
-        refnode.replace_attr('classes', ['hoverxref'])
-
-        # TODO: consider other cases of ``:ref:`` usage
-        reftarget = doc = section = node.get('reftarget')
-        if ':' in reftarget:
-            doc, section = reftarget.split(':', 1)
-
-        refnode._hoverxref = {
-            'data-project': project,
-            'data-version': version,
-            'data-doc': doc,
-            'data-section': section,
-        }
-        logger.info('_hoverxref injected: fromdocname=%s %s', fromdocname, refnode._hoverxref)
-
+            self._inject_hoverxref_data(env, refnode, docname, labelid)
+            logger.info(
+                ':ref: _hoverxref injected: fromdocname=%s %s',
+                fromdocname,
+                refnode._hoverxref,
+            )
         return refnode
 
 

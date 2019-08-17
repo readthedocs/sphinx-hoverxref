@@ -197,5 +197,8 @@ epub_exclude_files = ['search.html']
 
 
 def setup(app):
-  app.add_object_type('confval', 'confval',
-    'pair: %s; configuration value')
+    app.add_object_type(
+        'confval',  # directivename
+        'confval',  # rolename
+        'pair: %s; configuration value',  # indextemplate
+    )
