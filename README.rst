@@ -9,7 +9,7 @@ sphinx-hoverxref
 Example
 -------
 
-.. image:: sphinx-hoverxref-example.png
+.. image:: docs/sphinx-hoverxref-example.png
 
 
 Installation
