@@ -40,6 +40,7 @@ release = ''
 # ones.
 extensions = [
     'sphinx.ext.autosectionlabel',
+    'sphinx_tabs.tabs',
     'autoapi.extension',
     'hoverxref.extension',
 ]
