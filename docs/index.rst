@@ -25,6 +25,7 @@ You can include the :ref:`content of another document and section <hoverxref:hov
 
    installation
    configuration
+   development
 
 
 .. toctree::
