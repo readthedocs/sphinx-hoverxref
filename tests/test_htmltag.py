@@ -68,6 +68,33 @@ def test_project_version_settings(app, status, warning):
 
 
 @pytest.mark.sphinx(
+    srcdir=srcdir,
+    confoverrides={
+        'hoverxref_project': 'myproject',
+        'hoverxref_version': 'myversion',
+    },
+)
+def test_js_render(app, status, warning):
+    app.build()
+    path = app.outdir / '_static' / 'js' / 'hoverxref.js'
+    assert path.exists() is True
+    content = open(path).read()
+
+    chunks = [
+        "theme: ['tooltipster-shadow', 'tooltipster-shadow-custom']",
+        "interactive: true",
+        "maxWidth: 450",
+        "animation: 'fade'",
+        "animationDuration: 0",
+        "content: 'Loading...'",
+        "var url = 'https://readthedocs.org' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&section=' + section;",
+    ]
+
+    for chunk in chunks:
+        assert chunk in content
+
+
+@pytest.mark.sphinx(
     srcdir=prefixdocumentsrcdir,
     confoverrides={
         'hoverxref_project': 'myproject',
