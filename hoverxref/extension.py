@@ -63,6 +63,11 @@ class HoverXRefStandardDomain(StandardDomain):
         if refnode is None:
             return
 
+        if not self._is_hoverxref_configured(env) and typ == 'hoverxref':
+            # Using ``:hoverxref:`` role without having hoverxref configured
+            # properly. Log a warning.
+            logger.warning('hoverxref role is not fully configured.')
+
         if self._is_hoverxref_configured(env) and (env.config.hoverxref_auto_ref or typ == 'hoverxref'):
             if sphinx.version_info < (2, 1):
                 # Borrowed from https://github.com/sphinx-doc/sphinx/blob/6ef08a42df4534dbb2664d49dc10a16f6df2acb2/sphinx/domains/std.py#L702-L711
