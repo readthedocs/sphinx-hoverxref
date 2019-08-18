@@ -61,4 +61,21 @@ the previous code will render to:
 Show a tooltip to :confval:`hoverxref_auto_ref <hoverxref_auto_ref>` configuration.
 
 
+Tooltip on all ``:ref:`` roles
+------------------------------
+
+If you want to show a tooltip in all the appearances of the ``:ref:`` role,
+you have to set the configuration ``hoverxref_auto_ref = True`` in your ``conf.py`` file.
+
+After setting that config, using ``:ref:`` will just render the tooltip:
+
+.. code-block:: rst
+
+   Show a tooltip to :ref:`configuration:configuration` page.
+
+that reStructuredText code will render to:
+
+Show a tooltip to :ref:`configuration:configuration` page.
+
+
 .. _Sphinx.add_object_type: https://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.add_object_type
