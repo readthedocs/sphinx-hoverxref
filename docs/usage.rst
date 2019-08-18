@@ -14,6 +14,9 @@ Simplest usage example,
 
    This will :hoverxref:`show a tooltip <hoverxref:section>` in the linked words to ``hoverxref``.
 
+will render to this:
+
+This will :hoverxref:`show a tooltip <hoverxref:section>` in the linked words to ``hoverxref``.
 
 Tooltip on custom object
 ------------------------
@@ -26,6 +29,8 @@ In this case, calling ``Sphinx.add_object_type`` will look like:
 
 .. code-block:: python
    :emphasize-lines: 9
+
+   # conf.py
 
    def setup(app):
        # ...
@@ -49,11 +54,11 @@ This is reStructuredText code to do this:
 
 .. code-block:: rst
 
-   This will show a tooltip to :confval:`hoverxref_auto_ref <configuration:confval-hoverxref_auto_ref>` configuration.
+   Show a tooltip to :confval:`hoverxref_auto_ref <configuration:confval-hoverxref_auto_ref>` configuration.
 
 the previous code will render to:
 
-This will show a tooltip to :confval:`hoverxref_auto_ref <configuration:confval-hoverxref_auto_ref>` configuration.
+Show a tooltip to :confval:`hoverxref_auto_ref <configuration:confval-hoverxref_auto_ref>` configuration.
 
 
 .. _Sphinx.add_object_type: https://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.add_object_type
