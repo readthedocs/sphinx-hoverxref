@@ -13,13 +13,25 @@ Badges:
     |Docs badge| |License|
 
 
-Live example
-------------
+Usage
+-----
 
-This are some examples of how a ``hoverxref`` link works.
+To show a tooltip on a reference, use the role ``hoverxref`` to link to any document or section.
 
-* Include the :ref:`content of another whole document <hoverxref:hoverxref>`.
-* Include the :ref:`content of a specific section in another document <hoverxref:sub-section>`.
+Writing this reStructuredText:
+
+.. code-block:: rst
+
+   This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+
+will render to:
+
+This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+
+.. tip::
+
+   This new ``hoverxref`` role is an alias of the ``ref`` role and works in the same.
+
 
 .. toctree::
    :maxdepth: 1

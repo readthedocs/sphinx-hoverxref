@@ -1,9 +1,13 @@
 import os
+from docutils import nodes
 import sphinx
 from sphinx.domains.std import StandardDomain
+from sphinx.roles import XRefRole
 from sphinx.util import logging
 from sphinx.util.fileutil import copy_asset
 from sphinx.writers.html import HTMLTranslator
+
+from . import version
 
 ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -46,13 +50,20 @@ class HoverXRefStandardDomain(StandardDomain):
             'data-section': labelid,
         }
 
+    def resolve_xref(self, env, fromdocname, builder, typ, target, node, contnode):
+        if typ == 'hoverxref':
+            resolver = self._resolve_ref_xref
+            return resolver(env, fromdocname, builder, typ, target, node, contnode)
+
+        return super().resolve_xref(env, fromdocname, builder, typ, target, node, contnode)
+
     # NOTE: We could override more ``_resolve_xref`` method apply hover in more places
     def _resolve_ref_xref(self, env, fromdocname, builder, typ, target, node, contnode):
         refnode = super()._resolve_ref_xref(env, fromdocname, builder, typ, target, node, contnode)
         if refnode is None:
             return
 
-        if self._is_hoverxref_configured(env):
+        if self._is_hoverxref_configured(env) and (env.config.hoverxref_auto_ref or typ == 'hoverxref'):
             if sphinx.version_info < (2, 1):
                 # Borrowed from https://github.com/sphinx-doc/sphinx/blob/6ef08a42df4534dbb2664d49dc10a16f6df2acb2/sphinx/domains/std.py#L702-L711
                 if node['refexplicit']:
@@ -142,6 +153,7 @@ def setup(app):
     default_version = os.environ.get('READTHEDOCS_VERSION')
     app.add_config_value('hoverxref_project', default_project, 'html')
     app.add_config_value('hoverxref_version', default_version, 'html')
+    app.add_config_value('hoverxref_auto_ref', False, 'env')
 
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
@@ -157,6 +169,17 @@ def setup(app):
     # replace this as well
     app.set_translator('readthedocs', HoverXRefHTMLTranslator, override=True)
 
+    # Add ``hoverxref`` role replicating the behavior of ``ref``
+    app.add_role_to_domain(
+        'std',
+        'hoverxref',
+        XRefRole(
+            lowercase=True,
+            innernodeclass=nodes.inline,
+            warn_dangling=True,
+        ),
+    )
+
     app.add_domain(HoverXRefStandardDomain, override=True)
 
     app.connect('build-finished', copy_asset_files)
@@ -166,3 +189,9 @@ def setup(app):
             app.add_js_file(f.replace('.js_t', '.js'))
         if f.endswith('.css'):
             app.add_css_file(f)
+
+    return {
+        'version': version,
+        'parallel_read_safe': True,
+        'parallel_write_safe': True,
+    }

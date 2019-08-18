@@ -28,6 +28,14 @@ For more specific use cases, you can customize these configuration options in yo
 
    Type: string
 
+.. confval:: hoverxref_auto_ref
+
+   Description: Make all ``:ref:`` role to show a tooltip
+
+   Default: ``False``
+
+   Type: bool
+
 .. note::
 
    The following settings are passed directly to Tooltipster_. See https://iamceege.github.io/tooltipster/#options for more information about their descriptions.
