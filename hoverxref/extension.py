@@ -7,6 +7,7 @@ from sphinx.util.fileutil import copy_asset
 from sphinx.writers.html import HTMLTranslator
 
 from . import version
+from .registry import registry
 from .utils import get_ref_xref_data, get_ref_obj_data
 
 ASSETS_FILES = [
@@ -83,12 +84,13 @@ class HoverXRefStandardDomain(StandardDomain):
         if refnode is None:
             return
 
-        if typ == 'confval':
+        if typ in registry.object_types:
             docname, labelid = get_ref_obj_data(self, node, typ, target)
             if self._is_hoverxref_configured(env):
                 self._inject_hoverxref_data(env, refnode, docname, labelid)
                 logger.info(
-                    ':confval: _hoverxref injected: fromdocname=%s %s',
+                    ':%s: _hoverxref injected: fromdocname=%s %s',
+                    typ,
                     fromdocname,
                     refnode._hoverxref,
                 )
