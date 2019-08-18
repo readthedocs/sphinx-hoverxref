@@ -205,3 +205,12 @@ def setup(app):
         'pair: %s; configuration value',  # indextemplate
         parse_node=parse_node('confval'),
     )
+
+    # Remove ``update_contenxt`` from ``sphinx-tabs`` since it removes the
+    # CSS/JS from pages that does not use the directive. Although, we need them
+    # to use inside the tooltip.
+    import inspect
+    for listener_id, function in app.events.listeners.get('html-page-context').items():
+        module_name = inspect.getmodule(function).__name__
+        if module_name == 'sphinx_tabs.tabs':
+            app.disconnect(listener_id)
