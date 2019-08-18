@@ -30,5 +30,11 @@ $(document).ready(function() {
                     $origin.data('loaded', true);
                 });
             }
+        },
+
+        functionReady: function(instance, helper) {
+            // most of Read the Docs Sphinx theme bases its style on "rst-content".
+            // We add that class to the tooltipser HTML tag here by default or a user-defined one.
+            helper.tooltip.classList.add('{{ hoverxref_tooltip_class }}');
         }
     })});

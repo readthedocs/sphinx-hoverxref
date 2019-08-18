@@ -38,6 +38,7 @@ This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
    :caption: Contents
 
    installation
+   usage
    configuration
    development
 

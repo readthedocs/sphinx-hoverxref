@@ -7,7 +7,8 @@ from sphinx.util.fileutil import copy_asset
 from sphinx.writers.html import HTMLTranslator
 
 from . import version
-from .utils import get_ref_xref_data
+from .registry import registry
+from .utils import get_ref_xref_data, get_ref_obj_data
 
 ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -78,6 +79,23 @@ class HoverXRefStandardDomain(StandardDomain):
             )
         return refnode
 
+    def _resolve_obj_xref(self, env, fromdocname, builder, typ, target, node, contnode):
+        refnode = super()._resolve_obj_xref(env, fromdocname, builder, typ, target, node, contnode)
+        if refnode is None:
+            return
+
+        if typ in registry.object_types:
+            docname, labelid = get_ref_obj_data(self, node, typ, target)
+            if self._is_hoverxref_configured(env):
+                self._inject_hoverxref_data(env, refnode, docname, labelid)
+                logger.info(
+                    ':%s: _hoverxref injected: fromdocname=%s %s',
+                    typ,
+                    fromdocname,
+                    refnode._hoverxref,
+                )
+        return refnode
+
 
 class HoverXRefHTMLTranslator(HTMLTranslator):
 
@@ -92,6 +110,12 @@ class HoverXRefHTMLTranslator(HTMLTranslator):
         if tagname == 'a' and hasattr(node, '_hoverxref'):
             attributes.update(node._hoverxref)
             logger.info('_hoverxref attributes: %s', attributes)
+
+        elif tagname == 'dt':
+            if node.parent.get('ids') == node.get('ids'):
+                # Remove duplicated ids from node that were added by
+                # ``confval_parse_node`` to the parent
+                node.replace_attr('ids', [])
 
         return super().starttag(node, tagname, suffix, empty, **attributes)
 
@@ -144,6 +168,7 @@ def setup(app):
     app.add_config_value('hoverxref_tooltip_animation', 'fade', 'env')
     app.add_config_value('hoverxref_tooltip_animation_duration', 0, 'env')
     app.add_config_value('hoverxref_tooltip_content', 'Loading...', 'env')
+    app.add_config_value('hoverxref_tooltip_class', 'rst-content', 'env')
 
     app.set_translator('html', HoverXRefHTMLTranslator, override=True)
 
