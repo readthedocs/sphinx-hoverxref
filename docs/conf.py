@@ -58,6 +58,7 @@ if os.environ.get('LOCAL_READTHEDOCS') == 'True':
     hoverxref_tooltip_api_host = 'http://dev.readthedocs.io:8000'
 
 hoverxref_tooltip_maxwidth = 650
+hoverxref_auto_ref = True
 
 autosectionlabel_prefix_document = True
 

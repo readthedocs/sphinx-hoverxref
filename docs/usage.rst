@@ -71,11 +71,11 @@ After setting that config, using ``:ref:`` will just render the tooltip:
 
 .. code-block:: rst
 
-   Show a tooltip to :ref:`another <configuration:configuration>` page.
+   Show a tooltip to :ref:`installation:installation` page.
 
 that reStructuredText code will render to:
 
-Show a tooltip to :ref:`another <configuration:configuration>` page.
+Show a tooltip to :ref:`installation:installation` page.
 
 
 .. _Sphinx.add_object_type: https://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.add_object_type
