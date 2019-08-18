@@ -13,6 +13,7 @@ srcdir = os.path.join(
     srcdir=srcdir,
     confoverrides={
         'autosectionlabel_prefix_document': True,
+        'hoverxref_auto_ref': True,
     },
 )
 def test_default_settings(app, status, warning):
@@ -35,6 +36,7 @@ def test_default_settings(app, status, warning):
         'hoverxref_project': 'myproject',
         'hoverxref_version': 'myversion',
         'autosectionlabel_prefix_document': True,
+        'hoverxref_auto_ref': True,
     },
 )
 def test_project_version_settings(app, status, warning):
