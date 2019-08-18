@@ -1,9 +1,13 @@
 import os
-import sphinx
+from docutils import nodes
 from sphinx.domains.std import StandardDomain
+from sphinx.roles import XRefRole
 from sphinx.util import logging
 from sphinx.util.fileutil import copy_asset
 from sphinx.writers.html import HTMLTranslator
+
+from . import version
+from .utils import get_ref_xref_data
 
 ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -46,36 +50,26 @@ class HoverXRefStandardDomain(StandardDomain):
             'data-section': labelid,
         }
 
+    def resolve_xref(self, env, fromdocname, builder, typ, target, node, contnode):
+        if typ == 'hoverxref':
+            resolver = self._resolve_ref_xref
+            return resolver(env, fromdocname, builder, typ, target, node, contnode)
+
+        return super().resolve_xref(env, fromdocname, builder, typ, target, node, contnode)
+
     # NOTE: We could override more ``_resolve_xref`` method apply hover in more places
     def _resolve_ref_xref(self, env, fromdocname, builder, typ, target, node, contnode):
         refnode = super()._resolve_ref_xref(env, fromdocname, builder, typ, target, node, contnode)
         if refnode is None:
             return
 
-        if self._is_hoverxref_configured(env):
-            if sphinx.version_info < (2, 1):
-                # Borrowed from https://github.com/sphinx-doc/sphinx/blob/6ef08a42df4534dbb2664d49dc10a16f6df2acb2/sphinx/domains/std.py#L702-L711
-                if node['refexplicit']:
-                    # reference to anonymous label; the reference uses
-                    # the supplied link caption
-                    docname, labelid = self.data['anonlabels'].get(target, ('', ''))
-                    sectname = node.astext()
-                else:
-                    # reference to named label; the final node will
-                    # contain the section name after the label
-                    docname, labelid, sectname = self.data['labels'].get(target, ('', '', ''))
-            else:
-                # Borrowed from https://github.com/sphinx-doc/sphinx/blob/47cd262b3e50ed650a82f272ba128a1f872cda4d/sphinx/domains/std.py#L681-L689
-                if node['refexplicit']:
-                    # reference to anonymous label; the reference uses
-                    # the supplied link caption
-                    docname, labelid = self.anonlabels.get(target, ('', ''))
-                    sectname = node.astext()
-                else:
-                    # reference to named label; the final node will
-                    # contain the section name after the label
-                    docname, labelid, sectname = self.labels.get(target, ('', '', ''))
+        if not self._is_hoverxref_configured(env) and typ == 'hoverxref':
+            # Using ``:hoverxref:`` role without having hoverxref configured
+            # properly. Log a warning.
+            logger.warning('hoverxref role is not fully configured.')
 
+        if self._is_hoverxref_configured(env) and (env.config.hoverxref_auto_ref or typ == 'hoverxref'):
+            docname, labelid, _ = get_ref_xref_data(self, node, target)
             self._inject_hoverxref_data(env, refnode, docname, labelid)
             logger.info(
                 ':ref: _hoverxref injected: fromdocname=%s %s',
@@ -176,6 +170,7 @@ def setup(app):
     default_version = os.environ.get('READTHEDOCS_VERSION')
     app.add_config_value('hoverxref_project', default_project, 'html')
     app.add_config_value('hoverxref_version', default_version, 'html')
+    app.add_config_value('hoverxref_auto_ref', False, 'env')
 
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
@@ -192,6 +187,17 @@ def setup(app):
     # replace this as well
     app.set_translator('readthedocs', HoverXRefHTMLTranslator, override=True)
 
+    # Add ``hoverxref`` role replicating the behavior of ``ref``
+    app.add_role_to_domain(
+        'std',
+        'hoverxref',
+        XRefRole(
+            lowercase=True,
+            innernodeclass=nodes.inline,
+            warn_dangling=True,
+        ),
+    )
+
     app.add_domain(HoverXRefStandardDomain, override=True)
 
     app.connect('build-finished', copy_asset_files)
@@ -201,3 +207,9 @@ def setup(app):
             app.add_js_file(f.replace('.js_t', '.js'))
         if f.endswith('.css'):
             app.add_css_file(f)
+
+    return {
+        'version': version,
+        'parallel_read_safe': True,
+        'parallel_write_safe': True,
+    }
