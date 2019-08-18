@@ -28,7 +28,7 @@ Let's say that we want to define a custom role and directive called ``confval``.
 In this case, calling ``Sphinx.add_object_type`` will look like:
 
 .. code-block:: python
-   :emphasize-lines: 9
+   :emphasize-lines: 10
 
    # conf.py
 
