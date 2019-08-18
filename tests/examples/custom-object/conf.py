@@ -11,7 +11,7 @@ hoverxref_version = 'myversion'
 
 
 def setup(app):
-    from hoverxref.parser import parse_node
+    from hoverxref.nodeparser import parse_node
     app.add_object_type(
         'confval',  # directivename
         'confval',  # rolename

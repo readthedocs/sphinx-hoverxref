@@ -13,7 +13,6 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
-import hoverxref
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -198,9 +197,10 @@ epub_exclude_files = ['search.html']
 
 
 def setup(app):
+    from hoverxref.nodeparser import parse_node
     app.add_object_type(
         'confval',  # directivename
         'confval',  # rolename
         'pair: %s; configuration value',  # indextemplate
-        parse_node=hoverxref.parser.parse_node('confval'),
+        parse_node=parse_node('confval'),
     )

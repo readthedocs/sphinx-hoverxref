@@ -27,15 +27,14 @@ In this case, calling ``Sphinx.add_object_type`` will look like:
 .. code-block:: python
    :emphasize-lines: 9
 
-   import hoverxref
-
    def setup(app):
        # ...
+       from hoverxref.nodeparser import parse_node
        app.add_object_type(
            'confval',  # directivename
            'confval',  # rolename
            'pair: %s; configuration value',  # indextemplate
-           parse_node=hoverxref.parser.parse_node('confval'),
+           parse_node=parse_node('confval'),
        )
 
 Once object is added, ``hoverxref`` will know that we want to add tooltips on these objects.
