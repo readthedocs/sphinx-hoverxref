@@ -1,6 +1,5 @@
 import os
 from docutils import nodes
-import sphinx
 from sphinx.domains.std import StandardDomain
 from sphinx.roles import XRefRole
 from sphinx.util import logging
@@ -8,6 +7,7 @@ from sphinx.util.fileutil import copy_asset
 from sphinx.writers.html import HTMLTranslator
 
 from . import version
+from .utils import get_ref_xref_data
 
 ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -69,30 +69,7 @@ class HoverXRefStandardDomain(StandardDomain):
             logger.warning('hoverxref role is not fully configured.')
 
         if self._is_hoverxref_configured(env) and (env.config.hoverxref_auto_ref or typ == 'hoverxref'):
-            if sphinx.version_info < (2, 1):
-                # Borrowed from https://github.com/sphinx-doc/sphinx/blob/6ef08a42df4534dbb2664d49dc10a16f6df2acb2/sphinx/domains/std.py#L702-L711
-                if node['refexplicit']:
-                    # reference to anonymous label; the reference uses
-                    # the supplied link caption
-                    docname, labelid = self.data['anonlabels'].get(target, ('', ''))
-                    sectname = node.astext()
-                else:
-                    # reference to named label; the final node will
-                    # contain the section name after the label
-                    docname, labelid, sectname = self.data['labels'].get(target,
-                                                                         ('', '', ''))
-            else:
-                # Borrowed from https://github.com/sphinx-doc/sphinx/blob/47cd262b3e50ed650a82f272ba128a1f872cda4d/sphinx/domains/std.py#L681-L689
-                if node['refexplicit']:
-                    # reference to anonymous label; the reference uses
-                    # the supplied link caption
-                    docname, labelid = self.anonlabels.get(target, ('', ''))
-                    sectname = node.astext()
-                else:
-                    # reference to named label; the final node will
-                    # contain the section name after the label
-                    docname, labelid, sectname = self.labels.get(target, ('', '', ''))
-
+            docname, labelid, _ = get_ref_xref_data(self, node, target)
             self._inject_hoverxref_data(env, refnode, docname, labelid)
             logger.info(
                 ':ref: _hoverxref injected: fromdocname=%s %s',
