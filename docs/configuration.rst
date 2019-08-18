@@ -36,6 +36,14 @@ For more specific use cases, you can customize these configuration options in yo
 
    Type: bool
 
+.. confval:: hoverxref_tooltip_class
+
+   Description: CSS class to add to ``div`` created for the tooltip
+
+   Default: ``rst-content``
+
+   Type: string
+
 .. warning::
 
    The following settings are passed directly to Tooltipster_. See https://iamceege.github.io/tooltipster/#options for more information about their descriptions.
