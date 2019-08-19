@@ -190,6 +190,7 @@ def setup(app):
     app.add_config_value('hoverxref_project', default_project, 'html')
     app.add_config_value('hoverxref_version', default_version, 'html')
     app.add_config_value('hoverxref_auto_ref', False, 'env')
+    app.add_config_value('hoverxref_mathjax', False, 'env')
 
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
