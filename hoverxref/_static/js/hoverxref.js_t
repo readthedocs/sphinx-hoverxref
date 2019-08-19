@@ -36,5 +36,9 @@ $(document).ready(function() {
             // most of Read the Docs Sphinx theme bases its style on "rst-content".
             // We add that class to the tooltipser HTML tag here by default or a user-defined one.
             helper.tooltip.classList.add('{{ hoverxref_tooltip_class }}');
+
+            // https://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
+            console.debug('Trigging MathJax.Hub.Typeset()');
+            MathJax.Hub.Typeset();
         }
     })});
