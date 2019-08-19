@@ -1,3 +1,7 @@
+.tooltipster-box {
+    max-height: 600px;
+}
+
 .tooltipster-sidetip.tooltipster-shadow.tooltipster-shadow-custom .tooltipster-content {
     color: #8d8d8d;
     line-height: 5px;
