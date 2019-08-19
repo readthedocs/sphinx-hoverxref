@@ -1,3 +1,19 @@
+function reRender (instance, helper) {
+    // Check if the content is the same as the default content until
+    // it's different. Once it's different, re renders its content
+    // to show it properly (this may involve calling external JS
+    // libraries like MathJax) and finally call tooltip.reposition().
+    if (helper.tooltip.textContent !== '{{ hoverxref_tooltip_content }}') {
+        console.debug('Triggering MathJax.Hub.Typeset()');
+        // https://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
+        MathJax.Hub.Queue((["Typeset", MathJax.Hub, helper.tooltip.id]));
+        instance.reposition();
+    } else {
+        setTimeout(reRender, 100, instance, helper);
+    };
+}
+
+
 $(document).ready(function() {
     $('.hoverxref').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
@@ -36,9 +52,11 @@ $(document).ready(function() {
             // most of Read the Docs Sphinx theme bases its style on "rst-content".
             // We add that class to the tooltipser HTML tag here by default or a user-defined one.
             helper.tooltip.classList.add('{{ hoverxref_tooltip_class }}');
-
-            // https://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
-            console.debug('Trigging MathJax.Hub.Typeset()');
-            MathJax.Hub.Typeset();
+            setTimeout(
+                reRender,
+                50,
+                instance,
+                helper
+            );
         }
     })});
