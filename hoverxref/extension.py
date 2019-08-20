@@ -1,4 +1,5 @@
 import os
+import inspect
 from docutils import nodes
 from sphinx.domains.python import PythonDomain
 from sphinx.domains.std import StandardDomain
@@ -194,6 +195,19 @@ def setup_domains(app, config):
         app.add_domain(HoverXRefPythonDomain, override=True)
 
 
+def setup_sphinx_tabs(app, config):
+    """
+    Disconnect ``update_context`` function from ``sphinx-tabs``.
+
+    Sphinx Tabs removes the CSS/JS from pages that does not use the directive.
+    Although, we need them to use inside the tooltip.
+    """
+    for listener_id, function in app.events.listeners.get('html-page-context').items():
+        module_name = inspect.getmodule(function).__name__
+        if module_name == 'sphinx_tabs.tabs':
+            app.disconnect(listener_id)
+
+
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
 
@@ -225,6 +239,7 @@ def setup(app):
     app.set_translator('readthedocs', HoverXRefHTMLTranslator, override=True)
 
     app.connect('config-inited', setup_domains)
+    app.connect('config-inited', setup_sphinx_tabs)
     app.connect('build-finished', copy_asset_files)
 
     for f in ASSETS_FILES:
