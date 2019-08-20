@@ -9,10 +9,14 @@ function reRender (instance, helper) {
     if (helper.tooltip.textContent !== '{{ hoverxref_tooltip_content }}') {
         // https://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
         if (mathjax) {
-            console.debug('Triggering MathJax.Hub.Typeset()');
-            MathJax.Hub.Queue((["Typeset", MathJax.Hub, helper.tooltip.id]));
-        };
+            if (typeof MathJax !== 'undefined') {
+                console.debug('Triggering MathJax.Hub.Typeset()');
+                MathJax.Hub.Queue((["Typeset", MathJax.Hub, helper.tooltip.id]));
+            } else {
+                console.debug('Not triggering MathJax because it is not defined');
+            };
 
+        };
         instance.reposition();
     } else {
         setTimeout(reRender, 100, instance, helper);
