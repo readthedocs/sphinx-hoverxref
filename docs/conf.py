@@ -59,6 +59,7 @@ if os.environ.get('LOCAL_READTHEDOCS') == 'True':
 
 hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
+hoverxref_sphinxtabs = True
 
 autosectionlabel_prefix_document = True
 
