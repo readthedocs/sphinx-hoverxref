@@ -83,6 +83,24 @@ that reStructuredText code will render to:
 
 Show a tooltip to :ref:`usage:Tooltip on all :ref: roles` page.
 
+Tooltip on Sphinx Domains
+-------------------------
+
+You can decide whether use ``hoverxref`` on a particular Sphinx Domain as well.
+An example using Python Domain would be like:
+
+.. code-block:: rst
+
+   :py:class:`hoverxref.extension.HoverXRefStandardDomain`
+
+That will render to:
+
+:py:class:`hoverxref.extension.HoverXRefStandardDomain`
+
+
+To enable ``hoverxref`` on a domain, you need to use the config :confval:`hoverxref_domains`
+indicating which are the domains you desire.
+
 
 Tooltip with content that needs extra rendering steps
 -----------------------------------------------------

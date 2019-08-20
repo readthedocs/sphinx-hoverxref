@@ -36,6 +36,18 @@ For more specific use cases, you can customize these configuration options in yo
 
    Type: bool
 
+.. confval:: hoverxref_domains
+
+   Description: List containing the Sphinx Domain's names where ``hoverxref`` has to be applied.
+
+   .. warning::
+
+      Only Python Domain (``py``) is currently supported.
+
+   Default: ``[]``
+
+   Type: list
+
 .. confval:: hoverxref_tooltip_class
 
    Description: CSS class to add to ``div`` created for the tooltip
