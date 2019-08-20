@@ -41,6 +41,7 @@ class HoverXRefBaseDomain:
             'data-section': labelid,
         }
 
+
 class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
 
     def resolve_xref(self, env, fromdocname, builder, type, target, node, contnode):
@@ -55,8 +56,6 @@ class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
                                 type, searchmode)
         name, obj = matches[0]
 
-        # import pdb; pdb.set_trace()
-
         if self._is_hoverxref_configured(env):
             docname, labelid = obj[0], name
             self._inject_hoverxref_data(env, refnode, docname, labelid)
@@ -66,7 +65,6 @@ class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
                 refnode._hoverxref,
             )
         return refnode
-
 
 
 class HoverXRefStandardDomain(HoverXRefBaseDomain, StandardDomain):

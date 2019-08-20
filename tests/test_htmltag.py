@@ -23,11 +23,18 @@ customobjectsrcdir = os.path.join(
     'custom-object',
 )
 
+# srcdir with ``:py:class:`` call
+pythondomainsrcdir = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    'examples',
+    'python-domain',
+)
+
 
 @pytest.fixture(autouse=True, scope='function')
 def remove_sphinx_build_output():
     """Remove _build/ folder, if exist."""
-    for path in (srcdir, prefixdocumentsrcdir, customobjectsrcdir):
+    for path in (srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir):
         build_path = os.path.join(path, '_build')
         if os.path.exists(build_path):
             shutil.rmtree(build_path)
@@ -163,6 +170,26 @@ def test_custom_object(app, status, warning):
             '</dd></dl>',
         ]),
 
+    ]
+
+    for chunk in chunks:
+        assert chunk in content
+
+
+@pytest.mark.sphinx(
+    srcdir=pythondomainsrcdir,
+    confoverrides={},
+)
+def test_python_domain(app, status, warning):
+    app.build()
+    path = app.outdir / 'index.html'
+    assert path.exists() is True
+    content = open(path).read()
+
+    chunks = [
+        '<a class="hoverxref reference internal" data-doc="api" data-project="myproject" data-section="hoverxref.extension.HoverXRefStandardDomain" data-version="myversion" href="api.html#hoverxref.extension.HoverXRefStandardDomain" title="hoverxref.extension.HoverXRefStandardDomain"><code class="xref py py-class docutils literal notranslate"><span class="pre">This</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">:py:class:</span> <span class="pre">role</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">Python</span> <span class="pre">object</span></code></a>',
+        '<a class="hoverxref reference internal" data-doc="api" data-project="myproject" data-section="hoverxref.extension" data-version="myversion" href="api.html#module-hoverxref.extension" title="hoverxref.extension"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hoverxref.extension</span></code></a>',
+        '<a class="hoverxref reference internal" data-doc="api" data-project="myproject" data-section="hoverxref.utils.get_ref_xref_data" data-version="myversion" href="api.html#hoverxref.utils.get_ref_xref_data" title="hoverxref.utils.get_ref_xref_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.utils.get_ref_xref_data()</span></code></a>',
     ]
 
     for chunk in chunks:
