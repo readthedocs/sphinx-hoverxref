@@ -18,6 +18,7 @@ will render to this:
 
 This will :hoverxref:`show a tooltip <hoverxref:section>` in the linked words to ``hoverxref``.
 
+
 Tooltip on custom object
 ------------------------
 
@@ -42,7 +43,12 @@ In this case, calling ``Sphinx.add_object_type`` will look like:
            parse_node=parse_node('confval'),
        )
 
-Once object is added, ``hoverxref`` will know that we want to add tooltips on these objects.
+Once the object is added, ``hoverxref`` will know that we want to add tooltips on these objects.
+
+.. warning::
+
+   This ``parse_node`` argument with a custom function may not be required in the near future.
+
 
 Example
 ~~~~~~~
@@ -61,8 +67,8 @@ the previous code will render to:
 Show a tooltip to :confval:`hoverxref_auto_ref <hoverxref_auto_ref>` configuration.
 
 
-Tooltip on all ``:ref:`` roles
-------------------------------
+Tooltip on all :ref: roles
+--------------------------
 
 If you want to show a tooltip in all the appearances of the ``:ref:`` role,
 you have to set the configuration ``hoverxref_auto_ref = True`` in your ``conf.py`` file.
@@ -71,11 +77,50 @@ After setting that config, using ``:ref:`` will just render the tooltip:
 
 .. code-block:: rst
 
-   Show a tooltip to :ref:`installation:installation` page.
+   Show a tooltip to :ref:`usage:Tooltip on all :ref: roles` section on this page.
 
 that reStructuredText code will render to:
 
-Show a tooltip to :ref:`installation:installation` page.
+Show a tooltip to :ref:`usage:Tooltip on all :ref: roles` page.
+
+
+Tooltip with content that needs extra rendering steps
+-----------------------------------------------------
+
+Since ``hoverxref`` supports including arbitrary HTML,
+you may find that it could be possible that there are some content that it's not well rendered inside the tooltip.
+If this is the case, it may be because there are some extra actions that needs to be done after the content is injected in the tooltip.
+
+These actions are usually calling a Javascript function.
+``hoverxref`` is prepared to support this type of content and currently supports rendering
+`sphinx-tabs`_ and mathjax_.
+
+
+Tooltip with ``sphinx-tabs``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To render a tooltip with a ``sphinx-tabs`` content you need to enable :confval:`hoverxref_sphinxtabs`.
+
+.. code-block:: rst
+
+   Show a :hoverxref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
+
+Show a :hoverxref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
+
+
+Tooltip with ``mathjax``
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+To render a tooltip where its contents has a ``mathjax`` you need to enable :confval:`hoverxref_mathjax`.
+
+.. code-block:: rst
+
+   Show a :hoverxref:`tooltip with Mathjax <mathjax:Mathjax>` formulas.
+
+Show a :hoverxref:`tooltip with Mathjax <mathjax:Mathjax>` formulas.
 
 
 .. _Sphinx.add_object_type: https://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.add_object_type
+
+.. _sphinx-tabs: https://github.com/djungelorm/sphinx-tabs
+.. _mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax

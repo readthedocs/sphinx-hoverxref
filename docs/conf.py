@@ -40,6 +40,7 @@ release = ''
 # ones.
 extensions = [
     'sphinx.ext.autosectionlabel',
+    'sphinx.ext.mathjax',
     'sphinx_tabs.tabs',
     'sphinx-prompt',
     'autoapi.extension',
@@ -59,6 +60,8 @@ if os.environ.get('LOCAL_READTHEDOCS') == 'True':
 
 hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
+hoverxref_sphinxtabs = True
+hoverxref_mathjax = True
 
 autosectionlabel_prefix_document = True
 
