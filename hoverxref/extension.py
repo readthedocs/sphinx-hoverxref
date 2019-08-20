@@ -177,6 +177,23 @@ def copy_asset_files(app, exception):
             )
 
 
+def setup_domains(app, config):
+    # Add ``hoverxref`` role replicating the behavior of ``ref``
+    app.add_role_to_domain(
+        'std',
+        'hoverxref',
+        XRefRole(
+            lowercase=True,
+            innernodeclass=nodes.inline,
+            warn_dangling=True,
+        ),
+    )
+    app.add_domain(HoverXRefStandardDomain, override=True)
+
+    if 'py' in config.hoverxref_domains:
+        app.add_domain(HoverXRefPythonDomain, override=True)
+
+
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
 
@@ -190,6 +207,7 @@ def setup(app):
     app.add_config_value('hoverxref_auto_ref', False, 'env')
     app.add_config_value('hoverxref_mathjax', False, 'env')
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
+    app.add_config_value('hoverxref_domains', [], 'env')
 
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
@@ -206,20 +224,7 @@ def setup(app):
     # replace this as well
     app.set_translator('readthedocs', HoverXRefHTMLTranslator, override=True)
 
-    # Add ``hoverxref`` role replicating the behavior of ``ref``
-    app.add_role_to_domain(
-        'std',
-        'hoverxref',
-        XRefRole(
-            lowercase=True,
-            innernodeclass=nodes.inline,
-            warn_dangling=True,
-        ),
-    )
-
-    app.add_domain(HoverXRefStandardDomain, override=True)
-    app.add_domain(HoverXRefPythonDomain, override=True)
-
+    app.connect('config-inited', setup_domains)
     app.connect('build-finished', copy_asset_files)
 
     for f in ASSETS_FILES:

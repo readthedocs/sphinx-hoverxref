@@ -178,7 +178,9 @@ def test_custom_object(app, status, warning):
 
 @pytest.mark.sphinx(
     srcdir=pythondomainsrcdir,
-    confoverrides={},
+    confoverrides={
+        'hoverxref_domains': ['py'],
+    },
 )
 def test_python_domain(app, status, warning):
     app.build()
