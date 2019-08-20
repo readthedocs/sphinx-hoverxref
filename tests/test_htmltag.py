@@ -148,33 +148,6 @@ def test_custom_object(app, status, warning):
     for chunk in chunks:
         assert chunk in content
 
-    path = app.outdir / 'configuration.html'
-    assert path.exists() is True
-    content = open(path).read()
-
-    chunks = [
-        '\n'.join([
-            # the id is in the ``dl`` tag and *not* in the ``dt``
-            '<dl class="confval" id="confval-conf-title">',
-            '<dt>',
-            '<code class="descname">conf-title</code></dt>',
-            '<dd><p>This is the description.</p>',
-            '</dd></dl>',
-        ]),
-        '\n'.join([
-            # the id is in the ``dl`` tag and *not* in the ``dt``
-            '<dl class="confval" id="confval-conf-another-title">',
-            '<dt>',
-            '<code class="descname">conf-another-title</code></dt>',
-            '<dd><p>This is another description.</p>',
-            '</dd></dl>',
-        ]),
-
-    ]
-
-    for chunk in chunks:
-        assert chunk in content
-
 
 @pytest.mark.sphinx(
     srcdir=pythondomainsrcdir,

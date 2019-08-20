@@ -139,12 +139,6 @@ class HoverXRefHTMLTranslator(HTMLTranslator):
             attributes.update(node._hoverxref)
             logger.info('_hoverxref attributes: %s', attributes)
 
-        elif tagname == 'dt':
-            if node.parent.get('ids') == node.get('ids'):
-                # Remove duplicated ids from node that were added by
-                # ``confval_parse_node`` to the parent
-                node.replace_attr('ids', [])
-
         return super().starttag(node, tagname, suffix, empty, **attributes)
 
 
