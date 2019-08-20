@@ -1,5 +1,6 @@
 import os
 from docutils import nodes
+from sphinx.domains.python import PythonDomain
 from sphinx.domains.std import StandardDomain
 from sphinx.roles import XRefRole
 from sphinx.util import logging
@@ -21,18 +22,7 @@ ASSETS_FILES = [
 logger = logging.getLogger(__name__)
 
 
-class HoverXRefStandardDomain(StandardDomain):
-
-    """
-    Override ``StandardDomain`` to save the values after the xref resolution.
-
-    ``:ref:`` are treating as a different node in Sphinx
-    (``sphinx.addnodes.pending_xref``). These nodes are translated to regular
-    ``docsutils.nodes.reference`` for this domain class.
-
-    Before loosing the data used to resolve the reference, our customized domain
-    saves it inside the node itself to be used later by the ``HTMLTranslator``.
-    """
+class HoverXRefBaseDomain:
 
     def _is_hoverxref_configured(self, env):
         project = env.config.hoverxref_project
@@ -50,6 +40,44 @@ class HoverXRefStandardDomain(StandardDomain):
             'data-doc': docname,
             'data-section': labelid,
         }
+
+
+class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
+
+    def resolve_xref(self, env, fromdocname, builder, type, target, node, contnode):
+        refnode = super().resolve_xref(env, fromdocname, builder, type, target, node, contnode)
+        if refnode is None:
+            return
+
+        modname = node.get('py:module')
+        clsname = node.get('py:class')
+        searchmode = node.hasattr('refspecific') and 1 or 0
+        matches = self.find_obj(env, modname, clsname, target,
+                                type, searchmode)
+        name, obj = matches[0]
+
+        if self._is_hoverxref_configured(env):
+            docname, labelid = obj[0], name
+            self._inject_hoverxref_data(env, refnode, docname, labelid)
+            logger.info(
+                ':ref: _hoverxref injected: fromdocname=%s %s',
+                fromdocname,
+                refnode._hoverxref,
+            )
+        return refnode
+
+
+class HoverXRefStandardDomain(HoverXRefBaseDomain, StandardDomain):
+    """
+    Override ``StandardDomain`` to save the values after the xref resolution.
+
+    ``:ref:`` are treating as a different node in Sphinx
+    (``sphinx.addnodes.pending_xref``). These nodes are translated to regular
+    ``docsutils.nodes.reference`` for this domain class.
+
+    Before loosing the data used to resolve the reference, our customized domain
+    saves it inside the node itself to be used later by the ``HTMLTranslator``.
+    """
 
     def resolve_xref(self, env, fromdocname, builder, typ, target, node, contnode):
         if typ == 'hoverxref':
@@ -190,6 +218,7 @@ def setup(app):
     )
 
     app.add_domain(HoverXRefStandardDomain, override=True)
+    app.add_domain(HoverXRefPythonDomain, override=True)
 
     app.connect('build-finished', copy_asset_files)
 
