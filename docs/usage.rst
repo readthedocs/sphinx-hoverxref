@@ -93,7 +93,7 @@ If this is the case, it may be because there are some extra actions that needs t
 
 These actions are usually calling a Javascript function.
 ``hoverxref`` is prepared to support this type of content and currently supports rendering
-``sphinx-tabs`` [#]_ and ``mathjax`` [#]_.
+`sphinx-tabs`_ and mathjax_.
 
 
 Tooltip with ``sphinx-tabs``
@@ -121,3 +121,6 @@ Show a :hoverxref:`tooltip with Mathjax <mathjax:Mathjax>` formulas.
 
 
 .. _Sphinx.add_object_type: https://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.add_object_type
+
+.. _sphinx-tabs: https://github.com/djungelorm/sphinx-tabs
+.. _mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax
