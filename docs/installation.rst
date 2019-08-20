@@ -5,6 +5,12 @@ Install the package
 
 .. tabs::
 
+   .. tab:: from PyPI
+
+      .. prompt:: bash
+
+         pip install sphinx-hoverxref
+
    .. tab:: from GitHub
 
       .. prompt:: bash
