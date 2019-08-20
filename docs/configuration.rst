@@ -44,6 +44,26 @@ For more specific use cases, you can customize these configuration options in yo
 
    Type: string
 
+.. confval:: hoverxref_sphinxtabs
+
+   Description: trigger an extra step to render tooltips where its content has a `Sphinx Tabs`_
+
+   Default: ``False``
+
+   Type: bool
+
+.. _Sphinx Tabs: https://github.com/djungelorm/sphinx-tabs
+
+.. confval:: hoverxref_mathjax
+
+   Description: trigger an extra step to render tooltips where its content has a `Mathjax`_
+
+   Default: ``False``
+
+   Type: bool
+
+.. _Mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax
+
 .. warning::
 
    The following settings are passed directly to Tooltipster_. See https://iamceege.github.io/tooltipster/#options for more information about their descriptions.
