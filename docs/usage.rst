@@ -99,13 +99,13 @@ These actions are usually calling a Javascript function.
 Tooltip with ``sphinx-tabs``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To render a tooltip where its contents has a ``sphinx-tabs`` you need to enable :confval:`hoverxref_sphinxtab`.
+To render a tooltip with a ``sphinx-tabs`` content you need to enable :confval:`hoverxref_sphinxtabs`.
 
 .. code-block:: rst
 
-   Show a :hoverxref:`tooltip with Sphinx Tabs <installation:installation>` on its content.
+   Show a :hoverxref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
 
-Show a :hoverxref:`tooltip with Sphinx Tabs <installation:installation>` on its content.
+Show a :hoverxref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
 
 
 Tooltip with ``mathjax``
@@ -115,10 +115,9 @@ To render a tooltip where its contents has a ``mathjax`` you need to enable :con
 
 .. code-block:: rst
 
-   Show a :hoverxref:`tooltip with Mathjax <mathjax:mathjax>` formulas.
+   Show a :hoverxref:`tooltip with Mathjax <mathjax:Mathjax>` formulas.
 
-Show a :hoverxref:`tooltip with Mathjax <mathjax:mathjax>` formulas.
-
+Show a :hoverxref:`tooltip with Mathjax <mathjax:Mathjax>` formulas.
 
 
 .. _Sphinx.add_object_type: https://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.add_object_type
