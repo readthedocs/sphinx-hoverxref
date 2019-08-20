@@ -14,7 +14,11 @@ function reRender (instance, helper) {
         };
 
         if (sphinxtabs) {
+            // https://github.com/djungelorm/sphinx-tabs
+            console.debug('Triggering Sphinx Tabs rendering');
             (function(d, script) {
+                // HACK: please, improve this code to call the content of "tab.js" without creating a script element
+
                 // Get the URL from the current generated page since it's not always the same
                 var src = $('script[src$="sphinx_tabs/tabs.js"]')[0].src;
 
