@@ -48,6 +48,14 @@ For more specific use cases, you can customize these configuration options in yo
 
    Type: list
 
+.. confval:: hoverxref_roles
+
+   Description: List containing roles where ``hoverxref`` has to be applied.
+
+   Default: ``[]``
+
+   Type: list
+
 .. confval:: hoverxref_tooltip_class
 
    Description: CSS class to add to ``div`` created for the tooltip

@@ -60,6 +60,9 @@ if os.environ.get('LOCAL_READTHEDOCS') == 'True':
 
 hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
+hoverxref_roles = [
+    'confval',
+]
 hoverxref_domains = [
     'py',
 ]
@@ -204,19 +207,8 @@ epub_exclude_files = ['search.html']
 
 
 def setup(app):
-    from hoverxref.nodeparser import parse_node
     app.add_object_type(
         'confval',  # directivename
         'confval',  # rolename
         'pair: %s; configuration value',  # indextemplate
-        parse_node=parse_node('confval'),
     )
-
-    # Remove ``update_contenxt`` from ``sphinx-tabs`` since it removes the
-    # CSS/JS from pages that does not use the directive. Although, we need them
-    # to use inside the tooltip.
-    import inspect
-    for listener_id, function in app.events.listeners.get('html-page-context').items():
-        module_name = inspect.getmodule(function).__name__
-        if module_name == 'sphinx_tabs.tabs':
-            app.disconnect(listener_id)

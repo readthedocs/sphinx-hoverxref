@@ -22,38 +22,15 @@ This will :hoverxref:`show a tooltip <hoverxref:section>` in the linked words to
 Tooltip on custom object
 ------------------------
 
-Sphinx has the ability to define custom objects via `Sphinx.add_object_type`_.
+Sphinx has the ability to define custom objects (via `Sphinx.add_object_type`_).
 ``hoverxref`` can also show a tooltip on these objects if desired.
-To do that, when calling ``add_object_type`` you have to pass a specific function to ``parse_node`` argument.
-Let's say that we want to define a custom role and directive called ``confval``.
-In this case, calling ``Sphinx.add_object_type`` will look like:
-
-.. code-block:: python
-   :emphasize-lines: 10
-
-   # conf.py
-
-   def setup(app):
-       # ...
-       from hoverxref.nodeparser import parse_node
-       app.add_object_type(
-           'confval',  # directivename
-           'confval',  # rolename
-           'pair: %s; configuration value',  # indextemplate
-           parse_node=parse_node('confval'),
-       )
-
-Once the object is added, ``hoverxref`` will know that we want to add tooltips on these objects.
-
-.. warning::
-
-   This ``parse_node`` argument with a custom function may not be required in the near future.
-
+You need to tell ``hoverxref`` which are the roles where the tooltip has to appear on.
+To do this, use `:confval:hoverxref_roles` config.
 
 Example
 ~~~~~~~
 
-This documentation defines the ``confval`` role as described above.
+This documentation defines the ``confval`` role.
 The role is used to define all the configurations of the extension.
 These configurations are added to the Sphinx index and we can easily refer to them and show a tooltip.
 This is reStructuredText code to do this:
