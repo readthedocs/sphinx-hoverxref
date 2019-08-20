@@ -31,6 +31,7 @@ $(document).ready(function() {
         maxWidth: {{ hoverxref_tooltip_maxwidth }},
         animation: '{{ hoverxref_tooltip_animation }}',
         animationDuration: {{ hoverxref_tooltip_animation_duration }},
+        side: '{{ hoverxref_tooltip_side }}',
         content: '{{ hoverxref_tooltip_content }}',
 
         functionBefore: function(instance, helper) {

@@ -106,6 +106,12 @@ For more specific use cases, you can customize these configuration options in yo
 
    Type: int
 
+.. confval:: hoverxref_tooltip_side
+
+   Default: ``right``
+
+   Type: string
+
 .. confval:: hoverxref_tooltip_animation
 
    Default: ``fade``
