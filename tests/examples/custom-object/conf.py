@@ -8,6 +8,9 @@ extensions = [
 
 hoverxref_project = 'myproject'
 hoverxref_version = 'myversion'
+hoverxref_roles = [
+    'confval',
+]
 
 
 def setup(app):
