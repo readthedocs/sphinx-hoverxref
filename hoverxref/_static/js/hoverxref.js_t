@@ -13,27 +13,6 @@ function reRender (instance, helper) {
             MathJax.Hub.Queue((["Typeset", MathJax.Hub, helper.tooltip.id]));
         };
 
-        if (sphinxtabs) {
-            // https://github.com/djungelorm/sphinx-tabs
-            console.debug('Triggering Sphinx Tabs rendering');
-            (function(d, script) {
-                // HACK: please, improve this code to call the content of "tab.js" without creating a script element
-
-                // Get the URL from the current generated page since it's not always the same
-                var src = $('script[src$="sphinx_tabs/tabs.js"]')[0].src;
-
-                script = d.createElement('script');
-                script.type = 'text/javascript';
-                script.onload = function(){
-                    // remote script has loaded
-                };
-                script.src = src;
-                d.getElementsByTagName('head')[0].appendChild(script);
-
-                // Once the script has been executed, we remove it from the DOM
-                script.parentNode.removeChild(script);
-            }(document));
-        };
         instance.reposition();
     } else {
         setTimeout(reRender, 100, instance, helper);
@@ -79,6 +58,29 @@ $(document).ready(function() {
             // most of Read the Docs Sphinx theme bases its style on "rst-content".
             // We add that class to the tooltipser HTML tag here by default or a user-defined one.
             helper.tooltip.classList.add('{{ hoverxref_tooltip_class }}');
+
+            if (sphinxtabs) {
+                // https://github.com/djungelorm/sphinx-tabs
+                console.debug('Triggering Sphinx Tabs rendering');
+                (function(d, script) {
+                    // HACK: please, improve this code to call the content of "tab.js" without creating a script element
+
+                    // Get the URL from the current generated page since it's not always the same
+                    var src = $('script[src$="sphinx_tabs/tabs.js"]')[0].src;
+
+                    script = d.createElement('script');
+                    script.type = 'text/javascript';
+                    script.onload = function(){
+                        // remote script has loaded
+                    };
+                    script.src = src;
+                    d.getElementsByTagName('head')[0].appendChild(script);
+
+                    // Once the script has been executed, we remove it from the DOM
+                    script.parentNode.removeChild(script);
+                }(document));
+            };
+
             setTimeout(
                 reRender,
                 50,
