@@ -36,9 +36,9 @@ you can use ``:hoverxref:`` role to show tooltip when hovering with the mouse.
 
 .. warning::
 
-   This extension **requires a backend server** to work.
+   This extension **requires a backend server** to retrieve the tooltip content.
    Currently only `Read the Docs`_ is supported,
-   so you need to host your documentation on Read the Docs for the extension to work properly.
+   so it will only work if your documentation is hosted on Read the Docs.
 
 If you prefer to apply this behavior to *all* your ``:ref:`` in your documentation,
 you can use the config :confval:`hoverxref_auto_ref`.
