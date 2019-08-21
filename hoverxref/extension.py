@@ -232,6 +232,7 @@ def setup(app):
     # Read the Docs use ``readthedocs`` as the name of the build, so we need to
     # replace this as well
     app.set_translator('readthedocs', HoverXRefHTMLTranslator, override=True)
+    app.set_translator('readthedocsdirhtml', HoverXRefHTMLTranslator, override=True)
 
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
