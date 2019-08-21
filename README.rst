@@ -17,7 +17,7 @@ Installation
 
 ::
 
-   pip install git+https://github.com/humitos/sphinx-hoverxref@master
+   pip install git+https://github.com/readthedocs/sphinx-hoverxref@master
 
 
 Configuration
@@ -46,6 +46,6 @@ Check out the full documentation at https://sphinx-hoverxref.readthedocs.io/
 .. |Docs badge| image:: https://readthedocs.org/projects/sphinx-hoverxref/badge/?version=latest
    :target: https://sphinx-hoverxref.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation status
-.. |License| image:: https://img.shields.io/github/license/humitos/sphinx-hoverxref.svg
+.. |License| image:: https://img.shields.io/github/license/readthedocs/sphinx-hoverxref.svg
    :target: LICENSE
    :alt: Repository license

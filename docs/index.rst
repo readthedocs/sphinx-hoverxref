@@ -7,7 +7,7 @@ Online documentation:
     https://sphinx-hoverxref.readthedocs.io/
 
 Source code repository (and issue tracker):
-    https://github.com/humitos/sphinx-hoverxref/
+    https://github.com/readthedocs/sphinx-hoverxref/
 
 Badges:
     |Docs badge| |License|
@@ -57,6 +57,6 @@ This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
 .. |Docs badge| image:: https://readthedocs.org/projects/sphinx-hoverxref/badge/?version=latest
    :target: https://sphinx-hoverxref.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation status
-.. |License| image:: https://img.shields.io/github/license/humitos/sphinx-hoverxref.svg
+.. |License| image:: https://img.shields.io/github/license/readthedocs/sphinx-hoverxref.svg
    :target: LICENSE
    :alt: Repository license

@@ -11,7 +11,7 @@ setuptools.setup(
     author='Manuel Kaufmann',
     author_email='humitos@gmail.com',
     description='Sphinx extension to embed content in a tooltip on xref hover',
-    url='https://github.com/humitos/sphinx-hoverxref',
+    url='https://github.com/readthedocs/sphinx-hoverxref',
     license='MIT',
     packages=setuptools.find_packages(),
     long_description=long_description,
