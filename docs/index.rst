@@ -10,7 +10,7 @@ Source code repository (and issue tracker):
     https://github.com/readthedocs/sphinx-hoverxref/
 
 Badges:
-    |Docs badge| |License|
+    |Build| |PyPI version| |Docs badge| |License|
 
 
 Usage
@@ -54,6 +54,12 @@ This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
 .. _Read the Docs: https://readthedocs.org
 
 
+.. |Build| image:: https://travis-ci.org/readthedocs/sphinx-hoverxref.svg?branch=master
+   :target: https://travis-ci.org/readthedocs/sphinx-hoverxref
+   :alt: Build status
+.. |PyPI version| image:: https://img.shields.io/pypi/v/sphinx-hoverxref.svg
+   :target: https://pypi.org/project/sphinx-hoverxref
+   :alt: Current PyPI version
 .. |Docs badge| image:: https://readthedocs.org/projects/sphinx-hoverxref/badge/?version=latest
    :target: https://sphinx-hoverxref.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation status

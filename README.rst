@@ -1,4 +1,4 @@
-|Docs badge| |License|
+|Build| |PyPI version| |Docs badge| |License|
 
 sphinx-hoverxref
 ================
@@ -43,6 +43,12 @@ Check out the full documentation at https://sphinx-hoverxref.readthedocs.io/
 .. _Sphinx: https://www.sphinx-doc.org/
 
 
+.. |Build| image:: https://travis-ci.org/readthedocs/sphinx-hoverxref.svg?branch=master
+   :target: https://travis-ci.org/readthedocs/sphinx-hoverxref
+   :alt: Build status
+.. |PyPI version| image:: https://img.shields.io/pypi/v/sphinx-hoverxref.svg
+   :target: https://pypi.org/project/sphinx-hoverxref
+   :alt: Current PyPI version
 .. |Docs badge| image:: https://readthedocs.org/projects/sphinx-hoverxref/badge/?version=latest
    :target: https://sphinx-hoverxref.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation status
