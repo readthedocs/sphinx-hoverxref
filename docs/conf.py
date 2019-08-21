@@ -45,6 +45,7 @@ extensions = [
     'sphinx-prompt',
     'autoapi.extension',
     'hoverxref.extension',
+    'versionwarning.extension',
 ]
 
 # Used when building the documentation from the terminal and using a local Read
@@ -68,6 +69,14 @@ hoverxref_domains = [
 ]
 hoverxref_sphinxtabs = True
 hoverxref_mathjax = True
+
+versionwarning_messages = {
+    'latest': 'This extension is currently in Beta state. '
+    'This means that there may be some things not well supported or unexpected behavior. '
+    'If you find any issue, please <a href="https://github.com/readthedocs/sphinx-hoverxref/issues">report it in the issue tracker</a>.'
+}
+versionwarning_banner_title = 'We are in Beta!'
+versionwarning_body_selector = 'div[itemprop="articleBody"]'
 
 autosectionlabel_prefix_document = True
 
