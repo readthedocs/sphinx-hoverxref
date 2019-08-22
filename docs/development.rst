@@ -29,9 +29,9 @@ After building the documentation all the requests will be done to URLs like::
 
   https://readthedocs.org/api/v2/embed/?project=sphinx-hoverxref&version=latest&doc=...&section=...
 
-.. tip::
+.. note::
 
-   You can include content from a different project than the one you are building to test.
+   The project *and* version has to be successfully built on Read the Docs to return the content requested.
 
 
 Building and serving docs locally
