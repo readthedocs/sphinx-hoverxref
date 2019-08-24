@@ -46,6 +46,7 @@ extensions = [
     'autoapi.extension',
     'hoverxref.extension',
     'versionwarning.extension',
+    'notfound.extension',
 ]
 
 # Used when building the documentation from the terminal and using a local Read
