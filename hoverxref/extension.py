@@ -13,7 +13,13 @@ ASSETS_FILES = [
     'js/tooltipster.bundle.min.js',
     'css/tooltipster.custom.css',
     'css/tooltipster.bundle.min.css',
+
+    # Tooltipster's Themes
     'css/tooltipster-sideTip-shadow.min.css',
+    'css/tooltipster-sideTip-punk.min.css',
+    'css/tooltipster-sideTip-noir.min.css',
+    'css/tooltipster-sideTip-light.min.css',
+    'css/tooltipster-sideTip-borderless.min.css',
 ]
 
 
