@@ -25,7 +25,7 @@ Tooltip on custom object
 Sphinx has the ability to define custom objects (via `Sphinx.add_object_type`_).
 ``hoverxref`` can also show a tooltip on these objects if desired.
 You need to tell ``hoverxref`` which are the roles where the tooltip has to appear on.
-To do this, use `:confval:hoverxref_roles` config.
+To do this, use :confval:`hoverxref_roles <hoverxref_roles>` config.
 
 Example
 ~~~~~~~
