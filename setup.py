@@ -19,8 +19,20 @@ setuptools.setup(
     include_package_data=True,
     zip_safe=False,
     classifiers=[
-        'Programming Language :: Python :: 3',
+        'Development Status :: 4 - Beta',
+        'Framework :: Sphinx',
+        'Framework :: Sphinx :: Extension',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Topic :: Documentation :: Sphinx',
+        'Topic :: Software Development :: Documentation',
     ],
+    keywords='tooltip hoverxref sphinx',
+    project_urls={
+        'Documentation': 'https://sphinx-hoverxref.readthedocs.io/',
+        'Source': 'https://github.com/readthedocs/sphinx-hoverxref',
+        'Tracker': 'https://github.com/readthedocs/sphinx-hoverxref/issues',
+    },
 )
