@@ -41,6 +41,7 @@ release = ''
 extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode',
     'sphinx_tabs.tabs',
     'sphinx-prompt',
     'autoapi.extension',
