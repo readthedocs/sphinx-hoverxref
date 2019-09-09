@@ -1,7 +1,7 @@
 sphinx==2.2.0
 sphinx-autoapi==1.1.0
 sphinx-rtd-theme==0.4.3
-sphinx-tabs==1.1.11
+sphinx-tabs==1.1.12
 sphinx-prompt==1.1.0
 sphinx-version-warning==1.1.2
 sphinx-notfound-page==0.4
