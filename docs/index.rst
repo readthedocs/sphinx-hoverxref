@@ -1,37 +1,27 @@
 Welcome to sphinx-hoverxref!
 ============================
 
-``sphinx-hoverxref`` is a Sphinx_ extension to add tooltips on the cross references of the documentation with the content of the linked section.
+``sphinx-hoverxref`` is a Sphinx_ extension to add tooltips on the cross references of the documentation with the content of the linked section. With ``sphinx-hoverxref``, you don’t need to click a link to see what’s in there.
 
-Online documentation:
-    https://sphinx-hoverxref.readthedocs.io/
-
-Source code repository (and issue tracker):
-    https://github.com/readthedocs/sphinx-hoverxref/
-
-Badges:
-    |Build| |PyPI version| |Docs badge| |License|
+[here goes the image/animation]
 
 
 Usage
 -----
 
-To show a tooltip on a reference, use the role ``hoverxref`` to link to any document or section.
+To show a tooltip on a reference, use the role ``hoverxref`` to link to any document or section. This new ``hoverxref`` role is an alias of the ``ref`` role and works in the same.
 
-Writing this reStructuredText:
+Simplest usage example:
 
-.. code-block:: rst
+:header: "Source code", "Output"
+:widths: 50, 50
 
-   This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+".. code-block:: rst This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words."
+"This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words."
 
-will render to:
 
-This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
-
-.. tip::
-
-   This new ``hoverxref`` role is an alias of the ``ref`` role and works in the same.
-
+Reference
+-----
 
 .. toctree::
    :maxdepth: 1
@@ -43,6 +33,14 @@ This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
    development
 
 
+Online documentation:
+    https://sphinx-hoverxref.readthedocs.io/
+
+Source code repository (and issue tracker):
+    https://github.com/readthedocs/sphinx-hoverxref/
+
+Badges:
+    |Build| |PyPI version| |Docs badge| |License|
 .. toctree::
    :maxdepth: 1
    :caption: API Reference
