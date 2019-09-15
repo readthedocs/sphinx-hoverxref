@@ -11,7 +11,7 @@ Install the package
 
          pip install --pre sphinx-hoverxref
 
-   .. tab:: from GitHub
+   .. tab:: from GitHubto
 
       .. prompt:: bash
 
@@ -19,7 +19,7 @@ Install the package
 
 
 Once we have the package installed,
-we have to configure it on our Sphinx documentation.
+we have  configure it on our Sphinx documentation.
 To do this, add this extension to your Sphinx's extensions in the ``conf.py`` file.
 
 .. code-block:: python
