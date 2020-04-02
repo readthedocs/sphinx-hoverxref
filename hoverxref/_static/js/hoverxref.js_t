@@ -10,8 +10,7 @@ function reRender (instance, helper) {
         // https://stackoverflow.com/questions/5200545/how-to-recall-or-restart-mathjax
         if (mathjax) {
             if (typeof MathJax !== 'undefined') {
-                console.debug('Triggering MathJax.Hub.Typeset()');
-                MathJax.Hub.Queue((["Typeset", MathJax.Hub, helper.tooltip.id]));
+                reLoadMathJax(helper.tooltip.id);
             } else {
                 console.debug('Not triggering MathJax because it is not defined');
             };
@@ -24,7 +23,39 @@ function reRender (instance, helper) {
 }
 
 
+function reLoadMathJax(elementId) {
+    console.debug('Triggering MathJax.Hub.Typeset()');
+    MathJax.Hub.Queue((["Typeset", MathJax.Hub, elementId]));
+}
+
+
+function reLoadSphinxTabs() {
+    if (sphinxtabs) {
+        // https://github.com/djungelorm/sphinx-tabs
+        console.debug('Triggering Sphinx Tabs rendering');
+        (function(d, script) {
+            // HACK: please, improve this code to call the content of "tab.js" without creating a script element
+
+            // Get the URL from the current generated page since it's not always the same
+            var src = $('script[src$="sphinx_tabs/tabs.js"]')[0].src;
+
+            script = d.createElement('script');
+            script.type = 'text/javascript';
+            script.onload = function(){
+                // remote script has loaded
+            };
+            script.src = src;
+            d.getElementsByTagName('head')[0].appendChild(script);
+
+            // Once the script has been executed, we remove it from the DOM
+            script.parentNode.removeChild(script);
+        }(document));
+    };
+};
+
+
 $(document).ready(function() {
+    {% if hoverxref_tooltip or not hoverxref_modal %}
     $('.hoverxref').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
@@ -48,7 +79,6 @@ $(document).ready(function() {
                 // TODO: improve URL handling here
                 var url = '{{ hoverxref_tooltip_api_host }}' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&section=' + section;
                 $.get(url, function(data) {
-
                     // call the 'content' method to update the content of our tooltip with the returned data.
                     // note: this content update will trigger an update animation (see the updateAnimation option)
                     instance.content(data['content']);
@@ -63,29 +93,7 @@ $(document).ready(function() {
             // most of Read the Docs Sphinx theme bases its style on "rst-content".
             // We add that class to the tooltipser HTML tag here by default or a user-defined one.
             helper.tooltip.classList.add('{{ hoverxref_tooltip_class }}');
-
-            if (sphinxtabs) {
-                // https://github.com/djungelorm/sphinx-tabs
-                console.debug('Triggering Sphinx Tabs rendering');
-                (function(d, script) {
-                    // HACK: please, improve this code to call the content of "tab.js" without creating a script element
-
-                    // Get the URL from the current generated page since it's not always the same
-                    var src = $('script[src$="sphinx_tabs/tabs.js"]')[0].src;
-
-                    script = d.createElement('script');
-                    script.type = 'text/javascript';
-                    script.onload = function(){
-                        // remote script has loaded
-                    };
-                    script.src = src;
-                    d.getElementsByTagName('head')[0].appendChild(script);
-
-                    // Once the script has been executed, we remove it from the DOM
-                    script.parentNode.removeChild(script);
-                }(document));
-            };
-
+            reLoadSphinxTabs();
             setTimeout(
                 reRender,
                 50,
@@ -93,4 +101,69 @@ $(document).ready(function() {
                 helper
             );
         }
-    })});
+    })
+    {% endif %}
+
+    {% if hoverxref_modal and not hoverxref_tooltip %}
+    var modalHtml = `
+  <div class="modal micromodal-slide {{ hoverxref_modal_class }}" id="micromodal" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="micromodal-title">
+        <header class="modal__header">
+          <h2 class="modal__title" id="micromodal-title"></h2>
+          <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+        </header>
+        <main class="modal__content" id="micromodal-content"></main>
+        <footer class="modal__footer">
+          <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+        </footer>
+      </div>
+    </div>
+  </div>
+`
+    $('body').append(modalHtml);
+
+    var delay = {{ hoverxref_modal_hover_delay }}, setTimeoutConst;
+    $('.hoverxref').hover(function(event) {
+        event.preventDefault();
+
+        setTimeoutConst = setTimeout(function(){
+            showModal(event.target.parentNode);
+        }, delay);
+    }, function(){
+        clearTimeout(setTimeoutConst);
+    });
+
+    function showModal(element) {
+        var $origin = $(element);
+        var project = $origin.data('project');
+        var version = $origin.data('version');
+        var doc = $origin.data('doc');
+        var section = $origin.data('section');
+        console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' section=' + section);
+        var url = '{{ hoverxref_tooltip_api_host }}' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&section=' + section;
+
+        $.get(url, function(data) {
+            var content = $('<div></div>');
+            content.html(data['content'][0]);
+
+            var title = $('h1', content)[0] || '';
+            content.replaceWith('h1', '');
+
+            $('#micromodal-title').html(title);
+            $('#micromodal-content').html(content);
+            MicroModal.show('micromodal', {
+                disableScroll: false,
+            });
+            reLoadSphinxTabs();
+            if (mathjax) {
+                if (typeof MathJax !== 'undefined') {
+                    reLoadMathJax('micromodal');
+                } else {
+                    console.debug('Not triggering MathJax because it is not defined');
+                };
+            };
+        });
+    };
+    {% endif %}
+});
