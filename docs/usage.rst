@@ -2,11 +2,14 @@ Usage
 =====
 
 This extension defines a custom role called ``:hoverxref:``.
-When this role is used, it will show a tooltip when ``hover`` mouse event is triggered,
-and will populate the content tooltip with the content of the document and section the link is pointing to.
+When this role is used, it will show a tooltip when the ``hover`` mouse event is triggered,
+and will embed the content of the document/section the link is pointing to, into the tooltip's content.
 
 ``:hoverxref:`` uses Sphinx's internals reference resolution to find out where the link points to.
 So, the way of referencing the section works in the same way as the ``:ref:`` standard role.
+See `Sphinx's ref role documentation`_ for more information.
+
+.. _Sphinx's ref role documentation: https://www.sphinx-doc.org/en/stable/usage/restructuredtext/roles.html#role-ref
 
 Simplest usage example,
 

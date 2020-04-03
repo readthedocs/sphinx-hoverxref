@@ -1,7 +1,7 @@
 Welcome to sphinx-hoverxref!
 ============================
 
-``sphinx-hoverxref`` is a Sphinx_ extension to add tooltips on the cross references of the documentation with the content of the linked section.
+``sphinx-hoverxref`` is a Sphinx_ extension to add tooltips on the cross references of the documentation embedding the content of the linked section.
 
 Online documentation:
     https://sphinx-hoverxref.readthedocs.io/
