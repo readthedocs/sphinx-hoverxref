@@ -110,6 +110,7 @@ def setup_theme(app, exception):
     elif theme == 'alabaster':
         if app.config.hoverxref_modal_class == default:
             app.config.hoverxref_modal_class = 'body'
+            css_file = 'css/alabaster.css'
     elif theme == 'sphinx_rtd_theme':
         if app.config.hoverxref_modal_class == default:
             css_file = 'css/sphinx_rtd_theme.css'
