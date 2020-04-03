@@ -1,7 +1,7 @@
 var mathjax = {{ 'true' if hoverxref_mathjax else 'false' }};
 var sphinxtabs = {{ 'true' if hoverxref_sphinxtabs else 'false' }};
 
-function reRender (instance, helper) {
+function reRenderTooltip (instance, helper) {
     // Check if the content is the same as the default content until
     // it's different. Once it's different, re renders its content
     // to show it properly (this may involve calling external JS
@@ -18,7 +18,7 @@ function reRender (instance, helper) {
         };
         instance.reposition();
     } else {
-        setTimeout(reRender, 100, instance, helper);
+        setTimeout(reRenderTooltip, 100, instance, helper);
     };
 }
 
@@ -95,7 +95,7 @@ $(document).ready(function() {
             helper.tooltip.classList.add('{{ hoverxref_tooltip_class }}');
             reLoadSphinxTabs();
             setTimeout(
-                reRender,
+                reRenderTooltip,
                 50,
                 instance,
                 helper
