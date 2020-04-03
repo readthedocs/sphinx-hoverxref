@@ -93,6 +93,36 @@ def setup_sphinx_tabs(app, config):
             app.disconnect(listener_id)
 
 
+def setup_theme(app, exception):
+    """
+    Auto-configure default settings for known themes.
+
+    Add a small custom CSS file for a specific theme and set hoverxref configs
+    (if not overwritten by the user) with better defaults for these themes.
+    """
+    css_file = None
+    theme = app.config.html_theme
+    default, rebuild, types = app.config.values.get('hoverxref_modal_class')
+    if theme == 'sphinx_material':
+        if app.config.hoverxref_modal_class == default:
+            app.config.hoverxref_modal_class = 'md-typeset'
+            css_file = 'css/material.css'
+    elif theme == 'alabaster':
+        if app.config.hoverxref_modal_class == default:
+            app.config.hoverxref_modal_class = 'body'
+    elif theme == 'sphinx_rtd_theme':
+        if app.config.hoverxref_modal_class == default:
+            css_file = 'css/sphinx_rtd_theme.css'
+
+    if css_file:
+        app.add_css_file(css_file)
+        path = os.path.join(os.path.dirname(__file__), '_static', css_file)
+        copy_asset(
+            path,
+            os.path.join(app.outdir, '_static', 'css'),
+        )
+
+
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
 
@@ -144,6 +174,7 @@ def setup(app):
 
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
+    app.connect('config-inited', setup_theme)
     app.connect('build-finished', copy_asset_files)
 
     for f in ASSETS_FILES:

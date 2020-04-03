@@ -125,20 +125,21 @@ $(document).ready(function() {
     $('body').append(modalHtml);
 
     function onShow(modal, element) {
-        // This is a HACK to get some "smart" left position of the
-        // modal depending its size.
-        var container = $('#micromodal .modal__container')
-        // FIXME: this element only exists in sphinx-rtd-theme
-        var maxWidth = $('.wy-nav-content').innerWidth() - 150 || 650;
-        var contentLeft = $('.rst-content:first').position().left || 250;
-        if (container.width() >= maxWidth) {
-            var left = contentLeft - 150;
+        if (typeof READTHEDOCS_DATA !== 'undefined' && READTHEDOCS_DATA.theme == 'sphinx_rtd_theme') {
+            // This is a HACK to get some "smart" left position of the
+            // modal depending its size.
+            var container = $('#micromodal .modal__container')
+            var maxWidth = $('.wy-nav-content').innerWidth() - 150;
+            var contentLeft = $('.wy-nav-content').position().left;
+            if (container.width() >= maxWidth) {
+                var left = contentLeft - 150;
+            }
+            else {
+                var left = contentLeft + 150;
+            }
+            console.debug('Container left position: ' + left);
+            container.css('left', left);
         }
-        else {
-            var left = contentLeft + 150;
-        }
-        console.debug('Container left position: ' + left);
-        container.css('left', left);
     }
 
     function showModal(element) {
