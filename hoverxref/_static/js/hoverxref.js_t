@@ -163,6 +163,7 @@ $(document).ready(function() {
             MicroModal.show('micromodal', {
                 disableScroll: false,
             });
+            $('#micromodal .modal__container').scrollTop(0);
             reLoadSphinxTabs();
             if (mathjax) {
                 if (typeof MathJax !== 'undefined') {
