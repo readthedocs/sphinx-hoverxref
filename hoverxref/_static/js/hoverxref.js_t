@@ -161,7 +161,12 @@ $(document).ready(function() {
             $('#micromodal-title').html(a);
             $('#micromodal-content').html(content);
             MicroModal.show('micromodal', {
-                disableScroll: false,
+                openClass: '{{ hoverxref_modal_openclass }}',
+                disableScroll: {{ 'true' if hoverxref_modal_disable_scroll else 'false' }},
+                disableFocus: {{ 'true' if hoverxref_modal_disable_focus else 'false' }},
+                awaitOpenAnimation: {{ 'true' if hoverxref_modal_awaitopenanimation else 'false' }},
+                awaitCloseAnimation: {{ 'true' if hoverxref_modal_awaitcloseanimation else 'false' }},
+                debugMode: {{ 'true' if hoverxref_modal_debugmode else 'false' }}
             });
             $('#micromodal .modal__container').scrollTop(0);
             reLoadSphinxTabs();

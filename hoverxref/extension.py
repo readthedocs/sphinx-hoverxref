@@ -109,6 +109,7 @@ def setup(app):
     app.add_config_value('hoverxref_roles', [], 'env')
     app.add_config_value('hoverxref_domains', [], 'env')
 
+    # Tooltipster settings
     app.add_config_value('hoverxref_tooltip', False, 'env')
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
@@ -120,13 +121,18 @@ def setup(app):
     app.add_config_value('hoverxref_tooltip_content', 'Loading...', 'env')
     app.add_config_value('hoverxref_tooltip_class', 'rst-content', 'env')
 
-
+    # MicroModal settings
     app.add_config_value('hoverxref_modal', False, 'env')
     app.add_config_value('hoverxref_modal_hover_delay', 350, 'env')
     app.add_config_value('hoverxref_modal_class', 'rst-content', 'env')
+    app.add_config_value('hoverxref_modal_openclass', 'is-open', 'env')
+    app.add_config_value('hoverxref_modal_disable_focus', True, 'env')
+    app.add_config_value('hoverxref_modal_disable_scroll', False, 'env')
+    app.add_config_value('hoverxref_modal_awaitopenanimation', False, 'env')
+    app.add_config_value('hoverxref_modal_awaitcloseanimation', False, 'env')
+    app.add_config_value('hoverxref_modal_debugmode', False, 'env')
     app.add_config_value('hoverxref_modal_default_title', 'Note', 'env')
     app.add_config_value('hoverxref_modal_prefix_title', '📝 ', 'env')
-
 
     app.set_translator('html', HoverXRefHTMLTranslator, override=True)
 
