@@ -113,6 +113,7 @@ $(document).ready(function() {
           <h1 class="modal__title" id="micromodal-title"></h1>
           <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
         </header>
+        <hr/>
         <main class="modal__content" id="micromodal-content"></main>
         <footer class="modal__footer">
           <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
