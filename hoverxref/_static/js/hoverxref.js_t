@@ -55,7 +55,7 @@ function reLoadSphinxTabs() {
 
 
 $(document).ready(function() {
-    {% if hoverxref_tooltip or not hoverxref_modal %}
+    {% if hoverxref_type == 'tooltip' %}
     $('.hoverxref').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
@@ -104,7 +104,7 @@ $(document).ready(function() {
     })
     {% endif %}
 
-    {% if hoverxref_modal and not hoverxref_tooltip %}
+    {% if hoverxref_type == 'modal' %}
     var modalHtml = `
   <div class="modal micromodal-slide {{ hoverxref_modal_class }}" id="micromodal" aria-hidden="true">
     <div class="modal__overlay" tabindex="-1" data-micromodal-close>

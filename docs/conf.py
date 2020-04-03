@@ -71,8 +71,7 @@ hoverxref_domains = [
 hoverxref_sphinxtabs = True
 hoverxref_mathjax = True
 
-hoverxref_tooltip = False
-hoverxref_modal = True
+hoverxref_type = 'modal'
 
 versionwarning_messages = {
     'latest': 'This extension is currently in Beta state. '

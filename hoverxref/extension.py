@@ -100,6 +100,9 @@ def setup_theme(app, exception):
     Add a small custom CSS file for a specific theme and set hoverxref configs
     (if not overwritten by the user) with better defaults for these themes.
     """
+    if app.config.hoverxref_type != 'modal':
+        return
+
     css_file = None
     theme = app.config.html_theme
     default, rebuild, types = app.config.values.get('hoverxref_modal_class')
@@ -139,9 +142,9 @@ def setup(app):
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
     app.add_config_value('hoverxref_roles', [], 'env')
     app.add_config_value('hoverxref_domains', [], 'env')
+    app.add_config_value('hoverxref_type', 'tooltip', 'env')
 
     # Tooltipster settings
-    app.add_config_value('hoverxref_tooltip', False, 'env')
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
     app.add_config_value('hoverxref_tooltip_interactive', True, 'env')
@@ -153,7 +156,6 @@ def setup(app):
     app.add_config_value('hoverxref_tooltip_class', 'rst-content', 'env')
 
     # MicroModal settings
-    app.add_config_value('hoverxref_modal', False, 'env')
     app.add_config_value('hoverxref_modal_hover_delay', 350, 'env')
     app.add_config_value('hoverxref_modal_class', 'rst-content', 'env')
     app.add_config_value('hoverxref_modal_onshow_function', None, 'env')
