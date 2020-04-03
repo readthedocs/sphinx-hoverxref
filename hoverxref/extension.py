@@ -125,6 +125,7 @@ def setup(app):
     app.add_config_value('hoverxref_modal', False, 'env')
     app.add_config_value('hoverxref_modal_hover_delay', 350, 'env')
     app.add_config_value('hoverxref_modal_class', 'rst-content', 'env')
+    app.add_config_value('hoverxref_modal_onshow_function', None, 'env')
     app.add_config_value('hoverxref_modal_openclass', 'is-open', 'env')
     app.add_config_value('hoverxref_modal_disable_focus', True, 'env')
     app.add_config_value('hoverxref_modal_disable_scroll', False, 'env')

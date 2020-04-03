@@ -7,7 +7,6 @@
   bottom: 0;
   background: rgba(0,0,0,0.6);
   display: flex;
-  justify-content: center;
   align-items: center;
   z-index: 250;
 }
@@ -15,12 +14,13 @@
 .modal__container {
   background-color: #fff;
   padding: 30px;
-  max-width: 60%;
+  max-width: 1000px;
   max-height: 85%;
   border-radius: 4px;
   overflow-y: auto;
   box-sizing: border-box;
   z-index: 250;
+  position: relative;
 }
 
 .modal__header {

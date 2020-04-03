@@ -124,25 +124,28 @@ $(document).ready(function() {
 `
     $('body').append(modalHtml);
 
-    var delay = {{ hoverxref_modal_hover_delay }}, setTimeoutConst;
-    $('.hoverxref').hover(function(event) {
-        var parent = $(event.target).parent();
-        console.debug('Event: ' + event + ' Element: ' + parent);
-        event.preventDefault();
-
-        setTimeoutConst = setTimeout(function(){
-            showModal(parent);
-        }, delay);
-    }, function(){
-        clearTimeout(setTimeoutConst);
-    });
+    function onShow(modal, element) {
+        // This is a HACK to get some "smart" left position of the
+        // modal depending its size.
+        var container = $('#micromodal .modal__container')
+        // FIXME: this element only exists in sphinx-rtd-theme
+        var maxWidth = $('.wy-nav-content').innerWidth() - 150 || 650;
+        var contentLeft = $('.rst-content:first').position().left || 250;
+        if (container.width() >= maxWidth) {
+            var left = contentLeft - 150;
+        }
+        else {
+            var left = contentLeft + 150;
+        }
+        console.debug('Container left position: ' + left);
+        container.css('left', left);
+    }
 
     function showModal(element) {
-        var $origin = $(element);
-        var project = $origin.data('project');
-        var version = $origin.data('version');
-        var doc = $origin.data('doc');
-        var section = $origin.data('section');
+        var project = element.data('project');
+        var version = element.data('version');
+        var doc = element.data('doc');
+        var section = element.data('section');
         console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' section=' + section);
         var url = '{{ hoverxref_tooltip_api_host }}' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&section=' + section;
 
@@ -164,6 +167,7 @@ $(document).ready(function() {
             $('#micromodal-title').html(a);
             $('#micromodal-content').html(content);
             MicroModal.show('micromodal', {
+                onShow: {{ hoverxref_modal_onshow_function|default('onShow', true) }},
                 openClass: '{{ hoverxref_modal_openclass }}',
                 disableScroll: {{ 'true' if hoverxref_modal_disable_scroll else 'false' }},
                 disableFocus: {{ 'true' if hoverxref_modal_disable_focus else 'false' }},
@@ -182,5 +186,18 @@ $(document).ready(function() {
             };
         });
     };
+
+    var delay = {{ hoverxref_modal_hover_delay }}, setTimeoutConst;
+    $('.hoverxref').hover(function(event) {
+        var element = $(this);
+        console.debug('Event: ' + event + ' Element: ' + element);
+        event.preventDefault();
+
+        setTimeoutConst = setTimeout(function(){
+            showModal(element);
+        }, delay);
+    }, function(){
+        clearTimeout(setTimeoutConst);
+    });
     {% endif %}
 });
