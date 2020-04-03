@@ -124,6 +124,8 @@ def setup(app):
     app.add_config_value('hoverxref_modal', False, 'env')
     app.add_config_value('hoverxref_modal_hover_delay', 350, 'env')
     app.add_config_value('hoverxref_modal_class', 'rst-content', 'env')
+    app.add_config_value('hoverxref_modal_default_title', 'Note', 'env')
+    app.add_config_value('hoverxref_modal_prefix_title', '📝 ', 'env')
 
 
     app.set_translator('html', HoverXRefHTMLTranslator, override=True)

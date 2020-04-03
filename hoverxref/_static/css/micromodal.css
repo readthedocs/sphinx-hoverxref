@@ -33,8 +33,7 @@
   margin-top: 0;
   margin-bottom: 0;
   line-height: 1;
-  font-size: 100%;
-  color: #00449e;
+  font-size: 165%;
   box-sizing: border-box;
 }
 
@@ -43,13 +42,19 @@
   border: 0;
 }
 
+.modal__footer {
+  padding-bottom: 30px;
+  /* display: ruby does not look really good here. However, I didn't
+   find another way to merge footer padding with container padding
+   instead of sum them */
+  display: ruby;
+}
+
 .modal__header .modal__close:before { content: "\2715"; }
 
 .modal__content {
   margin-top: 2rem;
   margin-bottom: 2rem;
-  line-height: 1.5;
-  color: rgba(0,0,0,.8);
 }
 
 .modal__btn {
@@ -59,7 +64,6 @@
   padding-top: .5rem;
   padding-bottom: .5rem;
   background-color: #e6e6e6;
-  color: rgba(0,0,0,.8);
   border-radius: .25rem;
   border-style: none;
   border-width: 0;
@@ -102,7 +106,7 @@
 }
 
 @keyframes mmslideOut {
-    from { transform: translateY(0); }
+  from { transform: translateY(0); }
     to { transform: translateY(-10%); }
 }
 
@@ -134,3 +138,8 @@
 .micromodal-slide .modal__overlay {
   will-change: transform;
 }
+
+@media screen and (max-width: 480px) {
+    .modal__container {
+        max-width: 90%;
+    }
