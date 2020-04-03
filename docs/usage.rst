@@ -9,7 +9,7 @@ and will embed the content of the document/section the link is pointing to, into
 So, the way of referencing the section works in the same way as the ``:ref:`` standard role.
 See `Sphinx's ref role documentation`_ for more information.
 
-.. _Sphinx's ref role documentation: https://www.sphinx-doc.org/en/stable/usage/restructuredtext/roles.html#role-ref
+.. _Sphinx's ref role documentation: https://www.sphinx-doc.org/en/stable/usage/restructuredtext/roles.html#cross-referencing-arbitrary-locations
 
 Simplest usage example,
 
