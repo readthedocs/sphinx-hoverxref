@@ -118,7 +118,7 @@ def setup_theme(app, exception):
     if theme == 'sphinx_material':
         if app.config.hoverxref_modal_class == default:
             app.config.hoverxref_modal_class = 'md-typeset'
-            css_file = 'css/material.css'
+            css_file = 'css/sphinx_material.css'
     elif theme == 'alabaster':
         if app.config.hoverxref_modal_class == default:
             app.config.hoverxref_modal_class = 'body'
