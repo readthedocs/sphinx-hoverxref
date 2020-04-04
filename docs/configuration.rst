@@ -88,19 +88,19 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. _Mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax
 
+.. confval:: hoverxref_api_host
+
+   Description: Host URL for the API to retrieve the content of the floating window
+
+   Default: ``https://readthedocs.org``
+
+   Type: string
+
 
 Tooltipster
 -----------
 
 These settings have effect only in tooltips.
-
-.. confval:: hoverxref_tooltip_api_host
-
-   Description: Host URL for the API to retrieve the tooltip content
-
-   Default: ``https://readthedocs.org``
-
-   Type: string
 
 .. confval:: hoverxref_tooltip_class
 

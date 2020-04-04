@@ -3,10 +3,14 @@ import inspect
 from docutils import nodes
 from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
+from sphinx.util import logging
 
 from . import version
 from .domains import HoverXRefPythonDomain, HoverXRefStandardDomain
 from .translators import HoverXRefHTMLTranslator
+
+logger = logging.getLogger(__name__)
+
 
 HOVERXREF_ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -132,6 +136,15 @@ def setup_theme(app, exception):
         )
 
 
+def deprecated_configs_warning(app, exception):
+    """Log warning message if old configs are used."""
+    default, rebuild, types = app.config.values.get('hoverxref_tooltip_api_host')
+    if app.config.hoverxref_tooltip_api_host != default:
+        message = '"hoverxref_tooltip_api_host" is deprecated and replaced by "hoverxref_api_host".'
+        logger.warning(message)
+        app.config.hoverxref_api_host = app.config.hoverxref_tooltip_api_host
+
+
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
 
@@ -148,8 +161,10 @@ def setup(app):
     app.add_config_value('hoverxref_roles', [], 'env')
     app.add_config_value('hoverxref_domains', [], 'env')
     app.add_config_value('hoverxref_type', 'tooltip', 'env')
+    app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
 
     # Tooltipster settings
+    # Deprecated in favor of ``hoverxref_api_host``
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
     app.add_config_value('hoverxref_tooltip_interactive', True, 'env')
@@ -179,6 +194,8 @@ def setup(app):
     # replace this as well
     app.set_translator('readthedocs', HoverXRefHTMLTranslator, override=True)
     app.set_translator('readthedocsdirhtml', HoverXRefHTMLTranslator, override=True)
+
+    app.connect('config-inited', deprecated_configs_warning)
 
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
