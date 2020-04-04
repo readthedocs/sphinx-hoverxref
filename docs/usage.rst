@@ -2,7 +2,7 @@ Usage
 =====
 
 This extension defines a custom role called ``:hoverxref:``.
-When this role is used, it will show a tooltip when the ``hover`` mouse event is triggered,
+When this role is used, it will show a tooltip [#]_ when the ``hover`` mouse event is triggered,
 and will embed the content of the document/section the link is pointing to, into the tooltip's content.
 
 ``:hoverxref:`` role uses Sphinx's internals reference resolution to find out where the link points to.
@@ -15,11 +15,11 @@ Simplest usage example,
 
 .. code-block:: rst
 
-   This will :hoverxref:`show a tooltip <hoverxref:section>` in the linked words to ``hoverxref``.
+   This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words to ``hoverxref``.
 
 will render to this:
 
-This will :hoverxref:`show a tooltip <hoverxref:section>` in the linked words to ``hoverxref``.
+This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words to ``hoverxref``.
 
 
 Tooltip on custom object
@@ -122,3 +122,5 @@ Show a :hoverxref:`tooltip with Mathjax <mathjax:Mathjax>` formulas.
 
 .. _sphinx-tabs: https://github.com/djungelorm/sphinx-tabs
 .. _mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax
+
+.. [#] we use tooltips as a generic word, but we refer to both, tooltips and modal dialogues

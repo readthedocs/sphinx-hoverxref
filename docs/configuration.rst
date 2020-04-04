@@ -4,9 +4,15 @@ Configuration
 The default settings should be enough for most of the cases.
 For more specific use cases, you can customize these configuration options in your ``conf.py`` file.
 
+.. contents:: Table of contents
+   :local:
+   :backlinks: none
+   :depth: 1
 
 General settings
 ----------------
+
+These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_type
 
@@ -86,6 +92,8 @@ General settings
 Tooltipster
 -----------
 
+These settings have effect only in tooltips.
+
 .. confval:: hoverxref_tooltip_api_host
 
    Description: Host URL for the API to retrieve the tooltip content
@@ -155,6 +163,8 @@ Tooltipster
 
 MicroModal.js
 -------------
+
+These settings have effect only in modal dialogues.
 
 .. confval:: hoverxref_modal_hover_delay
 

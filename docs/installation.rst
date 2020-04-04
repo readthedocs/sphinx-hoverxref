@@ -32,7 +32,7 @@ To do this, add this extension to your Sphinx's extensions in the ``conf.py`` fi
 
 
 After installing the package and adding the extension in the ``conf.py`` file,
-you can use ``:hoverxref:`` role to show a tooltip when hovering with the mouse.
+you can use ``:hoverxref:`` role to show a tooltip [#]_ when hovering with the mouse.
 
 .. warning::
 
@@ -47,3 +47,5 @@ See :ref:`usage:usage` for more use cases and :ref:`configuration:configuration`
 
 
 .. _Read the Docs: https://readthedocs.org/
+
+.. [#] we use tooltips as a generic word, but we refer to both, tooltips and modal dialogues
