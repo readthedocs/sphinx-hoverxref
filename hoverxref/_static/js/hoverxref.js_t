@@ -1,5 +1,7 @@
 var mathjax = {{ 'true' if hoverxref_mathjax else 'false' }};
 var sphinxtabs = {{ 'true' if hoverxref_sphinxtabs else 'false' }};
+{% set sphinx_rtd_theme = 'true' if html_theme == 'sphinx_rtd_theme' else 'false' %}
+
 
 function reRenderTooltip (instance, helper) {
     // Check if the content is the same as the default content until
@@ -124,23 +126,23 @@ $(document).ready(function() {
 `
     $('body').append(modalHtml);
 
+    {% if sphinx_rtd_theme %}
     function onShow(modal, element) {
-        if (typeof READTHEDOCS_DATA !== 'undefined' && READTHEDOCS_DATA.theme == 'sphinx_rtd_theme') {
-            // This is a HACK to get some "smart" left position of the
-            // modal depending its size.
-            var container = $('#micromodal .modal__container')
-            var maxWidth = $('.wy-nav-content').innerWidth() - 150;
-            var contentLeft = $('.wy-nav-content').position().left;
-            if (container.width() >= maxWidth) {
-                var left = contentLeft - 150;
-            }
-            else {
-                var left = contentLeft + 150;
-            }
-            console.debug('Container left position: ' + left);
-            container.css('left', left);
+        // This is a HACK to get some "smart" left position of the
+        // modal depending its size.
+        var container = $('#micromodal .modal__container')
+        var maxWidth = $('.wy-nav-content').innerWidth() - 150;
+        var contentLeft = $('.wy-nav-content').position().left;
+        if (container.width() >= maxWidth) {
+            var left = contentLeft - 150;
         }
+        else {
+            var left = contentLeft + 150;
+        }
+        console.debug('Container left position: ' + left);
+        container.css('left', left);
     }
+    {% endif %}
 
     function showModal(element) {
         var project = element.data('project');
@@ -168,7 +170,9 @@ $(document).ready(function() {
             $('#micromodal-title').html(a);
             $('#micromodal-content').html(content);
             MicroModal.show('micromodal', {
+                {% if sphinx_rtd_theme or hoverxref_modal_onshow_function %}
                 onShow: {{ hoverxref_modal_onshow_function|default('onShow', true) }},
+                {% endif %}
                 openClass: '{{ hoverxref_modal_openclass }}',
                 disableScroll: {{ 'true' if hoverxref_modal_disable_scroll else 'false' }},
                 disableFocus: {{ 'true' if hoverxref_modal_disable_focus else 'false' }},
