@@ -31,10 +31,13 @@ This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
 .. tip::
 
    This new ``hoverxref`` role is an alias of the ``ref`` role and works in the same.
+   See :ref:`usage:usage` for more detailed information about and other examples.
 
+
+----
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents
 
    installation
@@ -44,7 +47,7 @@ This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: API Reference
 
    autoapi/hoverxref/index
