@@ -5,3 +5,4 @@ sphinx-tabs==1.1.13
 sphinx-prompt==1.1.0
 sphinx-version-warning==1.1.2
 sphinx-notfound-page==0.4
+sphinx-autobuild==0.7.1
