@@ -1,11 +1,12 @@
 import os
 import inspect
+import types
 from docutils import nodes
 from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
 
 from . import version
-from .domains import HoverXRefPythonDomain, HoverXRefStandardDomain
+from .domains import HoverXRefPythonDomainMixin, HoverXRefStandardDomainMixin
 from .translators import HoverXRefHTMLTranslator
 
 ASSETS_FILES = [
@@ -53,6 +54,13 @@ def copy_asset_files(app, exception):
 
 
 def setup_domains(app, config):
+    """
+    Override domains respecting the one defined (if any).
+
+    We create a new class by inheriting the Sphinx Domain already defined
+    and our own ``HoverXRef...DomainMixin`` that includes the logic for
+    ``_hoverxref`` attributes.
+    """
     # Add ``hoverxref`` role replicating the behavior of ``ref``
     app.add_role_to_domain(
         'std',
@@ -63,10 +71,27 @@ def setup_domains(app, config):
             warn_dangling=True,
         ),
     )
-    app.add_domain(HoverXRefStandardDomain, override=True)
 
-    if 'py' in config.hoverxref_domains:
-        app.add_domain(HoverXRefPythonDomain, override=True)
+    domain = types.new_class(
+        'HoverXRefStandardDomain',
+        (
+            HoverXRefStandardDomainMixin,
+            app.registry.domains.get('std'),
+        ),
+        {}
+    )
+    app.add_domain(domain, override=True)
+
+    if 'py' in app.config.hoverxref_domains:
+        domain = types.new_class(
+            'HoverXRefPythonDomain',
+            (
+                HoverXRefPythonDomainMixin,
+                app.registry.domains.get('py'),
+            ),
+            {}
+        )
+        app.add_domain(domain, override=True)
 
 
 def setup_sphinx_tabs(app, config):
