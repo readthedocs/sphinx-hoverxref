@@ -1,6 +1,7 @@
 import os
 import inspect
 from docutils import nodes
+import sphinx
 from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
 
@@ -76,7 +77,13 @@ def setup_sphinx_tabs(app, config):
     Sphinx Tabs removes the CSS/JS from pages that does not use the directive.
     Although, we need them to use inside the tooltip.
     """
-    listeners = list(app.events.listeners.get('html-page-context').items())
+    if sphinx.version_info < (3, 0, 0):
+        listeners = list(app.events.listeners.get('html-page-context').items())
+    else:
+        listeners = [
+            (listener.id, listener.handler)
+            for listener in app.events.listeners.get('html-page-context')
+        ]
     for listener_id, function in listeners:
         module_name = inspect.getmodule(function).__name__
         if module_name == 'sphinx_tabs.tabs':
