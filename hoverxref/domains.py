@@ -1,5 +1,3 @@
-from sphinx.domains.python import PythonDomain
-from sphinx.domains.std import StandardDomain
 from sphinx.util import logging
 from .utils import get_ref_xref_data, get_ref_obj_data
 
@@ -32,7 +30,7 @@ class HoverXRefBaseDomain:
         return docpath
 
 
-class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
+class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
 
     def resolve_xref(self, env, fromdocname, builder, type, target, node, contnode):
         refnode = super().resolve_xref(env, fromdocname, builder, type, target, node, contnode)
@@ -59,9 +57,9 @@ class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
         return refnode
 
 
-class HoverXRefStandardDomain(HoverXRefBaseDomain, StandardDomain):
+class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
     """
-    Override ``StandardDomain`` to save the values after the xref resolution.
+    Mixin for ``StandardDomain`` to save the values after the xref resolution.
 
     ``:ref:`` are treating as a different node in Sphinx
     (``sphinx.addnodes.pending_xref``). These nodes are translated to regular
