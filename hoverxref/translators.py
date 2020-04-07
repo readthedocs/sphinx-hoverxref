@@ -1,13 +1,12 @@
-from sphinx.writers.html import HTMLTranslator
 from sphinx.util import logging
 
 logger = logging.getLogger(__name__)
 
 
-class HoverXRefHTMLTranslator(HTMLTranslator):
+class HoverXRefHTMLTranslatorMixin:
 
     """
-    Override ``HTMLTranslator`` to render extra data saved in reference nodes.
+    Mixin ``HTMLTranslator`` to render extra data saved in reference nodes.
 
     It adds all the values saved under ``_hoverxref`` as attributes of the HTML
     reference tag.

@@ -7,7 +7,7 @@ from sphinx.util.fileutil import copy_asset
 
 from . import version
 from .domains import HoverXRefPythonDomainMixin, HoverXRefStandardDomainMixin
-from .translators import HoverXRefHTMLTranslator
+from .translators import HoverXRefHTMLTranslatorMixin
 
 ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -108,6 +108,42 @@ def setup_sphinx_tabs(app, config):
             app.disconnect(listener_id)
 
 
+def setup_translators(app):
+    """
+    Override translators respecting the one defined (if any).
+
+    We create a new class by inheriting the Sphinx Translator already defined
+    and our own ``HoverXRefHTMLTranslatorMixin`` that includes the logic to
+    ``_hoverxref`` attributes.
+    """
+    if not app.registry.translators.items():
+        translator = types.new_class(
+            'HoverXRefHTMLTranslator',
+            (
+                HoverXRefHTMLTranslatorMixin,
+                app.builder.default_translator_class,
+            ),
+            {},
+        )
+        app.set_translator(app.builder.name, translator, override=True)
+    else:
+        for name, klass in app.registry.translators.items():
+            if app.builder.format != 'html':
+                # Skip translators that are not HTML
+                continue
+
+            translator = types.new_class(
+                'HoverXRefHTMLTranslator',
+                (
+                    HoverXRefHTMLTranslatorMixin,
+                    klass,
+                ),
+                {},
+            )
+            app.set_translator(name, translator, override=True)
+
+
+
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
 
@@ -134,13 +170,7 @@ def setup(app):
     app.add_config_value('hoverxref_tooltip_content', 'Loading...', 'env')
     app.add_config_value('hoverxref_tooltip_class', 'rst-content', 'env')
 
-    app.set_translator('html', HoverXRefHTMLTranslator, override=True)
-
-    # Read the Docs use ``readthedocs`` as the name of the build, so we need to
-    # replace this as well
-    app.set_translator('readthedocs', HoverXRefHTMLTranslator, override=True)
-    app.set_translator('readthedocsdirhtml', HoverXRefHTMLTranslator, override=True)
-
+    app.connect('builder-inited', setup_translators)
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
     app.connect('build-finished', copy_asset_files)
