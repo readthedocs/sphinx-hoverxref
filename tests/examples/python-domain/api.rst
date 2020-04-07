@@ -3,7 +3,7 @@
 API
 ===
 
-.. autoclass:: hoverxref.extension.HoverXRefStandardDomain
+.. autoclass:: hoverxref.extension.HoverXRefStandardDomainMixin
 
 
 .. automodule:: hoverxref.extension
