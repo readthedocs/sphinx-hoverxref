@@ -128,10 +128,8 @@ def setup_translators(app):
         app.set_translator(app.builder.name, translator, override=True)
     else:
         for name, klass in app.registry.translators.items():
-            # Read the Docs use ``readthedocs`` as the name of the build, so we
-            # need to replace this as well
-            if name not in ['html', 'readthedocs', 'readthedocsdirhtml']:
-                # Skip translator that are not HTML
+            if app.builder.format != 'html':
+                # Skip translators that are not HTML
                 continue
 
             translator = types.new_class(
