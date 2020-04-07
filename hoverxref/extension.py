@@ -166,6 +166,7 @@ def setup(app):
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
     app.add_config_value('hoverxref_roles', [], 'env')
     app.add_config_value('hoverxref_domains', [], 'env')
+    app.add_config_value('hoverxref_ignore_refs', ['genindex', 'modindex'], 'env')
 
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')

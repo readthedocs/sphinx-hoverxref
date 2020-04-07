@@ -31,6 +31,13 @@ class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
         if refnode is None:
             return
 
+        if target in env.config.hoverxref_ignore_refs:
+            logger.info(
+                'Ignoring reference in hoverxref_ignore_refs. target=%s',
+                target,
+            )
+            return refnode
+
         modname = node.get('py:module')
         clsname = node.get('py:class')
         searchmode = node.hasattr('refspecific') and 1 or 0
@@ -73,6 +80,13 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
         refnode = super()._resolve_ref_xref(env, fromdocname, builder, typ, target, node, contnode)
         if refnode is None:
             return
+
+        if target in env.config.hoverxref_ignore_refs:
+            logger.info(
+                'Ignoring reference in hoverxref_ignore_refs. target=%s',
+                target,
+            )
+            return refnode
 
         if not self._is_hoverxref_configured(env) and typ == 'hoverxref':
             # Using ``:hoverxref:`` role without having hoverxref configured
