@@ -42,7 +42,7 @@ $(document).ready(function() {
             var docpath = $origin.data('docpath');
             var section = $origin.data('section');
 
-            console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + 'path=' + docpath + ' section=' + section);
+            console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' path=' + docpath + ' section=' + section);
 
             // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
             if ($origin.data('loaded') !== true) {
