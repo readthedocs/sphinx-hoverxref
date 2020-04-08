@@ -71,11 +71,11 @@ An example using Python Domain would be like:
 
 .. code-block:: rst
 
-   :py:class:`hoverxref.domains.HoverXRefStandardDomain`
+   :py:class:`hoverxref.domains.HoverXRefStandardDomainMixin`
 
 That will render to:
 
-:py:class:`hoverxref.domains.HoverXRefStandardDomain`
+:py:class:`hoverxref.domains.HoverXRefStandardDomainMixin`
 
 
 To enable ``hoverxref`` on a domain, you need to use the config :confval:`hoverxref_domains`

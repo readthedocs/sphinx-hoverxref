@@ -1,5 +1,3 @@
-from sphinx.domains.python import PythonDomain
-from sphinx.domains.std import StandardDomain
 from sphinx.util import logging
 from .utils import get_ref_xref_data, get_ref_obj_data
 
@@ -13,7 +11,7 @@ class HoverXRefBaseDomain:
         version = env.config.hoverxref_version
         return project and version
 
-    def _inject_hoverxref_data(self, env, refnode, docname, labelid):
+    def _inject_hoverxref_data(self, env, refnode, docname, docpath, labelid):
         refnode.replace_attr('classes', ['hoverxref'])
 
         project = env.config.hoverxref_project
@@ -22,11 +20,17 @@ class HoverXRefBaseDomain:
             'data-project': project,
             'data-version': version,
             'data-doc': docname,
+            'data-docpath': docpath,
             'data-section': labelid,
         }
 
+    def _get_docpath(self, builder, docname):
+        docpath = builder.get_outfilename(docname)
+        docpath = docpath.replace(builder.outdir, '')
+        return docpath
 
-class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
+
+class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
 
     def resolve_xref(self, env, fromdocname, builder, type, target, node, contnode):
         refnode = super().resolve_xref(env, fromdocname, builder, type, target, node, contnode)
@@ -42,7 +46,9 @@ class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
 
         if self._is_hoverxref_configured(env):
             docname, labelid = obj[0], name
-            self._inject_hoverxref_data(env, refnode, docname, labelid)
+            docpath = self._get_docpath(builder, docname)
+
+            self._inject_hoverxref_data(env, refnode, docname, docpath, labelid)
             logger.info(
                 ':ref: _hoverxref injected: fromdocname=%s %s',
                 fromdocname,
@@ -51,9 +57,9 @@ class HoverXRefPythonDomain(HoverXRefBaseDomain, PythonDomain):
         return refnode
 
 
-class HoverXRefStandardDomain(HoverXRefBaseDomain, StandardDomain):
+class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
     """
-    Override ``StandardDomain`` to save the values after the xref resolution.
+    Mixin for ``StandardDomain`` to save the values after the xref resolution.
 
     ``:ref:`` are treating as a different node in Sphinx
     (``sphinx.addnodes.pending_xref``). These nodes are translated to regular
@@ -83,7 +89,9 @@ class HoverXRefStandardDomain(HoverXRefBaseDomain, StandardDomain):
 
         if self._is_hoverxref_configured(env) and (env.config.hoverxref_auto_ref or typ == 'hoverxref'):
             docname, labelid, _ = get_ref_xref_data(self, node, target)
-            self._inject_hoverxref_data(env, refnode, docname, labelid)
+            docpath = self._get_docpath(builder, docname)
+
+            self._inject_hoverxref_data(env, refnode, docname, docpath, labelid)
             logger.info(
                 ':ref: _hoverxref injected: fromdocname=%s %s',
                 fromdocname,
@@ -99,7 +107,9 @@ class HoverXRefStandardDomain(HoverXRefBaseDomain, StandardDomain):
         if typ in env.config.hoverxref_roles:
             docname, labelid = get_ref_obj_data(self, node, typ, target)
             if self._is_hoverxref_configured(env):
-                self._inject_hoverxref_data(env, refnode, docname, labelid)
+                docpath = self._get_docpath(builder, docname)
+
+                self._inject_hoverxref_data(env, refnode, docname, docpath, labelid)
                 logger.info(
                     ':%s: _hoverxref injected: fromdocname=%s %s',
                     typ,
