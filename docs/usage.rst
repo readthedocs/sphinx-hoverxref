@@ -101,9 +101,9 @@ To render a tooltip with a ``sphinx-tabs`` content you need to enable :confval:`
 
 .. code-block:: rst
 
-   Show a :hoverxref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
+   Show a :ref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
 
-Show a :hoverxref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
+Show a :ref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
 
 
 Tooltip with ``mathjax``
