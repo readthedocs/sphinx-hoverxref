@@ -1,49 +1,63 @@
 Welcome to sphinx-hoverxref!
 ============================
 
-``sphinx-hoverxref`` is a Sphinx_ extension to show a floating window (tooltips or modal dialogues) on the cross references of the documentation embedding the content of the linked section on them. With ``sphinx-hoverxref``, you don't need to click a link to see what's in there.
-
-We currently support two different types of floating windows: Tooltip_ and Modal_.
-
-
-Tooltip
--------
-
-By defining :confval:`hoverxref_type <hoverxref_type>` as ``'tooltip'`` (default) you will get a tooltip when hover references.
-
-.. figure:: _images/tooltip-example.png
-   :width: 75%
-   :class: example
-
-
-Modal
------
-
-By defining :confval:`hoverxref_type <hoverxref_type>` as ``'modal'`` you will get a modal when hover references.
-
-.. image:: _images/modal-example.png
-   :width: 75%
-   :class: example
+``sphinx-hoverxref`` is a Sphinx_ extension to show a floating window (*tooltips* or *modal* dialogues) on the cross references of the documentation embedding the content of the linked section on them. With ``sphinx-hoverxref``, you don't need to click a link to see what's in there.
 
 
 Usage
 -----
 
-To show a floating window on a reference, use the role ``hoverxref`` to link to any document or section.
+To show a floating window, use the role ``hoverxref`` to link to any document or section and embed its content into it.
+We currently support two different types of floating windows: Tooltip and Modal.
 
-Writing this reStructuredText in your document:
 
-.. code-block:: rst
+.. tabs::
 
-   This will :hoverxref:`show a floating window <hoverxref:hoverxref>` in the linked words.
+   .. tab:: Default
 
-it will be rendered to:
+      Writing this reStructuredText in your document:
 
-This will :hoverxref:`show a floating window <hoverxref:hoverxref>` in the linked words.
+      .. code-block:: rst
+
+         This will :hoverxref:`show a floating window <hoverxref:hoverxref>` in the linked words.
+
+      it will be rendered to:
+
+      This will :hoverxref:`show a floating window <hoverxref:hoverxref>` in the linked words.
+
+      .. note::
+
+         The default style (tooltip or modal) is defined by the config :confval:`hoverxref_type <hoverxref_type>`.
+
+
+   .. tab:: Tooltip style
+
+      To *force* the floating window to be a tooltip, you can use ``:hoverxreftooltip:`` role instead.
+
+      .. code-block:: rst
+
+         This will :hoverxreftooltip:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+
+      it will be rendered to:
+
+      This will :hoverxreftooltip:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+
+
+   .. tab:: Modal style
+
+      To *force* the floating window to be a modal, you can use ``:hoverxrefmodal:`` role instead.
+
+      .. code-block:: rst
+
+         This will :hoverxrefmodal:`show a modal <hoverxref:hoverxref>` in the linked words.
+
+      it will be rendered to:
+
+      This will :hoverxrefmodal:`show a modal <hoverxref:hoverxref>` in the linked words.
 
 .. tip::
 
-   This new ``hoverxref`` role is an alias of the ``ref`` role and works in the same.
+   These new roles are alias of the ``ref`` role and works in the same.
    See :ref:`usage:usage` for more detailed information about this and other examples.
 
 

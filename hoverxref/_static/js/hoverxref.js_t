@@ -57,8 +57,7 @@ function reLoadSphinxTabs() {
 
 
 $(document).ready(function() {
-    {% if hoverxref_type == 'tooltip' %}
-    $('.hoverxref').tooltipster({
+    $('.hoverxref.tooltip').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
         maxWidth: {{ hoverxref_tooltip_maxwidth }},
@@ -105,9 +104,7 @@ $(document).ready(function() {
             );
         }
     })
-    {% endif %}
 
-    {% if hoverxref_type == 'modal' %}
     var modalHtml = `
   <div class="modal micromodal-slide {{ hoverxref_modal_class }}" id="micromodal" aria-hidden="true">
     <div class="modal__overlay" tabindex="-1" data-micromodal-close>
@@ -149,9 +146,10 @@ $(document).ready(function() {
         var project = element.data('project');
         var version = element.data('version');
         var doc = element.data('doc');
+        var docpath = element.data('docpath');
         var section = element.data('section');
-        console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' section=' + section);
-        var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&section=' + section;
+        console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' path=' + docpath + ' section=' + section);
+        var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&path=' + docpath + '&section=' + section;
 
         $.get(url, function(data) {
             var content = $('<div></div>');
@@ -194,7 +192,7 @@ $(document).ready(function() {
     };
 
     var delay = {{ hoverxref_modal_hover_delay }}, setTimeoutConst;
-    $('.hoverxref').hover(function(event) {
+    $('.hoverxref.modal').hover(function(event) {
         var element = $(this);
         console.debug('Event: ' + event + ' Element: ' + element);
         event.preventDefault();
@@ -205,5 +203,4 @@ $(document).ready(function() {
     }, function(){
         clearTimeout(setTimeoutConst);
     });
-    {% endif %}
 });

@@ -71,8 +71,6 @@ hoverxref_domains = [
 hoverxref_sphinxtabs = True
 hoverxref_mathjax = True
 
-hoverxref_type = 'modal'
-
 versionwarning_messages = {
     'latest': 'This extension is currently in Beta state. '
     'This means that there may be some things not well supported or unexpected behavior. '

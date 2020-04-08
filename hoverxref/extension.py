@@ -8,7 +8,11 @@ from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
 
 from . import version
-from .domains import HoverXRefPythonDomainMixin, HoverXRefStandardDomainMixin
+from .domains import (
+    HoverXRefBaseDomain,
+    HoverXRefPythonDomainMixin,
+    HoverXRefStandardDomainMixin,
+)
 from .translators import HoverXRefHTMLTranslatorMixin
 
 logger = logging.getLogger(__name__)
@@ -82,15 +86,16 @@ def setup_domains(app, config):
     ``_hoverxref`` attributes.
     """
     # Add ``hoverxref`` role replicating the behavior of ``ref``
-    app.add_role_to_domain(
-        'std',
-        'hoverxref',
-        XRefRole(
-            lowercase=True,
-            innernodeclass=nodes.inline,
-            warn_dangling=True,
-        ),
-    )
+    for role in HoverXRefBaseDomain.hoverxref_types:
+        app.add_role_to_domain(
+            'std',
+            role,
+            XRefRole(
+                lowercase=True,
+                innernodeclass=nodes.inline,
+                warn_dangling=True,
+            ),
+        )
 
     domain = types.new_class(
         'HoverXRefStandardDomain',
@@ -176,9 +181,6 @@ def setup_theme(app, exception):
     Add a small custom CSS file for a specific theme and set hoverxref configs
     (if not overwritten by the user) with better defaults for these themes.
     """
-    if app.config.hoverxref_type != 'modal':
-        return
-
     css_file = None
     theme = app.config.html_theme
     default, rebuild, types = app.config.values.get('hoverxref_modal_class')
@@ -228,7 +230,7 @@ def setup(app):
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
     app.add_config_value('hoverxref_roles', [], 'env')
     app.add_config_value('hoverxref_domains', [], 'env')
-    app.add_config_value('hoverxref_type', 'tooltip', 'env')
+    app.add_config_value('hoverxref_default_type', 'tooltip', 'env')
     app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
 
     # Tooltipster settings
