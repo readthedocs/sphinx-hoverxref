@@ -16,27 +16,11 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_type
 
-   Description: How to display the embedded content. As a Tooltip or as a Modal dialogue
+   Description: How to display the embedded content. As a Tooltip or as a Modal dialogue.
 
    Default: ``tooltip``
 
    Options: ``tooltip`` or ``modal``
-
-   Type: string
-
-.. confval:: hoverxref_project
-
-   Description: Read the Docs project slug
-
-   Default: It defaults to ``READTHEDOCS_PROJECT`` environment variable
-
-   Type: string
-
-.. confval:: hoverxref_version
-
-   Description: Read the Docs version slug
-
-   Default: It defaults to ``READTHEDOCS_VERSION`` environment variable
 
    Type: string
 
@@ -93,6 +77,22 @@ These settings are global and have effect on both, tooltips and modal dialogues.
    Description: Host URL for the API to retrieve the content of the floating window
 
    Default: ``https://readthedocs.org``
+
+   Type: string
+
+.. confval:: hoverxref_project
+
+   Description: Read the Docs project slug
+
+   Default: It defaults to ``READTHEDOCS_PROJECT`` environment variable
+
+   Type: string
+
+.. confval:: hoverxref_version
+
+   Description: Read the Docs version slug
+
+   Default: It defaults to ``READTHEDOCS_VERSION`` environment variable
 
    Type: string
 
