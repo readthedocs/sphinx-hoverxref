@@ -179,7 +179,7 @@ def test_python_domain(app, status, warning):
         'hoverxref_default_type': 'modal',
     },
 )
-def test_project_version_settings(app, status, warning):
+def test_default_types(app, status, warning):
     app.build()
     path = app.outdir / 'index.html'
     assert path.exists() is True

@@ -65,6 +65,14 @@ hoverxref_auto_ref = True
 hoverxref_roles = [
     'confval',
 ]
+
+hoverxref_default_types = {
+    'hoverxref': 'tooltip',
+    'ref': 'modal',
+    'confval': 'tooltip',
+    'mod': 'modal',
+    'class': 'modal',
+}
 hoverxref_domains = [
     'py',
 ]

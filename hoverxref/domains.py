@@ -18,8 +18,28 @@ class HoverXRefBaseDomain:
         return project and version
 
     def _inject_hoverxref_data(self, env, refnode, typ, docname, docpath, labelid):
-        type_class = 'tooltip' if typ == 'hoverxreftooltip' else ('modal' if typ == 'hoverxrefmodal' else env.config.hoverxref_default_type)
-        refnode.replace_attr('classes', ['hoverxref', type_class])
+        classes = ['hoverxref']
+        type_class = None
+        if typ == 'hoverxreftooltip':
+            type_class = 'tooltip'
+            classes.append(type_class)
+        elif typ == 'hoverxrefmodal':
+            type_class = 'modal'
+            classes.append(type_class)
+        if not type_class:
+            type_class = env.config.hoverxref_default_types.get(typ)
+            if not type_class:
+                default = env.config.hoverxref_default_type
+                type_class = default
+                logger.warning(
+                    'Using default style for unknown typ. '
+                    'Define it in hoverxref_default_types. typ=%s style=%s',
+                    typ,
+                    default,
+                )
+            classes.append(type_class)
+
+        refnode.replace_attr('classes', classes)
 
         project = env.config.hoverxref_project
         version = env.config.hoverxref_version

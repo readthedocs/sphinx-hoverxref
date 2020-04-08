@@ -14,9 +14,30 @@ General settings
 
 These settings are global and have effect on both, tooltips and modal dialogues.
 
-.. confval:: hoverxref_type
+.. confval:: hoverxref_default_types
 
-   Description: How to display the embedded content. As a Tooltip or as a Modal dialogue.
+   Description: Style to use by default when for the embedded content when using ``:hoverxref:`` role.
+   It also affect the style of and ``:ref:``
+
+   Default: ``{}``
+
+   Example:
+
+   .. code-block:: python
+
+      {
+          'hoverxref': 'modal',
+          'ref': 'modal',
+          'confval': 'tooltip',
+          'mod': 'tooltip',  # for Python Domain
+          'class': 'tooltip',  # for Python Domain
+      }
+
+   Type: dictionary
+
+.. confval:: hoverxref_default_type
+
+   Description: Default style when the specific one was not found in :confval:`hoverxref_default_types`.
 
    Default: ``tooltip``
 
@@ -26,7 +47,7 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_auto_ref
 
-   Description: Make all ``:ref:`` role to show a tooltip
+   Description: Make all ``:ref:`` role to show a tooltip.
 
    Default: ``False``
 
