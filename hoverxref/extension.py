@@ -4,6 +4,7 @@ import types
 from docutils import nodes
 import sphinx
 from sphinx.roles import XRefRole
+from sphinx.util import logging
 from sphinx.util.fileutil import copy_asset
 
 from . import version
@@ -23,6 +24,8 @@ ASSETS_FILES = [
     'css/tooltipster-sideTip-light.min.css',
     'css/tooltipster-sideTip-borderless.min.css',
 ]
+
+logger = logging.getLogger(__name__)
 
 
 def copy_asset_files(app, exception):
@@ -150,6 +153,25 @@ def setup_translators(app):
             app.set_translator(name, translator, override=True)
 
 
+def is_hoverxref_configured(app, config):
+    """
+    Save a config if hoverxref is properly configured.
+
+    It checks for ``hoverxref_project`` and ``hoverxref_version`` being defined
+    and set ``hoverxref_is_configured=True`` if configured.
+    """
+    config.hoverxref_is_configured = True
+
+    project = config.hoverxref_project
+    version = config.hoverxref_version
+    if not project or not version:
+        config.hoverxref_is_configured = False
+        # ``hoverxref`` extension is not fully configured
+        logger.warning(
+            'hoverxref extension is not fully configured. '
+            'Set hoverxref_project and hoverxref_version in your conf.py file.',
+        )
+
 
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
@@ -181,6 +203,7 @@ def setup(app):
     app.connect('builder-inited', setup_translators)
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
+    app.connect('config-inited', is_hoverxref_configured)
     app.connect('build-finished', copy_asset_files)
 
     for f in ASSETS_FILES:

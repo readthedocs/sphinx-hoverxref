@@ -6,11 +6,6 @@ logger = logging.getLogger(__name__)
 
 class HoverXRefBaseDomain:
 
-    def _is_hoverxref_configured(self, env):
-        project = env.config.hoverxref_project
-        version = env.config.hoverxref_version
-        return project and version
-
     def _inject_hoverxref_data(self, env, refnode, docname, labelid):
         refnode.replace_attr('classes', ['hoverxref'])
 
@@ -23,19 +18,27 @@ class HoverXRefBaseDomain:
             'data-section': labelid,
         }
 
+    def _is_ignored_ref(self, env, target):
+        if target in env.config.hoverxref_ignore_refs:
+            logger.info(
+                'Ignoring reference in hoverxref_ignore_refs. target=%s',
+                target,
+            )
+            return True
+        return False
+
 
 class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
 
     def resolve_xref(self, env, fromdocname, builder, type, target, node, contnode):
         refnode = super().resolve_xref(env, fromdocname, builder, type, target, node, contnode)
         if refnode is None:
-            return
+            return refnode
 
-        if target in env.config.hoverxref_ignore_refs:
-            logger.info(
-                'Ignoring reference in hoverxref_ignore_refs. target=%s',
-                target,
-            )
+        if any([
+                not env.config.hoverxref_is_configured,
+                self._is_ignored_ref(env, target),
+        ]):
             return refnode
 
         modname = node.get('py:module')
@@ -45,14 +48,13 @@ class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
                                 type, searchmode)
         name, obj = matches[0]
 
-        if self._is_hoverxref_configured(env):
-            docname, labelid = obj[0], name
-            self._inject_hoverxref_data(env, refnode, docname, labelid)
-            logger.info(
-                ':ref: _hoverxref injected: fromdocname=%s %s',
-                fromdocname,
-                refnode._hoverxref,
-            )
+        docname, labelid = obj[0], name
+        self._inject_hoverxref_data(env, refnode, docname, labelid)
+        logger.info(
+            ':ref: _hoverxref injected: fromdocname=%s %s',
+            fromdocname,
+            refnode._hoverxref,
+        )
         return refnode
 
 
@@ -79,43 +81,42 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
     def _resolve_ref_xref(self, env, fromdocname, builder, typ, target, node, contnode):
         refnode = super()._resolve_ref_xref(env, fromdocname, builder, typ, target, node, contnode)
         if refnode is None:
-            return
-
-        if target in env.config.hoverxref_ignore_refs:
-            logger.info(
-                'Ignoring reference in hoverxref_ignore_refs. target=%s',
-                target,
-            )
             return refnode
 
-        if not self._is_hoverxref_configured(env) and typ == 'hoverxref':
-            # Using ``:hoverxref:`` role without having hoverxref configured
-            # properly. Log a warning.
-            logger.warning('hoverxref role is not fully configured.')
+        if any([
+                not env.config.hoverxref_is_configured,
+                self._is_ignored_ref(env, target),
+                not (env.config.hoverxref_auto_ref or typ == 'hoverxref')
+        ]):
+            return refnode
 
-        if self._is_hoverxref_configured(env) and (env.config.hoverxref_auto_ref or typ == 'hoverxref'):
-            docname, labelid, _ = get_ref_xref_data(self, node, target)
-            self._inject_hoverxref_data(env, refnode, docname, labelid)
-            logger.info(
-                ':ref: _hoverxref injected: fromdocname=%s %s',
-                fromdocname,
-                refnode._hoverxref,
-            )
+        docname, labelid, _ = get_ref_xref_data(self, node, target)
+        self._inject_hoverxref_data(env, refnode, docname, labelid)
+        logger.info(
+            ':ref: _hoverxref injected: fromdocname=%s %s',
+            fromdocname,
+            refnode._hoverxref,
+        )
         return refnode
 
     def _resolve_obj_xref(self, env, fromdocname, builder, typ, target, node, contnode):
         refnode = super()._resolve_obj_xref(env, fromdocname, builder, typ, target, node, contnode)
         if refnode is None:
-            return
+            return refnode
 
-        if typ in env.config.hoverxref_roles:
-            docname, labelid = get_ref_obj_data(self, node, typ, target)
-            if self._is_hoverxref_configured(env):
-                self._inject_hoverxref_data(env, refnode, docname, labelid)
-                logger.info(
-                    ':%s: _hoverxref injected: fromdocname=%s %s',
-                    typ,
-                    fromdocname,
-                    refnode._hoverxref,
-                )
+        if any([
+                not env.config.hoverxref_is_configured,
+                self._is_ignored_ref(env, target),
+                typ not in env.config.hoverxref_roles,
+        ]):
+            return refnode
+
+        docname, labelid = get_ref_obj_data(self, node, typ, target)
+        self._inject_hoverxref_data(env, refnode, docname, labelid)
+        logger.info(
+            ':%s: _hoverxref injected: fromdocname=%s %s',
+            typ,
+            fromdocname,
+            refnode._hoverxref,
+        )
         return refnode
