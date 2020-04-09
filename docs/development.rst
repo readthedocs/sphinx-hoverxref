@@ -23,7 +23,7 @@ To setup this approach, you need to put these settings in the ``conf.py`` of you
 
    hoverxref_project = 'sphinx-hoverxref'
    hoverxref_version = 'latest'
-   hoverxref_tooltip_api_host = 'https://readthedocs.org'
+   hoverxref_api_host = 'https://readthedocs.org'
 
 After building the documentation all the requests will be done to URLs like::
 
@@ -84,7 +84,7 @@ To make the extension to work, you will need to define this setting in your ``co
 
 .. code-block:: python
 
-   hoverxref_tooltip_api_host = 'http://dev.readthedocs.io:8000'
+   hoverxref_api_host = 'http://dev.readthedocs.io:8000'
 
 .. tip::
 
