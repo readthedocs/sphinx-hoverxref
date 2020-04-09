@@ -6,8 +6,35 @@ logger = logging.getLogger(__name__)
 
 class HoverXRefBaseDomain:
 
-    def _inject_hoverxref_data(self, env, refnode, docname, docpath, labelid):
-        refnode.replace_attr('classes', ['hoverxref'])
+    hoverxref_types = (
+        'hoverxref',
+        'hoverxreftooltip',
+        'hoverxrefmodal',
+    )
+
+    def _inject_hoverxref_data(self, env, refnode, typ, docname, docpath, labelid):
+        classes = ['hoverxref']
+        type_class = None
+        if typ == 'hoverxreftooltip':
+            type_class = 'tooltip'
+            classes.append(type_class)
+        elif typ == 'hoverxrefmodal':
+            type_class = 'modal'
+            classes.append(type_class)
+        if not type_class:
+            type_class = env.config.hoverxref_default_types.get(typ)
+            if not type_class:
+                default = env.config.hoverxref_default_type
+                type_class = default
+                logger.warning(
+                    'Using default style for unknown typ. '
+                    'Define it in hoverxref_default_types. typ=%s style=%s',
+                    typ,
+                    default,
+                )
+            classes.append(type_class)
+
+        refnode.replace_attr('classes', classes)
 
         project = env.config.hoverxref_project
         version = env.config.hoverxref_version
@@ -36,8 +63,8 @@ class HoverXRefBaseDomain:
 
 class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
 
-    def resolve_xref(self, env, fromdocname, builder, type, target, node, contnode):
-        refnode = super().resolve_xref(env, fromdocname, builder, type, target, node, contnode)
+    def resolve_xref(self, env, fromdocname, builder, typ, target, node, contnode):
+        refnode = super().resolve_xref(env, fromdocname, builder, typ, target, node, contnode)
         if refnode is None:
             return refnode
 
@@ -51,12 +78,12 @@ class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
         clsname = node.get('py:class')
         searchmode = node.hasattr('refspecific') and 1 or 0
         matches = self.find_obj(env, modname, clsname, target,
-                                type, searchmode)
+                                typ, searchmode)
         name, obj = matches[0]
 
         docname, labelid = obj[0], name
         docpath = self._get_docpath(builder, docname)
-        self._inject_hoverxref_data(env, refnode, docname, docpath, labelid)
+        self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
         logger.info(
             ':ref: _hoverxref injected: fromdocname=%s %s',
             fromdocname,
@@ -78,7 +105,7 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
     """
 
     def resolve_xref(self, env, fromdocname, builder, typ, target, node, contnode):
-        if typ == 'hoverxref':
+        if typ in self.hoverxref_types:
             resolver = self._resolve_ref_xref
             return resolver(env, fromdocname, builder, typ, target, node, contnode)
 
@@ -93,14 +120,14 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
         if any([
                 not env.config.hoverxref_is_configured,
                 self._is_ignored_ref(env, target),
-                not (env.config.hoverxref_auto_ref or typ == 'hoverxref')
+                not (env.config.hoverxref_auto_ref or typ in self.hoverxref_types)
         ]):
             return refnode
 
 
         docname, labelid, _ = get_ref_xref_data(self, node, target)
         docpath = self._get_docpath(builder, docname)
-        self._inject_hoverxref_data(env, refnode, docname, docpath, labelid)
+        self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
         logger.info(
             ':ref: _hoverxref injected: fromdocname=%s %s',
             fromdocname,
@@ -122,7 +149,7 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
 
         docname, labelid = get_ref_obj_data(self, node, typ, target)
         docpath = self._get_docpath(builder, docname)
-        self._inject_hoverxref_data(env, refnode, docname, docpath, labelid)
+        self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
         logger.info(
             ':%s: _hoverxref injected: fromdocname=%s %s',
             typ,

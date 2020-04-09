@@ -1,7 +1,71 @@
 Welcome to sphinx-hoverxref!
 ============================
 
-``sphinx-hoverxref`` is a Sphinx_ extension to add tooltips on the cross references of the documentation with the content of the linked section.
+``sphinx-hoverxref`` is a Sphinx_ extension to show a floating window (*tooltips* or *modal* dialogues) on the cross references of the documentation embedding the content of the linked section on them. With ``sphinx-hoverxref``, you don't need to click a link to see what's in there.
+
+
+Usage
+-----
+
+To show a floating window, use the role ``hoverxref`` to link to any document or section and embed its content into it.
+We currently support two different types of floating windows: Tooltip and Modal.
+
+
+.. tabs::
+
+   .. tab:: Default
+
+      Writing this reStructuredText in your document:
+
+      .. code-block:: rst
+
+         This will :hoverxref:`show a floating window <hoverxref:hoverxref>` in the linked words.
+
+      it will be rendered to:
+
+      This will :hoverxref:`show a floating window <hoverxref:hoverxref>` in the linked words.
+
+      .. note::
+
+         The default style (tooltip or modal) is defined by the config :confval:`hoverxref_default_types <hoverxref_default_types>`.
+
+
+   .. tab:: Tooltip style
+
+      To *force* the floating window to be a tooltip, you can use ``:hoverxreftooltip:`` role instead.
+
+      .. code-block:: rst
+
+         This will :hoverxreftooltip:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+
+      it will be rendered to:
+
+      This will :hoverxreftooltip:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+
+
+   .. tab:: Modal style
+
+      To *force* the floating window to be a modal, you can use ``:hoverxrefmodal:`` role instead.
+
+      .. code-block:: rst
+
+         This will :hoverxrefmodal:`show a modal <hoverxref:hoverxref>` in the linked words.
+
+      it will be rendered to:
+
+      This will :hoverxrefmodal:`show a modal <hoverxref:hoverxref>` in the linked words.
+
+.. tip::
+
+   These new roles are alias of the ``ref`` role and works in the same.
+   See :ref:`usage:usage` for more detailed information about this and other examples.
+
+
+----
+
+Reference
+---------
+
 
 Online documentation:
     https://sphinx-hoverxref.readthedocs.io/
@@ -13,28 +77,9 @@ Badges:
     |Build| |PyPI version| |Docs badge| |License|
 
 
-Usage
------
-
-To show a tooltip on a reference, use the role ``hoverxref`` to link to any document or section.
-
-Writing this reStructuredText:
-
-.. code-block:: rst
-
-   This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
-
-will render to:
-
-This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
-
-.. tip::
-
-   This new ``hoverxref`` role is an alias of the ``ref`` role and works in the same.
-
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents
 
    installation
@@ -44,7 +89,7 @@ This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words.
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: API Reference
 
    autoapi/hoverxref/index

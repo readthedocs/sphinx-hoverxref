@@ -2,21 +2,24 @@ Usage
 =====
 
 This extension defines a custom role called ``:hoverxref:``.
-When this role is used, it will show a tooltip when ``hover`` mouse event is triggered,
-and will populate the content tooltip with the content of the document and section the link is pointing to.
+When this role is used, it will show a tooltip [#]_ when the ``hover`` mouse event is triggered,
+and will embed the content of the document/section the link is pointing to, into the tooltip's content.
 
-``:hoverxref:`` uses Sphinx's internals reference resolution to find out where the link points to.
+``:hoverxref:`` role uses Sphinx's internals reference resolution to find out where the link points to.
 So, the way of referencing the section works in the same way as the ``:ref:`` standard role.
+See `Sphinx's ref role documentation`_ for more information.
+
+.. _Sphinx's ref role documentation: https://www.sphinx-doc.org/en/stable/usage/restructuredtext/roles.html#cross-referencing-arbitrary-locations
 
 Simplest usage example,
 
 .. code-block:: rst
 
-   This will :hoverxref:`show a tooltip <hoverxref:section>` in the linked words to ``hoverxref``.
+   This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words to ``hoverxref``.
 
 will render to this:
 
-This will :hoverxref:`show a tooltip <hoverxref:section>` in the linked words to ``hoverxref``.
+This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words to ``hoverxref``.
 
 
 Tooltip on custom object
@@ -98,9 +101,9 @@ To render a tooltip with a ``sphinx-tabs`` content you need to enable :confval:`
 
 .. code-block:: rst
 
-   Show a :hoverxref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
+   Show a :ref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
 
-Show a :hoverxref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
+Show a :ref:`tooltip with Sphinx Tabs <installation:Installation>` on its content.
 
 
 Tooltip with ``mathjax``
@@ -119,3 +122,5 @@ Show a :hoverxref:`tooltip with Mathjax <mathjax:Mathjax>` formulas.
 
 .. _sphinx-tabs: https://github.com/djungelorm/sphinx-tabs
 .. _mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax
+
+.. [#] we use tooltips as a generic word, but we refer to both, tooltips and modal dialogues

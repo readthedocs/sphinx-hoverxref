@@ -2,35 +2,52 @@ Configuration
 =============
 
 The default settings should be enough for most of the cases.
-For more specific use cases, you can customize these configuration options in your ``conf.py`` file:
+For more specific use cases, you can customize these configuration options in your ``conf.py`` file.
 
-.. confval:: hoverxref_project
+.. contents:: Table of contents
+   :local:
+   :backlinks: none
+   :depth: 1
 
-   Description: Read the Docs project slug
+General settings
+----------------
 
-   Default: It defaults to ``READTHEDOCS_PROJECT`` environment variable
+These settings are global and have effect on both, tooltips and modal dialogues.
 
-   Type: string
+.. confval:: hoverxref_default_types
 
-.. confval:: hoverxref_version
+   Description: Style to use by default when for the embedded content when using ``:hoverxref:`` role.
+   It also affect the style of and ``:ref:``
 
-   Description: Read the Docs version slug
+   Default: ``{}``
 
-   Default: It defaults to ``READTHEDOCS_VERSION`` environment variable
+   Example:
 
-   Type: string
+   .. code-block:: python
 
-.. confval:: hoverxref_tooltip_api_host
+      {
+          'hoverxref': 'modal',
+          'ref': 'modal',  # for hoverxref_auto_ref config
+          'confval': 'tooltip',  # for custom object
+          'mod': 'tooltip',  # for Python Sphinx Domain
+          'class': 'tooltip',  # for Python Sphinx Domain
+      }
 
-   Description: Host URL for the API to retrieve the tooltip content
+   Type: dictionary
 
-   Default: ``https://readthedocs.org``
+.. confval:: hoverxref_default_type
+
+   Description: Default style when the specific one was not found in :confval:`hoverxref_default_types`.
+
+   Default: ``tooltip``
+
+   Options: ``tooltip`` or ``modal``
 
    Type: string
 
 .. confval:: hoverxref_auto_ref
 
-   Description: Make all ``:ref:`` role to show a tooltip
+   Description: Make all ``:ref:`` role to show a tooltip.
 
    Default: ``False``
 
@@ -56,14 +73,6 @@ For more specific use cases, you can customize these configuration options in yo
 
    Type: list
 
-.. confval:: hoverxref_tooltip_class
-
-   Description: CSS class to add to ``div`` created for the tooltip
-
-   Default: ``rst-content``
-
-   Type: string
-
 .. confval:: hoverxref_sphinxtabs
 
    Description: trigger an extra step to render tooltips where its content has a `Sphinx Tabs`_
@@ -84,9 +93,49 @@ For more specific use cases, you can customize these configuration options in yo
 
 .. _Mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax
 
+.. confval:: hoverxref_api_host
+
+   Description: Host URL for the API to retrieve the content of the floating window
+
+   Default: ``https://readthedocs.org``
+
+   Type: string
+
+.. confval:: hoverxref_project
+
+   Description: Read the Docs project slug
+
+   Default: It defaults to ``READTHEDOCS_PROJECT`` environment variable
+
+   Type: string
+
+.. confval:: hoverxref_version
+
+   Description: Read the Docs version slug
+
+   Default: It defaults to ``READTHEDOCS_VERSION`` environment variable
+
+   Type: string
+
+
+Tooltipster
+-----------
+
+These settings have effect only in tooltips.
+
+.. confval:: hoverxref_tooltip_class
+
+   Description: CSS class to add to ``div`` created for the tooltip
+
+   Default: ``rst-content``
+
+   Type: string
+
+
 .. warning::
 
-   The following settings are passed directly to Tooltipster_. See https://iamceege.github.io/tooltipster/#options for more information about their descriptions.
+   The following settings are passed directly to Tooltipster_.
+   See https://iamceege.github.io/tooltipster/#options for more information about their descriptions.
 
 .. confval:: hoverxref_tooltip_theme
 
@@ -131,3 +180,89 @@ For more specific use cases, you can customize these configuration options in yo
    Type: string
 
 .. _Tooltipster: https://iamceege.github.io/tooltipster/
+
+
+MicroModal.js
+-------------
+
+These settings have effect only in modal dialogues.
+
+.. confval:: hoverxref_modal_hover_delay
+
+   Description: Delay time (in milliseconds) before showing the modal when hover over a ref
+
+   Default: ``350``
+
+   Type: int
+
+.. confval:: hoverxref_modal_default_title
+
+   Description: Title shown when the content does not have one
+
+   Default: ``Note``
+
+   Type: string
+
+.. confval:: hoverxref_modal_prefix_title
+
+   Description: Prefix included in the title of the modal
+
+   Default: 📝 (ends with a trailing space)
+
+   Type: string
+
+.. confval:: hoverxref_modal_class
+
+   Description:
+
+   Default: ``rst-content``
+
+   Type: string
+
+
+.. warning::
+
+   The following settings are passed directly to `MicroModal.js`_.
+   See https://micromodal.now.sh/#configuration for more information about their descriptions.
+
+.. confval:: hoverxref_modal_onshow_function
+
+   Default: ``None``
+
+   Type: string
+
+.. confval:: hoverxref_modal_openclass
+
+   Default: ``is-open``
+
+   Type: string
+
+.. confval:: hoverxref_modal_disable_focus
+
+   Default: ``True``
+
+   Type: bool
+
+.. confval:: hoverxref_modal_disable_scroll
+
+   Default: ``False``
+
+   Type: bool
+
+.. confval:: hoverxref_modal_awaitopenanimation
+
+   Default: ``False``
+
+   Type: bool
+
+.. confval:: hoverxref_modal_awaitcloseanimation
+
+   Default: ``False``
+
+   Type: bool
+
+.. confval:: hoverxref_modal_debugmode
+
+   Default: ``False``
+
+   Type: bool

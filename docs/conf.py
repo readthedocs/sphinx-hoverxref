@@ -51,20 +51,28 @@ extensions = [
 
 # Used when building the documentation from the terminal and using a local Read
 # the Docs instance as backend
-hoverxref_tooltip_api_host = 'http://localhost:8000'
+hoverxref_api_host = 'http://localhost:8000'
 
 if os.environ.get('READTHEDOCS') == 'True':
     # Building on Read the Docs
-    hoverxref_tooltip_api_host = 'https://readthedocs.org'
+    hoverxref_api_host = 'https://readthedocs.org'
 if os.environ.get('LOCAL_READTHEDOCS') == 'True':
     # Building on a local Read the Docs instance
-    hoverxref_tooltip_api_host = 'http://community.dev.readthedocs.io'
+    hoverxref_api_host = 'http://community.dev.readthedocs.io'
 
 hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
 hoverxref_roles = [
     'confval',
 ]
+
+hoverxref_default_types = {
+    'hoverxref': 'tooltip',
+    'ref': 'modal',
+    'confval': 'tooltip',
+    'mod': 'modal',
+    'class': 'modal',
+}
 hoverxref_domains = [
     'py',
 ]
@@ -222,3 +230,5 @@ def setup(app):
         'confval',  # rolename
         'pair: %s; configuration value',  # indextemplate
     )
+
+    app.add_css_file('css/custom.css')

@@ -4,15 +4,26 @@ import types
 from docutils import nodes
 import sphinx
 from sphinx.roles import XRefRole
-from sphinx.util import logging
 from sphinx.util.fileutil import copy_asset
+from sphinx.util import logging
 
 from . import version
-from .domains import HoverXRefPythonDomainMixin, HoverXRefStandardDomainMixin
+from .domains import (
+    HoverXRefBaseDomain,
+    HoverXRefPythonDomainMixin,
+    HoverXRefStandardDomainMixin,
+)
 from .translators import HoverXRefHTMLTranslatorMixin
 
-ASSETS_FILES = [
+logger = logging.getLogger(__name__)
+
+
+HOVERXREF_ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
+]
+
+TOOLTIP_ASSETS_FILES = [
+    # Tooltipster's Styles
     'js/tooltipster.bundle.min.js',
     'css/tooltipster.custom.css',
     'css/tooltipster.bundle.min.css',
@@ -25,8 +36,12 @@ ASSETS_FILES = [
     'css/tooltipster-sideTip-borderless.min.css',
 ]
 
-logger = logging.getLogger(__name__)
+MODAL_ASSETS_FILES = [
+    'js/micromodal.min.js',
+    'css/micromodal.css',
+]
 
+ASSETS_FILES = HOVERXREF_ASSETS_FILES + TOOLTIP_ASSETS_FILES + MODAL_ASSETS_FILES
 
 def copy_asset_files(app, exception):
     """
@@ -48,6 +63,11 @@ def copy_asset_files(app, exception):
                 # Then, add the values that the user overrides
                 context[attr] = getattr(app.config, attr)
 
+        # Finally, add some non-hoverxref extra configs
+        configs = ['html_theme']
+        for attr in configs:
+            context[attr] = getattr(app.config, attr)
+
         for f in ASSETS_FILES:
             path = os.path.join(os.path.dirname(__file__), '_static', f)
             copy_asset(
@@ -66,15 +86,16 @@ def setup_domains(app, config):
     ``_hoverxref`` attributes.
     """
     # Add ``hoverxref`` role replicating the behavior of ``ref``
-    app.add_role_to_domain(
-        'std',
-        'hoverxref',
-        XRefRole(
-            lowercase=True,
-            innernodeclass=nodes.inline,
-            warn_dangling=True,
-        ),
-    )
+    for role in HoverXRefBaseDomain.hoverxref_types:
+        app.add_role_to_domain(
+            'std',
+            role,
+            XRefRole(
+                lowercase=True,
+                innernodeclass=nodes.inline,
+                warn_dangling=True,
+            ),
+        )
 
     domain = types.new_class(
         'HoverXRefStandardDomain',
@@ -173,6 +194,47 @@ def is_hoverxref_configured(app, config):
         )
 
 
+def setup_theme(app, exception):
+    """
+    Auto-configure default settings for known themes.
+
+    Add a small custom CSS file for a specific theme and set hoverxref configs
+    (if not overwritten by the user) with better defaults for these themes.
+    """
+    css_file = None
+    theme = app.config.html_theme
+    default, rebuild, types = app.config.values.get('hoverxref_modal_class')
+    if theme == 'sphinx_material':
+        if app.config.hoverxref_modal_class == default:
+            app.config.hoverxref_modal_class = 'md-typeset'
+            css_file = 'css/sphinx_material.css'
+    elif theme == 'alabaster':
+        if app.config.hoverxref_modal_class == default:
+            app.config.hoverxref_modal_class = 'body'
+            css_file = 'css/alabaster.css'
+    elif theme == 'sphinx_rtd_theme':
+        if app.config.hoverxref_modal_class == default:
+            css_file = 'css/sphinx_rtd_theme.css'
+
+    if css_file:
+        app.add_css_file(css_file)
+        path = os.path.join(os.path.dirname(__file__), '_static', css_file)
+        copy_asset(
+            path,
+            os.path.join(app.outdir, '_static', 'css'),
+        )
+
+
+def deprecated_configs_warning(app, exception):
+    """Log warning message if old configs are used."""
+    default, rebuild, types = app.config.values.get('hoverxref_tooltip_api_host')
+    if app.config.hoverxref_tooltip_api_host != default:
+        message = '"hoverxref_tooltip_api_host" is deprecated and replaced by "hoverxref_api_host".'
+        logger.warning(message)
+        app.config.hoverxref_api_host = app.config.hoverxref_tooltip_api_host
+
+
+
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
 
@@ -189,7 +251,12 @@ def setup(app):
     app.add_config_value('hoverxref_roles', [], 'env')
     app.add_config_value('hoverxref_domains', [], 'env')
     app.add_config_value('hoverxref_ignore_refs', ['genindex', 'modindex'], 'env')
+    app.add_config_value('hoverxref_default_types', {}, 'env')
+    app.add_config_value('hoverxref_default_type', 'tooltip', 'env')
+    app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
 
+    # Tooltipster settings
+    # Deprecated in favor of ``hoverxref_api_host``
     app.add_config_value('hoverxref_tooltip_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_tooltip_theme', ['tooltipster-shadow', 'tooltipster-shadow-custom'], 'env')
     app.add_config_value('hoverxref_tooltip_interactive', True, 'env')
@@ -200,10 +267,27 @@ def setup(app):
     app.add_config_value('hoverxref_tooltip_content', 'Loading...', 'env')
     app.add_config_value('hoverxref_tooltip_class', 'rst-content', 'env')
 
+    # MicroModal settings
+    app.add_config_value('hoverxref_modal_hover_delay', 350, 'env')
+    app.add_config_value('hoverxref_modal_class', 'rst-content', 'env')
+    app.add_config_value('hoverxref_modal_onshow_function', None, 'env')
+    app.add_config_value('hoverxref_modal_openclass', 'is-open', 'env')
+    app.add_config_value('hoverxref_modal_disable_focus', True, 'env')
+    app.add_config_value('hoverxref_modal_disable_scroll', False, 'env')
+    app.add_config_value('hoverxref_modal_awaitopenanimation', False, 'env')
+    app.add_config_value('hoverxref_modal_awaitcloseanimation', False, 'env')
+    app.add_config_value('hoverxref_modal_debugmode', False, 'env')
+    app.add_config_value('hoverxref_modal_default_title', 'Note', 'env')
+    app.add_config_value('hoverxref_modal_prefix_title', '📝 ', 'env')
+
     app.connect('builder-inited', setup_translators)
+
+    app.connect('config-inited', deprecated_configs_warning)
+
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
     app.connect('config-inited', is_hoverxref_configured)
+    app.connect('config-inited', setup_theme)
     app.connect('build-finished', copy_asset_files)
 
     for f in ASSETS_FILES:

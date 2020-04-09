@@ -7,6 +7,11 @@ SPHINXBUILD   = sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build
 
+# sphinx-hoverxref expected variables
+export READTHEDOCS=True
+export READTHEDOCS_PROJECT=sphinx-hoverxref
+export READTHEDOCS_VERSION=latest
+
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
@@ -17,3 +22,6 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+livehtml:
+	sphinx-autobuild -E -b html --ignore "autoapi/*" --ignore "*#*" --watch "../hoverxref" $(SPHINXOPTS) $(SOURCEDIR) $(BUILDDIR)/html
