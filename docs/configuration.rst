@@ -27,10 +27,10 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
       {
           'hoverxref': 'modal',
-          'ref': 'modal',
-          'confval': 'tooltip',
-          'mod': 'tooltip',  # for Python Domain
-          'class': 'tooltip',  # for Python Domain
+          'ref': 'modal',  # for hoverxref_auto_ref config
+          'confval': 'tooltip',  # for custom object
+          'mod': 'tooltip',  # for Python Sphinx Domain
+          'class': 'tooltip',  # for Python Sphinx Domain
       }
 
    Type: dictionary
