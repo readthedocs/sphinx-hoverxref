@@ -22,13 +22,13 @@ class HoverXRefBaseDomain:
             type_class = 'modal'
             classes.append(type_class)
         if not type_class:
-            type_class = env.config.hoverxref_default_types.get(typ)
+            type_class = env.config.hoverxref_role_types.get(typ)
             if not type_class:
                 default = env.config.hoverxref_default_type
                 type_class = default
                 logger.warning(
                     'Using default style for unknown typ. '
-                    'Define it in hoverxref_default_types. typ=%s style=%s',
+                    'Define it in hoverxref_role_types. typ=%s style=%s',
                     typ,
                     default,
                 )
