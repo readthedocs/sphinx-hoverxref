@@ -66,7 +66,7 @@ hoverxref_roles = [
     'confval',
 ]
 
-hoverxref_default_types = {
+hoverxref_role_types = {
     'hoverxref': 'tooltip',
     'ref': 'modal',
     'confval': 'tooltip',

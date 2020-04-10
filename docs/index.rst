@@ -27,7 +27,7 @@ We currently support two different types of floating windows: Tooltip and Modal.
 
       .. note::
 
-         The default style (tooltip or modal) is defined by the config :confval:`hoverxref_default_types <hoverxref_default_types>`.
+         The default style (tooltip or modal) is defined by the config :confval:`hoverxref_role_types <hoverxref_role_types>`.
 
 
    .. tab:: Tooltip style

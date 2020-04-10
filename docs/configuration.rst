@@ -14,7 +14,7 @@ General settings
 
 These settings are global and have effect on both, tooltips and modal dialogues.
 
-.. confval:: hoverxref_default_types
+.. confval:: hoverxref_role_types
 
    Description: Style to use by default when hover each type of reference (role).
 
@@ -36,7 +36,7 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_default_type
 
-   Description: Default style when the specific one was not found in :confval:`hoverxref_default_types`.
+   Description: Default style when the specific one was not found in :confval:`hoverxref_role_types`.
 
    Default: ``tooltip``
 
