@@ -174,6 +174,26 @@ def setup_translators(app):
             app.set_translator(name, translator, override=True)
 
 
+def is_hoverxref_configured(app, config):
+    """
+    Save a config if hoverxref is properly configured.
+
+    It checks for ``hoverxref_project`` and ``hoverxref_version`` being defined
+    and set ``hoverxref_is_configured=True`` if configured.
+    """
+    config.hoverxref_is_configured = True
+
+    project = config.hoverxref_project
+    version = config.hoverxref_version
+    if not project or not version:
+        config.hoverxref_is_configured = False
+        # ``hoverxref`` extension is not fully configured
+        logger.warning(
+            'hoverxref extension is not fully configured. '
+            'Set hoverxref_project and hoverxref_version in your conf.py file.',
+        )
+
+
 def setup_theme(app, exception):
     """
     Auto-configure default settings for known themes.
@@ -230,10 +250,9 @@ def setup(app):
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
     app.add_config_value('hoverxref_roles', [], 'env')
     app.add_config_value('hoverxref_domains', [], 'env')
-
+    app.add_config_value('hoverxref_ignore_refs', ['genindex', 'modindex', 'search'], 'env')
     app.add_config_value('hoverxref_default_types', {}, 'env')
     app.add_config_value('hoverxref_default_type', 'tooltip', 'env')
-
     app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
 
     # Tooltipster settings
@@ -267,6 +286,7 @@ def setup(app):
 
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
+    app.connect('config-inited', is_hoverxref_configured)
     app.connect('config-inited', setup_theme)
     app.connect('build-finished', copy_asset_files)
 

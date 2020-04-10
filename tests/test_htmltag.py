@@ -192,3 +192,32 @@ def test_default_types(app, status, warning):
 
     for chunk in chunks:
         assert chunk in content
+
+
+@pytest.mark.sphinx(
+    srcdir=srcdir,
+    confoverrides={
+        'hoverxref_ignore_refs': [
+            'section i',
+        ],
+    },
+)
+def test_ignore_refs(app, status, warning):
+    app.build()
+    path = app.outdir / 'index.html'
+    assert path.exists() is True
+    content = open(path).read()
+
+    chunks = [
+        '<a class="reference internal" href="chapter-i.html#chapter-i"><span class="std std-ref">This a :ref: to Chapter I</span></a>',
+        '<a class="reference internal" href="chapter-i.html#section-i"><span class="std std-ref">This a :hoverxref: to Chapter I, Section I</span></a>',
+    ]
+
+    for chunk in chunks:
+        assert chunk in content
+
+    ignored_chunks = [
+        '<a class="hoverxref reference internal" data-doc="chapter-i" data-project="myproject" data-section="section-i" data-version="myversion" href="chapter-i.html#section-i"><span class="std std-ref">This a :hoverxref: to Chapter I, Section I</span></a>',
+    ]
+    for chunk in ignored_chunks:
+        assert chunk not in content
