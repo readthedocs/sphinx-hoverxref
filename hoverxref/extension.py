@@ -250,7 +250,7 @@ def setup(app):
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
     app.add_config_value('hoverxref_roles', [], 'env')
     app.add_config_value('hoverxref_domains', [], 'env')
-    app.add_config_value('hoverxref_ignore_refs', ['genindex', 'modindex'], 'env')
+    app.add_config_value('hoverxref_ignore_refs', ['genindex', 'modindex', 'search'], 'env')
     app.add_config_value('hoverxref_default_types', {}, 'env')
     app.add_config_value('hoverxref_default_type', 'tooltip', 'env')
     app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')

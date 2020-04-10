@@ -16,8 +16,7 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_default_types
 
-   Description: Style to use by default when for the embedded content when using ``:hoverxref:`` role.
-   It also affect the style of and ``:ref:``
+   Description: Style to use by default when hover each type of reference (role).
 
    Default: ``{}``
 
@@ -52,6 +51,14 @@ These settings are global and have effect on both, tooltips and modal dialogues.
    Default: ``False``
 
    Type: bool
+
+.. confval:: hoverxref_ignore_refs
+
+   Description: Ignore to add tooltip on specific references. Useful when using :confval:`hoverxref_auto_ref`
+
+   Default: ``['genindex', 'modindex', 'search']``
+
+   Type: list
 
 .. confval:: hoverxref_domains
 
