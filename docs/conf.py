@@ -64,6 +64,7 @@ hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
 hoverxref_roles = [
     'confval',
+    'term',
 ]
 
 hoverxref_role_types = {

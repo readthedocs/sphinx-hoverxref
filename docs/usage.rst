@@ -82,6 +82,35 @@ To enable ``hoverxref`` on a domain, you need to use the config :confval:`hoverx
 indicating which are the domains you desire.
 
 
+Tooltip on glossary/term
+------------------------
+
+.. glossary::
+
+   environment
+      A structure where information about all documents under the root is
+      saved, and used for cross-referencing.  The environment is pickled
+      after the parsing stage, so that successive runs only need to read
+      and parse new and changed documents.
+
+   source directory
+      The directory which, including its subdirectories, contains all
+      source files for one Sphinx project.
+
+   another definition here
+      There are more to communicate here.
+
+.. borrowed from https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-glossary
+
+.. code-block:: rst
+
+   Show a tooltip to :term:`source directory <source directory>` term from glossary.
+
+the previous code will render to:
+
+Show a tooltip to :term:`source directory <source directory>` term from glossary.
+
+
 Tooltip with content that needs extra rendering steps
 -----------------------------------------------------
 
