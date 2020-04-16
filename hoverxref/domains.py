@@ -52,6 +52,16 @@ class HoverXRefBaseDomain:
         return docpath
 
     def _is_ignored_ref(self, env, target):
+        # HACK: skip all references if the builder is non-html. We shouldn't
+        # have overridden the Domain in first instance at ``setup_domains``
+        # function, but at that time ``app.builder`` is not yet initialized. If
+        # we suscribe ourselves to ``builder-initied`` it's too late and our
+        # override does not take effect. Other builders (e.g. LatexBuilder) may
+        # fail with internal functions we use (e.g. builder.get_outfilename).
+        # So, we are skipping it here :(
+        if env.app.builder.format != 'html':
+            return True
+
         if target in env.config.hoverxref_ignore_refs:
             logger.info(
                 'Ignoring reference in hoverxref_ignore_refs. target=%s',

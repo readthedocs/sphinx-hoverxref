@@ -1,43 +1,6 @@
-import os
 import pytest
-import shutil
 
-
-srcdir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'examples',
-    'default',
-)
-
-# srcdir with ``autosectionlabel_prefix_document = True`` config
-prefixdocumentsrcdir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'examples',
-    'prefixdocument',
-)
-
-# srcdir with ``Sphinx.add_object_type`` call
-customobjectsrcdir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'examples',
-    'custom-object',
-)
-
-# srcdir with ``:py:class:`` call
-pythondomainsrcdir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'examples',
-    'python-domain',
-)
-
-
-@pytest.fixture(autouse=True, scope='function')
-def remove_sphinx_build_output():
-    """Remove _build/ folder, if exist."""
-    for path in (srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir):
-        build_path = os.path.join(path, '_build')
-        if os.path.exists(build_path):
-            shutil.rmtree(build_path)
+from .utils import srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir
 
 
 @pytest.mark.sphinx(

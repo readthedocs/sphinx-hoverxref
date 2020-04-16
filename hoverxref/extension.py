@@ -147,31 +147,32 @@ def setup_translators(app):
     and our own ``HoverXRefHTMLTranslatorMixin`` that includes the logic to
     ``_hoverxref`` attributes.
     """
-    if not app.registry.translators.items():
+
+    if app.builder.format != 'html':
+        # do not modify non-html builders
+        return
+
+    for name, klass in app.registry.translators.items():
         translator = types.new_class(
             'HoverXRefHTMLTranslator',
             (
                 HoverXRefHTMLTranslatorMixin,
-                app.builder.default_translator_class,
+                klass,
             ),
             {},
         )
-        app.set_translator(app.builder.name, translator, override=True)
-    else:
-        for name, klass in app.registry.translators.items():
-            if app.builder.format != 'html':
-                # Skip translators that are not HTML
-                continue
+        app.set_translator(name, translator, override=True)
 
-            translator = types.new_class(
-                'HoverXRefHTMLTranslator',
-                (
-                    HoverXRefHTMLTranslatorMixin,
-                    klass,
-                ),
-                {},
-            )
-            app.set_translator(name, translator, override=True)
+    translator = types.new_class(
+        'HoverXRefHTMLTranslator',
+        (
+            HoverXRefHTMLTranslatorMixin,
+            app.builder.default_translator_class,
+        ),
+        {},
+    )
+    app.set_translator(app.builder.name, translator, override=True)
+
 
 
 def is_hoverxref_configured(app, config):
