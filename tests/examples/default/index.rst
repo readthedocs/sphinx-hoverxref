@@ -9,3 +9,10 @@ Using ``hoverxref`` (or ``ref`` if ``hoverxref_auto_ref=True``) should add an ``
 :ref:`This a :ref: to Chapter I <Chapter I>`.
 
 :hoverxref:`This a :hoverxref: to Chapter I, Section I <Section I>`.
+
+.. _example-reference:
+
+Example Reference
+-----------------
+
+This is a reference to :ref:`example-reference`.
