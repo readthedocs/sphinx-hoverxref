@@ -18,7 +18,7 @@ from .utils import srcdir
 )
 def test_dont_override_translator_non_html_builder(app, status, warning):
     app.build()
-    path = app.outdir / 'python.tex'
+    path = app.outdir / 'test.tex'
     assert path.exists() is True
     content = open(path).read()
 
