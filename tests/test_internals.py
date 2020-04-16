@@ -2,6 +2,7 @@ import inspect
 import os
 import pytest
 import shutil
+from unittest import mock
 
 from hoverxref.translators import HoverXRefHTMLTranslatorMixin
 
@@ -68,7 +69,10 @@ def test_dont_fail_non_html_builder(app, status, warning):
 
     LaTeXBuilder should never use our resolver.
     """
-    app.build()
+
+    with mock.patch('hoverxref.domains.HoverXRefBaseDomain._get_docpath') as _get_docpath:
+        app.build()
+        assert not _get_docpath.called
     path = app.outdir / 'test.tex'
     assert path.exists() is True
     content = open(path).read()
