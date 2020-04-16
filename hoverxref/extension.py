@@ -188,9 +188,10 @@ def is_hoverxref_configured(app, config):
     if not project or not version:
         config.hoverxref_is_configured = False
         # ``hoverxref`` extension is not fully configured
-        logger.warning(
+        logger.info(
             'hoverxref extension is not fully configured. '
-            'Set hoverxref_project and hoverxref_version in your conf.py file.',
+            'Tooltips may not work as expected. '
+            'Check out the documentation for hoverxref_project and hoverxref_version configuration options.',
         )
 
 
