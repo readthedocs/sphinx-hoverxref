@@ -147,11 +147,12 @@ def setup_translators(app):
     and our own ``HoverXRefHTMLTranslatorMixin`` that includes the logic to
     ``_hoverxref`` attributes.
     """
-    for name, klass in app.registry.translators.items():
-        if app.builder.format != 'html':
-            # Skip translators that are not HTML
-            continue
 
+    if app.builder.format != 'html':
+        # do not modify non-html builders
+        return
+
+    for name, klass in app.registry.translators.items():
         translator = types.new_class(
             'HoverXRefHTMLTranslator',
             (
