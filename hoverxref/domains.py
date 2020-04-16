@@ -26,11 +26,11 @@ class HoverXRefBaseDomain:
             if not type_class:
                 default = env.config.hoverxref_default_type
                 type_class = default
-                logger.warning(
-                    'Using default style for unknown typ. '
-                    'Define it in hoverxref_role_types. typ=%s style=%s',
-                    typ,
+                logger.info(
+                    'Using default style (%s) for unknown typ (%s). '
+                    'Define it in hoverxref_role_types.',
                     default,
+                    typ,
                 )
             classes.append(type_class)
 
@@ -84,7 +84,7 @@ class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
         docname, labelid = obj[0], name
         docpath = self._get_docpath(builder, docname)
         self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
-        logger.info(
+        logger.debug(
             ':ref: _hoverxref injected: fromdocname=%s %s',
             fromdocname,
             refnode._hoverxref,
@@ -128,7 +128,7 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
         docname, labelid, _ = get_ref_xref_data(self, node, target)
         docpath = self._get_docpath(builder, docname)
         self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
-        logger.info(
+        logger.debug(
             ':ref: _hoverxref injected: fromdocname=%s %s',
             fromdocname,
             refnode._hoverxref,
@@ -150,7 +150,7 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
         docname, labelid = get_ref_obj_data(self, node, typ, target)
         docpath = self._get_docpath(builder, docname)
         self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
-        logger.info(
+        logger.debug(
             ':%s: _hoverxref injected: fromdocname=%s %s',
             typ,
             fromdocname,

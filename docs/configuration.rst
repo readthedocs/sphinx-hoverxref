@@ -100,6 +100,13 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. _Mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax
 
+
+.. warning::
+
+   You shouldn't modify the following three settings (api_host, project, version) unless you know what you are doing.
+   Their defaults should be fine to build the documentation and make it work in Read the Docs.
+
+
 .. confval:: hoverxref_api_host
 
    Description: Host URL for the API to retrieve the content of the floating window
