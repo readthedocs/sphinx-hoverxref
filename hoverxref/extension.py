@@ -248,6 +248,7 @@ def setup(app):
     app.add_config_value('hoverxref_project', default_project, 'html')
     app.add_config_value('hoverxref_version', default_version, 'html')
     app.add_config_value('hoverxref_auto_ref', False, 'env')
+    app.add_config_value('hoverxref_auto_doc', False, 'env')
     app.add_config_value('hoverxref_mathjax', False, 'env')
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
     app.add_config_value('hoverxref_roles', [], 'env')

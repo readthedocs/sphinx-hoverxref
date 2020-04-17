@@ -38,6 +38,29 @@ def test_project_version_settings(app, status, warning):
     chunks = [
         '<a class="reference internal" href="chapter-i.html#chapter-i"><span class="std std-ref">This a :ref: to Chapter I</span></a>',
         '<a class="hoverxref tooltip reference internal" data-doc="chapter-i" data-docpath="/chapter-i.html" data-project="myproject" data-section="section-i" data-version="myversion" href="chapter-i.html#section-i"><span class="std std-ref">This a :hoverxref: to Chapter I, Section I</span></a>',
+        '<a class="reference internal" href="chapter-i.html"><span class="doc">This is a :doc: to another document</span></a>',
+    ]
+
+    for chunk in chunks:
+        assert chunk in content
+
+
+@pytest.mark.sphinx(
+    srcdir=srcdir,
+    confoverrides={
+        'hoverxref_project': 'myproject',
+        'hoverxref_version': 'myversion',
+        'hoverxref_auto_doc': True,
+    },
+)
+def test_doc_role(app, status, warning):
+    app.build()
+    path = app.outdir / 'index.html'
+    assert path.exists() is True
+    content = open(path).read()
+
+    chunks = [
+        '<a class="hoverxref tooltip reference internal" data-doc="chapter-i" data-docpath="/chapter-i.html" data-project="myproject" data-section="" data-version="myversion" href="chapter-i.html"><span class="doc">This is a :doc: to another document</span></a>',
     ]
 
     for chunk in chunks:
