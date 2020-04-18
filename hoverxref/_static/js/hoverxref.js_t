@@ -63,7 +63,7 @@ function getEmbedURL(project, version, doc, docpath, section) {
         'docpath': docpath,
         'section': section,
     }
-    console.debug('Data: ' + params);
+    console.debug('Data: ' + JSON.stringify(params));
     var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param(params);
     console.debug('URL: ' + url);
     return url
