@@ -80,6 +80,15 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    Type: list
 
+
+.. confval:: hoverxref_number_paragraphs
+
+   Description: Number of paragraphs to shown in the embed content of the tooltip
+
+   Default: ``4``
+
+   Type: int
+
 .. confval:: hoverxref_sphinxtabs
 
    Description: trigger an extra step to render tooltips where its content has a `Sphinx Tabs`_
