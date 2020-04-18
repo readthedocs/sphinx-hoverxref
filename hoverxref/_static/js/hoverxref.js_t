@@ -55,6 +55,20 @@ function reLoadSphinxTabs() {
     };
 };
 
+function getEmbedURL(project, version, doc, docpath, section) {
+    var params = {
+        'project': project,
+        'version': version,
+        'doc': doc,
+        'docpath': docpath,
+        'section': section,
+    }
+    console.debug('Data: ' + params);
+    var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param(params);
+    console.debug('URL: ' + url);
+    return url
+}
+
 
 $(document).ready(function() {
     $('.hoverxref.tooltip').tooltipster({
@@ -74,12 +88,10 @@ $(document).ready(function() {
             var docpath = $origin.data('docpath');
             var section = $origin.data('section');
 
-            console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' path=' + docpath + ' section=' + section);
 
             // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
             if ($origin.data('loaded') !== true) {
-                // TODO: improve URL handling here
-                var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&path=' + docpath + '&section=' + section;
+                var url = getEmbedURL(project, version, doc, docpath, section);
                 $.get(url, function(data) {
                     // call the 'content' method to update the content of our tooltip with the returned data.
                     // note: this content update will trigger an update animation (see the updateAnimation option)
@@ -148,9 +160,8 @@ $(document).ready(function() {
         var doc = element.data('doc');
         var docpath = element.data('docpath');
         var section = element.data('section');
-        console.debug('Data: project=' + project + ' version=' + version + ' doc=' + doc + ' path=' + docpath + ' section=' + section);
-        var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + 'project=' + project + '&version=' + version + '&doc=' + doc + '&path=' + docpath + '&section=' + section;
 
+        var url = getEmbedURL(project, version, doc, docpath, section);
         $.get(url, function(data) {
             var content = $('<div></div>');
             content.html(data['content'][0]);
