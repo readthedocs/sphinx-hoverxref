@@ -1,5 +1,5 @@
 from sphinx.util import logging
-from .utils import get_ref_xref_data, get_ref_obj_data
+from .utils import get_ref_xref_data, get_ref_obj_data, get_ref_numref_data
 
 logger = logging.getLogger(__name__)
 
@@ -158,6 +158,30 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
             return refnode
 
         docname, labelid = get_ref_obj_data(self, node, typ, target)
+        docpath = self._get_docpath(builder, docname)
+        self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
+        logger.debug(
+            ':%s: _hoverxref injected: fromdocname=%s %s',
+            typ,
+            fromdocname,
+            refnode._hoverxref,
+        )
+        return refnode
+
+    # TODO: combine this method with ``_resolve_obj_xref``
+    def _resolve_numref_xref(self, env, fromdocname, builder, typ, target, node, contnode):
+        refnode = super()._resolve_numref_xref(env, fromdocname, builder, typ, target, node, contnode)
+        if refnode is None:
+            return refnode
+
+        if any([
+                not env.config.hoverxref_is_configured,
+                self._is_ignored_ref(env, target),
+                typ not in env.config.hoverxref_roles,
+        ]):
+            return refnode
+
+        docname, labelid = get_ref_numref_data(self, node, typ, target)
         docpath = self._get_docpath(builder, docname)
         self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
         logger.debug(

@@ -106,6 +106,7 @@ def test_custom_object(app, status, warning):
     chunks = [
         '<a class="hoverxref tooltip reference internal" data-doc="configuration" data-docpath="/configuration.html" data-project="myproject" data-section="confval-conf-title" data-version="myversion" href="configuration.html#confval-conf-title"><code class="xref std std-confval docutils literal notranslate"><span class="pre">This</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">:confval:</span> <span class="pre">to</span> <span class="pre">conf-title</span></code></a>',
         '<a class="hoverxref tooltip reference internal" data-doc="configuration" data-docpath="/configuration.html" data-project="myproject" data-section="configuration" data-version="myversion" href="configuration.html#configuration"><span class="std std-ref">This is a :hoverxref: to Configuration document</span></a>',
+        '<a class="hoverxref tooltip reference internal" data-doc="code" data-docpath="/code.html" data-project="myproject" data-section="python-code-block" data-version="myversion" href="code.html#python-code-block"><span class="std std-numref">This is a :numref: to a Python code block (PyExample)</span></a>'
     ]
 
     for chunk in chunks:

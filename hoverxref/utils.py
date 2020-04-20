@@ -52,3 +52,25 @@ def get_ref_obj_data(domain, node, typ, target):
                 docname, labelid = domain.objects[objtype, target]
                 break
     return docname, labelid
+
+
+def get_ref_numref_data(domain, node, typ, target):
+    """
+    Use Sphinx's internals to resolve :numref: and returns this data.
+
+    :returns: tuple (``docname``, ``labelid``)
+    """
+    # Borrowed from https://github.com/sphinx-doc/sphinx/blob/47cd262b3e50ed650a82f272ba128a1f872cda4d/sphinx/domains/std.py#L699-L702
+    if sphinx.version_info < (2, 1):
+        if node['refexplicit']:
+            docname, labelid = domain.data['anonlabels'].get(target, ('', ''))
+        else:
+            # reference to named label; the final node will
+            # contain the section name after the label
+            docname, labelid, sectname = domain.data['labels'].get(target, ('', '', ''))
+    else:
+        if target in domain.labels:
+            docname, labelid, figname = domain.labels.get(target, ('', '', ''))
+        else:
+            docname, labelid = domain.anonlabels.get(target, ('', ''))
+    return docname, labelid
