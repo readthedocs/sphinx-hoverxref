@@ -20,6 +20,8 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    Default: ``{}``
 
+   Type: dictionary
+
    Example:
 
    .. code-block:: python
@@ -32,7 +34,6 @@ These settings are global and have effect on both, tooltips and modal dialogues.
           'class': 'tooltip',  # for Python Sphinx Domain
       }
 
-   Type: dictionary
 
 .. confval:: hoverxref_default_type
 
