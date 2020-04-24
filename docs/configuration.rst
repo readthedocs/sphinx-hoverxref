@@ -80,6 +80,17 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    Type: list
 
+   Example:
+
+   .. code-block:: python
+
+      hoverxref_roles = [
+          'numref',
+          'confval',
+          'setting',
+      ]
+
+
 .. confval:: hoverxref_sphinxtabs
 
    Description: trigger an extra step to render tooltips where its content has a `Sphinx Tabs`_
