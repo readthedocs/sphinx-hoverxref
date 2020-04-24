@@ -16,3 +16,8 @@ Example Reference
 -----------------
 
 This is a reference to :ref:`example-reference`.
+
+doc role example
+----------------
+
+:doc:`This is a :doc: to another document <chapter-i>`.

@@ -1,4 +1,5 @@
 import sphinx
+from sphinx.util import docname_join
 
 
 def get_ref_xref_data(domain, node, target):
@@ -52,3 +53,18 @@ def get_ref_obj_data(domain, node, typ, target):
                 docname, labelid = domain.objects[objtype, target]
                 break
     return docname, labelid
+
+
+def get_ref_doc_data(env, node, fromdocname):
+    """
+    Use Sphinx's internals to get the docname from a reftarget.
+
+    :returns: docname
+    :rtype: str
+    """
+    # Borrowed from https://github.com/sphinx-doc/sphinx/blob/6ef08a42df4534dbb2664d49dc10a16f6df2acb2/sphinx/domains/std.py#L791-L749
+    refdoc = node.get('refdoc', fromdocname)
+    docname = docname_join(refdoc, node['reftarget'])
+    if docname not in env.all_docs:
+        return None
+    return docname

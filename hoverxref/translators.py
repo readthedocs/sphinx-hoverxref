@@ -15,6 +15,7 @@ class HoverXRefHTMLTranslatorMixin:
     def starttag(self, node, tagname, suffix='\n', empty=False, **attributes):
         if tagname == 'a' and hasattr(node, '_hoverxref'):
             attributes.update(node._hoverxref)
-            logger.info('_hoverxref attributes: %s', attributes)
+            logger.debug('node.astext: %s', node.astext())
+            logger.debug('_hoverxref attributes: %s', attributes)
 
         return super().starttag(node, tagname, suffix, empty, **attributes)
