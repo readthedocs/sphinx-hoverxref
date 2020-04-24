@@ -10,8 +10,10 @@ hoverxref_project = 'myproject'
 hoverxref_version = 'myversion'
 hoverxref_roles = [
     'confval',
+    'numref',
 ]
 
+numfig = True
 
 def setup(app):
     app.add_object_type(
