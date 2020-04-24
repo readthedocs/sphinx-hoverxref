@@ -65,8 +65,8 @@ def test_js_render(app, status, warning):
         "animationDuration: 0",
         "content: 'Loading...'",
         "var url = 'https://readthedocs.org' + '/api/v2/embed/?' + $.param(params);",
-        "var sphinxtabs = 'false'",
-        "var mathjax = 'false'",
+        "var sphinxtabs = false",
+        "var mathjax = false",
     ]
 
     for chunk in chunks:
