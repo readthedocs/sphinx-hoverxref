@@ -71,6 +71,9 @@ function getEmbedURL(project, version, doc, docpath, section) {
 
 
 $(document).ready(function() {
+
+
+
     $('.hoverxref.tooltip').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
@@ -154,14 +157,15 @@ $(document).ready(function() {
     }
     {% endif %}
 
-    function showModal(element) {
-        var project = element.data('project');
-        var version = element.data('version');
-        var doc = element.data('doc');
-        var docpath = element.data('docpath');
-        var section = element.data('section');
+    function showModal(element, a) {
+        // var project = element.data('project');
+        // var version = element.data('version');
+        // var doc = element.data('doc');
+        // var docpath = element.data('docpath');
+        // var section = element.data('section');
+        // var url = getEmbedURL(project, version, doc, docpath, section);
 
-        var url = getEmbedURL(project, version, doc, docpath, section);
+        var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param({'url': a.href});
         $.get(url, function(data) {
             var content = $('<div></div>');
             content.html(data['content'][0]);
@@ -203,13 +207,18 @@ $(document).ready(function() {
     };
 
     var delay = {{ hoverxref_modal_hover_delay }}, setTimeoutConst;
-    $('.hoverxref.modal').hover(function(event) {
+    $('a').hover(function(event) {
+       var a = this;
+       console.log('Domain: ', a.hostname)
+       console.log('URL: ', a.href)
+       var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param({'url': a.href});
+
         var element = $(this);
         console.debug('Event: ' + event + ' Element: ' + element);
         event.preventDefault();
 
         setTimeoutConst = setTimeout(function(){
-            showModal(element);
+            showModal(element, a);
         }, delay);
     }, function(){
         clearTimeout(setTimeoutConst);
