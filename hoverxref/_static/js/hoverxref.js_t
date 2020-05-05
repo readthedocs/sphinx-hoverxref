@@ -67,6 +67,8 @@ function getEmbedURL(project, version, doc, docpath, section, a) {
         console.log('Embed Domain: ', a.hostname)
         console.log('Embed URL: ', a.href)
         var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param({'url': a.href});
+        console.debug('API URL: ' + url);
+        return url
     } else {
         console.debug('Data: ' + JSON.stringify(params));
         var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param(params);
@@ -93,7 +95,7 @@ $(document).ready(function() {
             var doc = $origin.data('doc');
             var docpath = $origin.data('docpath');
             var section = $origin.data('section');
-            var a = $origin
+            var a = $origin[0];
 
 
             // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
@@ -161,13 +163,13 @@ $(document).ready(function() {
     }
     {% endif %}
 
-    function showModal(element, a) {
-        // var project = element.data('project');
-        // var version = element.data('version');
-        // var doc = element.data('doc');
-        // var docpath = element.data('docpath');
-        // var section = element.data('section');
-        var url = getEmbedURL(project, version, doc, docpath, section, a);
+    function showModal(element) {
+        var project = element.data('project');
+        var version = element.data('version');
+        var doc = element.data('doc');
+        var docpath = element.data('docpath');
+        var section = element.data('section');
+        var url = getEmbedURL(project, version, doc, docpath, section, element);
 
         $.get(url, function(data) {
             var content = $('<div></div>');
@@ -210,11 +212,12 @@ $(document).ready(function() {
     };
 
     var delay = {{ hoverxref_modal_hover_delay }}, setTimeoutConst;
-    $('a').hover(function(event) {
-        var a = this;
+    $('.hoverxref.modal').hover(function(event) {
+        var element = $(this);
+        console.debug('Event: ' + event + ' Element: ' + element);
         event.preventDefault();
         setTimeoutConst = setTimeout(function(){
-            showModal(element, a);
+            showModal(element);
         }, delay);
     }, function(){
         clearTimeout(setTimeoutConst);
