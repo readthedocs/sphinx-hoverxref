@@ -55,7 +55,7 @@ function reLoadSphinxTabs() {
     };
 };
 
-function getEmbedURL(project, version, doc, docpath, section) {
+function getEmbedURL(project, version, doc, docpath, section, a) {
     var params = {
         'project': project,
         'version': version,
@@ -63,18 +63,21 @@ function getEmbedURL(project, version, doc, docpath, section) {
         'docpath': docpath,
         'section': section,
     }
-    console.debug('Data: ' + JSON.stringify(params));
-    var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param(params);
-    console.debug('URL: ' + url);
-    return url
+    if (a) {
+        console.log('Embed Domain: ', a.hostname)
+        console.log('Embed URL: ', a.href)
+        var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param({'url': a.href});
+    } else {
+        console.debug('Data: ' + JSON.stringify(params));
+        var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param(params);
+        console.debug('URL: ' + url);
+        return url
+    }
 }
 
 
 $(document).ready(function() {
-
-
-
-    $('.hoverxref.tooltip').tooltipster({
+    $('a').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
         maxWidth: {{ hoverxref_tooltip_maxwidth }},
@@ -90,11 +93,12 @@ $(document).ready(function() {
             var doc = $origin.data('doc');
             var docpath = $origin.data('docpath');
             var section = $origin.data('section');
+            var a = $origin
 
 
             // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
             if ($origin.data('loaded') !== true) {
-                var url = getEmbedURL(project, version, doc, docpath, section);
+                var url = getEmbedURL(project, version, doc, docpath, section, a);
                 $.get(url, function(data) {
                     // call the 'content' method to update the content of our tooltip with the returned data.
                     // note: this content update will trigger an update animation (see the updateAnimation option)
@@ -163,9 +167,8 @@ $(document).ready(function() {
         // var doc = element.data('doc');
         // var docpath = element.data('docpath');
         // var section = element.data('section');
-        // var url = getEmbedURL(project, version, doc, docpath, section);
+        var url = getEmbedURL(project, version, doc, docpath, section, a);
 
-        var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param({'url': a.href});
         $.get(url, function(data) {
             var content = $('<div></div>');
             content.html(data['content'][0]);
@@ -208,15 +211,8 @@ $(document).ready(function() {
 
     var delay = {{ hoverxref_modal_hover_delay }}, setTimeoutConst;
     $('a').hover(function(event) {
-       var a = this;
-       console.log('Domain: ', a.hostname)
-       console.log('URL: ', a.href)
-       var url = '{{ hoverxref_api_host }}' + '/api/v2/embed/?' + $.param({'url': a.href});
-
-        var element = $(this);
-        console.debug('Event: ' + event + ' Element: ' + element);
+        var a = this;
         event.preventDefault();
-
         setTimeoutConst = setTimeout(function(){
             showModal(element, a);
         }, delay);
