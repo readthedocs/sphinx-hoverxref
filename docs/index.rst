@@ -19,11 +19,11 @@ We currently support two different types of floating windows: Tooltip and Modal.
 
       .. code-block:: rst
 
-         This will :hoverxref:`show a floating window <hoverxref:hoverxref>` in the linked words.
+         This will :hoverxref:`show a floating window <hoverxref_file:hoverxref_section>` in the linked words.
 
       it will be rendered to:
 
-      This will :hoverxref:`show a floating window <hoverxref:hoverxref>` in the linked words.
+      This will :hoverxref:`show a floating window <hoverxref_file:hoverxref_section>` in the linked words.
 
       .. note::
 
@@ -36,11 +36,11 @@ We currently support two different types of floating windows: Tooltip and Modal.
 
       .. code-block:: rst
 
-         This will :hoverxreftooltip:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+         This will :hoverxreftooltip:`show a tooltip <hoverxref_file:hoverxref_section>` in the linked words.
 
       it will be rendered to:
 
-      This will :hoverxreftooltip:`show a tooltip <hoverxref:hoverxref>` in the linked words.
+      This will :hoverxreftooltip:`show a tooltip <hoverxref_file:hoverxref_section>` in the linked words.
 
 
    .. tab:: Modal style
@@ -49,11 +49,11 @@ We currently support two different types of floating windows: Tooltip and Modal.
 
       .. code-block:: rst
 
-         This will :hoverxrefmodal:`show a modal <hoverxref:hoverxref>` in the linked words.
+         This will :hoverxrefmodal:`show a modal <hoverxref_file:hoverxref_section>` in the linked words.
 
       it will be rendered to:
 
-      This will :hoverxrefmodal:`show a modal <hoverxref:hoverxref>` in the linked words.
+      This will :hoverxrefmodal:`show a modal <hoverxref_file:hoverxref_section>` in the linked words.
 
 .. tip::
 
