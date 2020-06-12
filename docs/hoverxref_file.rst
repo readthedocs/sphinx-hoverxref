@@ -1,8 +1,8 @@
 :orphan:
 
-==================
+===================
  hoverxref_section
-==================
+===================
 
 Hi from another completely different page!
 
