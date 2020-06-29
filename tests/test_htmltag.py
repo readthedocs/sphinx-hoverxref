@@ -1,4 +1,5 @@
 import pytest
+import textwrap
 
 from .utils import srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir
 
@@ -65,6 +66,14 @@ def test_js_render(app, status, warning):
         "animationDuration: 0",
         "content: 'Loading...'",
         "var url = 'https://readthedocs.org' + '/api/v2/embed/?' + $.param(params);",
+        textwrap.indent(textwrap.dedent("""
+        var params = {
+            'project': project,
+            'version': version,
+            'doc': doc,
+            'path': docpath,
+            'section': section,
+        }"""), '    ').strip(),
         "var sphinxtabs = false",
         "var mathjax = false",
     ]

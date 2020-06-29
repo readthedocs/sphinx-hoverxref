@@ -60,7 +60,7 @@ function getEmbedURL(project, version, doc, docpath, section) {
         'project': project,
         'version': version,
         'doc': doc,
-        'docpath': docpath,
+        'path': docpath,
         'section': section,
     }
     console.debug('Data: ' + JSON.stringify(params));
