@@ -56,6 +56,11 @@ hoverxref_api_host = 'http://localhost:8000'
 if os.environ.get('READTHEDOCS') == 'True':
     # Building on Read the Docs
     hoverxref_api_host = 'https://readthedocs.org'
+
+    if os.environ.get('PROXIED_API_ENDPOINT') == 'True':
+        # Use the proxied API endpoint
+        hoverxref_api_host = '/_'
+
 if os.environ.get('LOCAL_READTHEDOCS') == 'True':
     # Building on a local Read the Docs instance
     hoverxref_api_host = 'http://community.dev.readthedocs.io'
