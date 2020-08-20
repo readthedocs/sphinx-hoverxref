@@ -3,6 +3,7 @@ import inspect
 import types
 from docutils import nodes
 import sphinx
+from sphinx.ext.intersphinx import missing_reference as sphinx_missing_reference
 from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
@@ -137,6 +138,47 @@ def setup_sphinx_tabs(app, config):
         module_name = inspect.getmodule(function).__name__
         if module_name == 'sphinx_tabs.tabs':
             app.disconnect(listener_id)
+
+
+def setup_intersphinx(app, config):
+    """
+    Disconnect ``missing-reference`` from ``sphinx.ext.intershinx``.
+
+    As there is no way to hook into the ``missing_referece`` function to add
+    some extra data to the disutils node returned by this function, we
+    disconnect the original listener and add our custom one.
+
+    https://github.com/sphinx-doc/sphinx/blob/53c1dff/sphinx/ext/intersphinx.py
+    """
+    if sphinx.version_info < (3, 0, 0):
+        listeners = list(app.events.listeners.get('missing-reference').items())
+    else:
+        listeners = [
+            (listener.id, listener.handler)
+            for listener in app.events.listeners.get('missing-reference')
+        ]
+    for listener_id, function in listeners:
+        module_name = inspect.getmodule(function).__name__
+        if module_name == 'sphinx.ext.intersphinx':
+            app.disconnect(listener_id)
+
+
+def missing_reference(app, env, node, contnode):
+    """
+    Override original ``missing_referece`` to add data into the node.
+
+    We call the original intersphinx extension and add hoverxref CSS classes
+    plus the ``data-url`` to the node returned from it.
+    """
+    newnode = sphinx_missing_reference(app, env, node, contnode)
+    if newnode is not None:
+        classes = newnode.get('classes')
+        classes.extend(['hoverxref', 'modal'])
+        newnode.replace_attr('classes', classes)
+        newnode._hoverxref = {
+            'data-url': newnode.get('refuri'),
+        }
+    return newnode
 
 
 def setup_translators(app):
@@ -288,9 +330,12 @@ def setup(app):
 
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
+    app.connect('config-inited', setup_intersphinx)
     app.connect('config-inited', is_hoverxref_configured)
     app.connect('config-inited', setup_theme)
     app.connect('build-finished', copy_asset_files)
+
+    app.connect('missing-reference', missing_reference)
 
     for f in ASSETS_FILES:
         if f.endswith('.js') or f.endswith('.js_t'):
