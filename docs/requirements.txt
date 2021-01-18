@@ -1,6 +1,6 @@
 sphinx==1.8.5  # pyup: ignore
 sphinx-autoapi==1.5.1
-sphinx-rtd-theme==0.5.0
+sphinx-rtd-theme==0.5.1
 
 # Newer versions drop support for Sphinx<2 and
 # Sphinx>2 is not detecting that MathJax is enabled
