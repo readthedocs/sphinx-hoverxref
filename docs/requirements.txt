@@ -1,5 +1,5 @@
-sphinx==1.8.5  # pyup: ignore
-sphinx-autoapi==1.5.1
+sphinx==3.4.3
+sphinx-autoapi==1.7.0
 sphinx-rtd-theme==0.5.1
 
 # Newer versions drop support for Sphinx<2 and
