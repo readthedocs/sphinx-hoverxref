@@ -26,8 +26,15 @@ function reRenderTooltip (instance, helper) {
 
 
 function reLoadMathJax(elementId) {
-    console.debug('Triggering MathJax.Hub.Typeset()');
-    MathJax.Hub.Queue((["Typeset", MathJax.Hub, elementId]));
+    console.debug('Typesetting new node');
+
+    if (parseInt(MathJax.version[0]) >= 3) {
+        MathJax.typesetPromise([elementId]).then(() => {
+            // the new content is has been typeset
+        });
+    } else {
+        MathJax.Hub.Queue((["Typeset", MathJax.Hub, elementId]));
+    }
 }
 
 
