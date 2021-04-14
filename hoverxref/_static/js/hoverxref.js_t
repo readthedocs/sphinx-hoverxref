@@ -27,10 +27,10 @@ function reRenderTooltip (instance, helper) {
 
 function reLoadMathJax(elementId) {
     if (parseInt(MathJax.version[0]) >= 3) {
-        console.debug('Typesetting for Mathjax3);
-        MathJax.typeset();)
+        console.debug('Typesetting for Mathjax3');
+        MathJax.typeset();
     } else {
-        console.debug('Typesetting for MathJax2);
+        console.debug('Typesetting for MathJax2');
         MathJax.Hub.Queue((["Typeset", MathJax.Hub, elementId]));
     }
 }
