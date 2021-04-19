@@ -1,4 +1,10 @@
-sphinx==3.5.4
+# Sphinx 3.5.x includes a feature to only include the JS and CSS on the pages
+# that they are used. This conflicts when we render content that uses MathJax,
+# since the page that shows the tooltip does not has MathJax loaded, but the
+# content rendered inside the tooltip requires it to work.
+# https://github.com/sphinx-doc/sphinx/pull/8631
+sphinx==3.4.3  # pyup: <3.5
+
 sphinx-autoapi==1.7.0
 sphinx-rtd-theme==0.5.2
 
