@@ -93,6 +93,15 @@ These actions are usually calling a Javascript function.
 ``hoverxref`` is prepared to support this type of content and currently supports rendering
 `sphinx-tabs`_ and mathjax_.
 
+.. warning::
+
+   Note that Sphinx>3.5 adds `a feature to only include JS/CSS in pages where they are used`_ instead of in all the pages.
+   This `may affect the rendering of tooltips`_ that includes content requiring extra rendering steps.
+   **Make sure you are using Sphinx 3.4.x** if you require rendering this type of content in your tooltips.
+
+   .. _a feature to only include JS/CS in pages where they are used: https://github.com/sphinx-doc/sphinx/pull/8631
+   .. _may affect the rendering of tooltips: https://github.com/sphinx-doc/sphinx/issues/9115
+
 
 Tooltip with ``sphinx-tabs``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
