@@ -25,7 +25,7 @@ This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words 
 Tooltip on intersphinx content
 ------------------------------
 
-Sphinx comes with a nice built-in extension called :ref:`sphinx.ext.intersphinx <sphinx:usage/extensions/intersphinx>`
+Sphinx comes with a nice built-in extension called :doc:`sphinx.ext.intersphinx <sphinx:usage/extensions/intersphinx>`
 that allows to generate links to the documentation of sections in other projects.
 
 You can combine this extension with ``sphinx-hoverxref`` to show tooltips over these links to other projects.
@@ -34,11 +34,11 @@ to do the following:
 
 .. code-block:: rst
 
-   Show a tooltip for :ref:`Read the Docs configuration file <readthedocs:config-file/v2>`.
+   Show a tooltip for :doc:`Read the Docs configuration file <readthedocs:config-file/v2>`.
 
 That will render to:
 
-Show a tooltip for :ref:`Read the Docs configuration file <readthedocs:config-file/v2>`.
+Show a tooltip for :doc:`Read the Docs configuration file <readthedocs:config-file/v2>`.
 
 .. warning::
 
