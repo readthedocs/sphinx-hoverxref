@@ -34,11 +34,11 @@ to do the following:
 
 .. code-block:: rst
 
-   Show a tooltip for :doc:`Read the Docs configuration file <readthedocs:config-file/v2>`.
+   Show a tooltip for :doc:`Read the Docs automation rules <readthedocs:automation-rules>`.
 
 That will render to:
 
-Show a tooltip for :doc:`Read the Docs configuration file <readthedocs:config-file/v2>`.
+Show a tooltip for :doc:`Read the Docs automation rules <readthedocs:automation-rules>`.
 
 .. warning::
 
