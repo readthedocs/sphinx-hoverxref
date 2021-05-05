@@ -13,6 +13,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import datetime
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -20,7 +21,8 @@ import os
 # -- Project information -----------------------------------------------------
 
 project = 'sphinx-hoverxref'
-copyright = '2019, Manuel Kaufmann'
+year = datetime.datetime.now().year
+copyright = f'{year}, Manuel Kaufmann'
 author = 'Manuel Kaufmann'
 
 # The short X.Y version
