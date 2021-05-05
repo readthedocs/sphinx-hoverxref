@@ -149,6 +149,8 @@ def setup_intersphinx(app, config):
     disconnect the original listener and add our custom one.
 
     https://github.com/sphinx-doc/sphinx/blob/53c1dff/sphinx/ext/intersphinx.py
+
+    Note that ``hoverxref.extension`` has to be installed **after** ``sphinx.ext.intersphinx``.
     """
     if sphinx.version_info < (3, 0, 0):
         listeners = list(app.events.listeners.get('missing-reference').items())
@@ -171,9 +173,11 @@ def missing_reference(app, env, node, contnode):
     plus the ``data-url`` to the node returned from it.
     """
     newnode = sphinx_missing_reference(app, env, node, contnode)
-    if newnode is not None:
+    intersphinx_enabled = app.config.hoverxref_intersphinx or app.config.hoverxref_auto_ref
+    hoverxref_type = app.config.hoverxref_intersphinx_type or app.config.hoverxref_default_type
+    if newnode is not None and intersphinx_enabled:
         classes = newnode.get('classes')
-        classes.extend(['hoverxref', 'modal'])
+        classes.extend(['hoverxref', hoverxref_type])
         newnode.replace_attr('classes', classes)
         newnode._hoverxref = {
             'data-url': newnode.get('refuri'),
@@ -297,6 +301,8 @@ def setup(app):
     app.add_config_value('hoverxref_ignore_refs', ['genindex', 'modindex', 'search'], 'env')
     app.add_config_value('hoverxref_role_types', {}, 'env')
     app.add_config_value('hoverxref_default_type', 'tooltip', 'env')
+    app.add_config_value('hoverxref_intersphinx', False, 'env')
+    app.add_config_value('hoverxref_intersphinx_type', None, 'env')
     app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
 
     # Tooltipster settings

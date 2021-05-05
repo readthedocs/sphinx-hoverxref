@@ -214,8 +214,8 @@ def test_intersphinx(app, status, warning):
     content = open(path).read()
 
     chunks = [
-        '<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>.',
-        '<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>.</p>',
+        f'<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>.',
+        f'<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>.</p>',
     ]
 
     for chunk in chunks:
