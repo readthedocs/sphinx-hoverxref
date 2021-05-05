@@ -91,10 +91,27 @@ These settings are global and have effect on both, tooltips and modal dialogues.
           'setting',
       ]
 
+.. confval:: hoverxref_intersphinx
+
+   Description: Whether or not enable Sphinx's hoverxref extension on intersphinx links.
+
+   Default: ``False``
+
+   Type: bool
+
+.. confval:: hoverxref_intersphinx_type
+
+   Description: Style used for intersphinx links.
+
+   Default: ``None``. It uses :confval:`hoverxref_default_type` if not defined.
+
+   Options: ``tooltip`` or ``modal``
+
+   Type: str
 
 .. confval:: hoverxref_sphinxtabs
 
-   Description: trigger an extra step to render tooltips where its content has a `Sphinx Tabs`_
+   Description: Trigger an extra step to render tooltips where its content has a `Sphinx Tabs`_
 
    Default: ``False``
 
@@ -104,7 +121,7 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_mathjax
 
-   Description: trigger an extra step to render tooltips where its content has a `Mathjax`_
+   Description: Trigger an extra step to render tooltips where its content has a `Mathjax`_
 
    Default: ``False``
 

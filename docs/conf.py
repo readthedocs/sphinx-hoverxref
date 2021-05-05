@@ -41,6 +41,7 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.intersphinx',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.mathjax',
     'sphinx_tabs.tabs',
@@ -50,6 +51,13 @@ extensions = [
     'versionwarning.extension',
     'notfound.extension',
 ]
+
+intersphinx_mapping = {
+    'readthedocs': ('https://docs.readthedocs.io/en/stable/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
+hoverxref_intersphinx = True
+hoverxref_intersphinx_type = 'modal'
 
 # Used when building the documentation from the terminal and using a local Read
 # the Docs instance as backend
