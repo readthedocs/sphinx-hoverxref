@@ -1,7 +1,7 @@
 import pytest
 import textwrap
 
-from .utils import srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir
+from .utils import srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir, intersphinxsrc
 
 
 @pytest.mark.sphinx(
@@ -68,14 +68,20 @@ def test_js_render(app, status, warning):
         "var url = 'https://readthedocs.org' + '/api/v2/embed/?' + $.param(params);",
         textwrap.indent(textwrap.dedent("""
         var params = {
-            'project': project,
-            'version': version,
-            'doc': doc,
-            'path': docpath,
-            'section': section,
-        }"""), '    ').strip(),
+                'project': project,
+                'version': version,
+                'doc': doc,
+                'path': docpath,
+                'section': section,
+            }"""), '    ').strip(),
+        textwrap.indent(textwrap.dedent("""
+        var params = {
+                'url': url,
+            }"""), '    ').strip(),
         "var sphinxtabs = false",
         "var mathjax = false",
+        "var url = $origin.data('url');",
+        "var url = getEmbedURL(project, version, doc, docpath, section, url);",
     ]
 
     for chunk in chunks:
@@ -196,3 +202,21 @@ def test_ignore_refs(app, status, warning):
     ]
     for chunk in ignored_chunks:
         assert chunk not in content
+
+
+@pytest.mark.sphinx(
+    srcdir=intersphinxsrc,
+)
+def test_intersphinx(app, status, warning):
+    app.build()
+    path = app.outdir / 'index.html'
+    assert path.exists() is True
+    content = open(path).read()
+
+    chunks = [
+        '<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>.',
+        '<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>.</p>',
+    ]
+
+    for chunk in chunks:
+        assert chunk in content
