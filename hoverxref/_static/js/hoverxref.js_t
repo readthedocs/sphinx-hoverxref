@@ -44,18 +44,37 @@ function reLoadSphinxTabs() {
             // HACK: please, improve this code to call the content of "tab.js" without creating a script element
 
             // Get the URL from the current generated page since it's not always the same
-            var src = $('script[src$="sphinx_tabs/tabs.js"]')[0].src;
+            var older_tabs_src = $('script[src$="sphinx_tabs/tabs.js"]');
+            if (older_tabs_src.length != 0) {
+                // sphinx-tabs < 2
+                older_tabs_src = older_tabs_src[0].older_tabs_src
+                script = d.createElement('script');
+                script.type = 'text/javascript';
+                script.onload = function(){
+                    // remote script has loaded
+                };
+                script.older_tabs_src = older_tabs_src;
+                d.getElementsByTagName('head')[0].appendChild(script);
 
-            script = d.createElement('script');
-            script.type = 'text/javascript';
-            script.onload = function(){
-                // remote script has loaded
-            };
-            script.src = src;
-            d.getElementsByTagName('head')[0].appendChild(script);
+                // Once the script has been executed, we remove it from the DOM
+                script.parentNode.removeChild(script);
+            }
+            var newer_tabs_src = $('script[src$="_static/tabs.js"]');
+            if (newer_tabs_src.length != 0) {
+                // sphinx-tabs > 2
+                // Borrowed from
+                // https://github.com/executablebooks/sphinx-tabs/blob/0f3cbbe/sphinx_tabs/static/tabs.js#L8-L17
+                var allTabs = document.querySelectorAll('.sphinx-tabs-tab');
+                var tabLists = document.querySelectorAll('[role="tablist"]');
+                allTabs.forEach(tab => {
+                    tab.addEventListener("click", changeTabs);
+                });
 
-            // Once the script has been executed, we remove it from the DOM
-            script.parentNode.removeChild(script);
+                tabLists.forEach(tabList => {
+                    tabList.addEventListener("keydown", keyTabs);
+                });
+            }
+
         }(document));
     };
 };
