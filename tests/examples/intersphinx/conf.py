@@ -12,4 +12,4 @@ autosectionlabel_prefix_document = True
 
 # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
-intersphinx_cache_limit = -1
+intersphinx_cache_limit = 0

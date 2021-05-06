@@ -182,6 +182,12 @@ def missing_reference(app, env, node, contnode):
         newnode._hoverxref = {
             'data-url': newnode.get('refuri'),
         }
+
+        # Remove ``title=`` from HTML tag to avoid showing the title of the
+        # reference when hovering, which is a little confusing
+        if 'reftitle' in  newnode:
+            del newnode['reftitle']
+
     return newnode
 
 
