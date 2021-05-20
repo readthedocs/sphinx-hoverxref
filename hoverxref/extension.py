@@ -145,7 +145,7 @@ def setup_intersphinx(app, config):
     Disconnect ``missing-reference`` from ``sphinx.ext.intershinx``.
 
     As there is no way to hook into the ``missing_referece`` function to add
-    some extra data to the disutils node returned by this function, we
+    some extra data to the docutils node returned by this function, we
     disconnect the original listener and add our custom one.
 
     https://github.com/sphinx-doc/sphinx/blob/53c1dff/sphinx/ext/intersphinx.py
