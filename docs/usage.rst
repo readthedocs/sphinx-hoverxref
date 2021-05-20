@@ -26,7 +26,7 @@ Tooltip on intersphinx content
 ------------------------------
 
 Sphinx comes with a nice built-in extension called :doc:`sphinx.ext.intersphinx <sphinx:usage/extensions/intersphinx>`
-that allows to generate links to the documentation of sections in other projects.
+that allows you to generate links to specific objects in other project's documentation pages.
 
 You can combine this extension with ``sphinx-hoverxref`` to show tooltips over these links to other projects.
 For example, this documentation itself configures intersphinx with Read the Docs documentation and allow us
