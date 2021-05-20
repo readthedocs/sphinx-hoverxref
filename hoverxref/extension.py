@@ -149,8 +149,6 @@ def setup_intersphinx(app, config):
     disconnect the original listener and add our custom one.
 
     https://github.com/sphinx-doc/sphinx/blob/53c1dff/sphinx/ext/intersphinx.py
-
-    Note that ``hoverxref.extension`` has to be installed **after** ``sphinx.ext.intersphinx``.
     """
     if sphinx.version_info < (3, 0, 0):
         listeners = list(app.events.listeners.get('missing-reference').items())

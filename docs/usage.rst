@@ -40,19 +40,6 @@ That will render to:
 
 Show a tooltip for :doc:`Read the Docs automation rules <readthedocs:automation-rules>`.
 
-.. warning::
-
-   ``hoverxref.extension`` must be installed below ``sphinx.ext.intersphinx``
-   when adding them into ``extensions`` config. Example:
-
-   .. code-block:: python
-
-      extensions = [
-          # some extension
-          "sphinx.ext.intersphinx",
-          "hoverxref.extension",
-      ]
-
 .. note::
 
    Keep in mind that the linked project should be hosted at Read the Docs.

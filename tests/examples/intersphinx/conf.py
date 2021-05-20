@@ -2,8 +2,8 @@
 
 master_doc = 'index'
 extensions = [
+    'hoverxref.extension',
     'sphinx.ext.intersphinx',
-    'hoverxref.extension',  # NOTE: this order is important
 ]
 
 hoverxref_intersphinx = True
