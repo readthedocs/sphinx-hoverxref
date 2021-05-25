@@ -150,9 +150,7 @@ def setup_intersphinx(app, config):
 
     https://github.com/sphinx-doc/sphinx/blob/53c1dff/sphinx/ext/intersphinx.py
     """
-
-    hoverxref_intersphinx_enabled = (app.config.hoverxref_intersphinx is None and app.config.hoverxref_auto_ref) or app.config.hoverxref_intersphinx
-    if not hoverxref_intersphinx_enabled:
+    if not app.config.hoverxref_intersphinx:
         # Do not disconnect original intersphinx missing-reference if the user
         # does not have hoverxref intersphinx enabled
         return
@@ -177,14 +175,14 @@ def missing_reference(app, env, node, contnode):
     We call the original intersphinx extension and add hoverxref CSS classes
     plus the ``data-url`` to the node returned from it.
     """
-    hoverxref_intersphinx_enabled = (app.config.hoverxref_intersphinx is None and app.config.hoverxref_auto_ref) or app.config.hoverxref_intersphinx
-    if not hoverxref_intersphinx_enabled:
+    if not app.config.hoverxref_intersphinx:
         # Do nothing if the user doesn't have hoverxref intersphinx enabled
         return
 
+    intersphinx_target = node['reftarget'].split(':')[0]
     newnode = sphinx_missing_reference(app, env, node, contnode)
     hoverxref_type = app.config.hoverxref_intersphinx_type or app.config.hoverxref_default_type
-    if newnode is not None and hoverxref_intersphinx_enabled:
+    if newnode is not None and intersphinx_target in app.config.hoverxref_intersphinx:
         classes = newnode.get('classes')
         classes.extend(['hoverxref', hoverxref_type])
         newnode.replace_attr('classes', classes)
@@ -316,7 +314,7 @@ def setup(app):
     app.add_config_value('hoverxref_ignore_refs', ['genindex', 'modindex', 'search'], 'env')
     app.add_config_value('hoverxref_role_types', {}, 'env')
     app.add_config_value('hoverxref_default_type', 'tooltip', 'env')
-    app.add_config_value('hoverxref_intersphinx', False, 'env')
+    app.add_config_value('hoverxref_intersphinx', [], 'env')
     app.add_config_value('hoverxref_intersphinx_type', None, 'env')
     app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
 

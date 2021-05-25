@@ -93,11 +93,16 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_intersphinx
 
-   Description: Whether or not enable Sphinx's hoverxref extension on intersphinx links.
+   Description: Enable Sphinx's hoverxref extension on intersphinx targets from from ``intersphinx_mapping``.
 
-   Default: ``None`` (follows :confval:`hoverxref_auto_ref`)
+   Default: ``[]``
 
-   Type: bool or ``None``
+   Type: list
+
+   .. warning::
+
+      The Sphinx's target project **must be hosted on Read the Docs** to work.
+      This is a current limitation that we may be able to remove in the future.
 
 .. confval:: hoverxref_intersphinx_type
 

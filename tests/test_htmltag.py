@@ -214,8 +214,11 @@ def test_intersphinx(app, status, warning):
     content = open(path).read()
 
     chunks = [
-        f'<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>.',
-        f'<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>.</p>',
+        '<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>.',
+        '<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>.</p>',
+        # ``readthedocs`` mapping is not defined for hoverxref intersphinx,
+        # so it only adds the link without the hoverxref classes or data-url attribute
+        '<a class="reference external" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="(in Read the Docs v5.17.0)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>.</p>',
     ]
 
     for chunk in chunks:
