@@ -95,9 +95,9 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    Description: Whether or not enable Sphinx's hoverxref extension on intersphinx links.
 
-   Default: ``False``
+   Default: ``None`` (follows :confval:`hoverxref_auto_ref`)
 
-   Type: bool
+   Type: bool or ``None``
 
 .. confval:: hoverxref_intersphinx_type
 

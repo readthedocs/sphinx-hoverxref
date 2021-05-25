@@ -151,7 +151,7 @@ def setup_intersphinx(app, config):
     https://github.com/sphinx-doc/sphinx/blob/53c1dff/sphinx/ext/intersphinx.py
     """
 
-    hoverxref_intersphinx_enabled = app.config.hoverxref_intersphinx or app.config.hoverxref_auto_ref
+    hoverxref_intersphinx_enabled = (app.config.hoverxref_intersphinx is None and app.config.hoverxref_auto_ref) or app.config.hoverxref_intersphinx
     if not hoverxref_intersphinx_enabled:
         # Do not disconnect original intersphinx missing-reference if the user
         # does not have hoverxref intersphinx enabled
@@ -177,7 +177,7 @@ def missing_reference(app, env, node, contnode):
     We call the original intersphinx extension and add hoverxref CSS classes
     plus the ``data-url`` to the node returned from it.
     """
-    hoverxref_intersphinx_enabled = app.config.hoverxref_intersphinx or app.config.hoverxref_auto_ref
+    hoverxref_intersphinx_enabled = (app.config.hoverxref_intersphinx is None and app.config.hoverxref_auto_ref) or app.config.hoverxref_intersphinx
     if not hoverxref_intersphinx_enabled:
         # Do nothing if the user doesn't have hoverxref intersphinx enabled
         return
