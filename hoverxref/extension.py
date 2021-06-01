@@ -3,6 +3,7 @@ import inspect
 import types
 from docutils import nodes
 import sphinx
+from sphinx.ext.intersphinx import InventoryAdapter
 from sphinx.ext.intersphinx import missing_reference as sphinx_missing_reference
 from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
@@ -174,15 +175,62 @@ def missing_reference(app, env, node, contnode):
 
     We call the original intersphinx extension and add hoverxref CSS classes
     plus the ``data-url`` to the node returned from it.
+
+    Sphinx intersphinx downloads all the ``objects.inv`` and load each of them
+    into a "named inventory" and also updates the "main inventory". We check if
+    reference is part of any of the "named invetories" the user defined in
+    ``hoverxref_intersphinx`` and we add hoverxref to the node **only if** the
+    reference is on those inventories.
+
+    See https://github.com/sphinx-doc/sphinx/blob/4d90277c/sphinx/ext/intersphinx.py#L244-L250
     """
     if not app.config.hoverxref_intersphinx:
         # Do nothing if the user doesn't have hoverxref intersphinx enabled
         return
 
-    intersphinx_target = node['reftarget'].split(':')[0]
+    # We need to grab all the attributes before calling
+    # ``sphinx_missing_reference`` because it modifies the node in-place
+    domain = node.get('refdomain')  # ``std`` if used on ``:ref:``
+    target = node['reftarget']
+    reftype = node['reftype']
+
+    # By default we skip adding hoverxref to the node to avoid possible
+    # problems. We want to be sure we have to add hoverxref on it
+    skip_node = True
+
+    if domain == 'std':
+        # Using ``:ref:`` manually, we could write intersphinx like:
+        # :ref:`datetime <python:datetime.datetime>`
+        # and the node will have these attribues:
+        #   refdomain: std
+        #   reftype: ref
+        #   reftarget: python:datetime.datetime
+        #   refexplicit: True
+        if ':' in target:
+            inventory_name, _ = target.split(':', 1)
+            if inventory_name in app.config.hoverxref_intersphinx:
+                skip_node = False
+    else:
+        # Using intersphinx via ``sphinx.ext.autodoc`` generates links for docstrings like:
+        # :py:class:`float`
+        # and the node will have these attribues:
+        #   refdomain: py
+        #   reftype: class
+        #   reftarget: float
+        #   refexplicit: False
+        inventories = InventoryAdapter(env)
+
+        for inventory_name in app.config.hoverxref_intersphinx:
+            inventory = inventories.named_inventory.get(inventory_name, {})
+            if inventory.get(f'{domain}:{reftype}', {}).get(target) is not None:
+                # The object **does** exist on the inventories defined by the
+                # user: enable hoverxref on this node
+                skip_node = False
+                break
+
     newnode = sphinx_missing_reference(app, env, node, contnode)
-    hoverxref_type = app.config.hoverxref_intersphinx_type or app.config.hoverxref_default_type
-    if newnode is not None and intersphinx_target in app.config.hoverxref_intersphinx:
+    if newnode is not None and not skip_node:
+        hoverxref_type = app.config.hoverxref_intersphinx_type or app.config.hoverxref_default_type
         classes = newnode.get('classes')
         classes.extend(['hoverxref', hoverxref_type])
         newnode.replace_attr('classes', classes)
