@@ -1,4 +1,5 @@
 import pytest
+import sphinx
 import textwrap
 
 from .utils import srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir, intersphinxsrc
@@ -218,9 +219,18 @@ def test_intersphinx_default_configs(app, status, warning):
         '<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
         '<a class="reference external" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="(in Read the Docs v5.17.0)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
         '<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
-        '<dt id="hoverxref.extension.setup">',
         '<a class="reference internal" href="#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
     ]
+
+    if sphinx.version_info >= (4, 0):
+        chunks.extend([
+            '<dt class="sig sig-object py" id="hoverxref.extension.setup">',
+        ])
+    else:
+        chunks.extend([
+            '<dt id="hoverxref.extension.setup">',
+        ])
+
 
     for chunk in chunks:
         assert chunk in content
