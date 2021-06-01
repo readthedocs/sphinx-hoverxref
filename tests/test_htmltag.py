@@ -286,7 +286,7 @@ def test_intersphinx_all_mappings(app, status, warning):
         '<a class="hoverxref modal reference external" data-url="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
 
         # Python domain's link does have hoverxref enabled
-        '<a class="hoverxref tooltip reference internal" data-doc="index" data-docpath="/index.html" data-project="test" data-section="hoverxref.extension.setup" data-version="test" href="#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
+        '<a class="hoverxref tooltip reference internal" data-doc="index" data-docpath="/index.html" data-project="myproject" data-section="hoverxref.extension.setup" data-version="myversion" href="#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
     ]
 
     for chunk in chunks:
