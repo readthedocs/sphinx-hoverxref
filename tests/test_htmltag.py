@@ -268,8 +268,6 @@ def test_intersphinx_python_mapping(app, status, warning):
             'readthedocs': 'modal',
         },
         'hoverxref_domains': ['py'],
-        'hoverxref_project': 'test',
-        'hoverxref_version': 'test',
     },
 )
 def test_intersphinx_all_mappings(app, status, warning):

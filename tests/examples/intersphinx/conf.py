@@ -7,6 +7,9 @@ extensions = [
     'sphinx.ext.autodoc',
 ]
 
+hoverxref_project = 'myproject'
+hoverxref_version = 'myversion'
+
 # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
