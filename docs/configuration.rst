@@ -191,7 +191,7 @@ These settings have effect only in tooltips.
 .. warning::
 
    The following settings are passed directly to Tooltipster_.
-   See https://iamceege.github.io/tooltipster/#options for more information about their descriptions.
+   See `its options <https://www.heteroclito.fr/modules/tooltipster/#options>`_ for more information about their descriptions.
 
 .. confval:: hoverxref_tooltip_theme
 
@@ -235,7 +235,7 @@ These settings have effect only in tooltips.
 
    Type: string
 
-.. _Tooltipster: https://iamceege.github.io/tooltipster/
+.. _Tooltipster: https://www.heteroclito.fr/modules/tooltipster/
 
 
 MicroModal.js
