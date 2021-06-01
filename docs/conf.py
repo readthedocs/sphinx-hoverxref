@@ -56,8 +56,14 @@ intersphinx_mapping = {
     'readthedocs': ('https://docs.readthedocs.io/en/stable/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
 }
-hoverxref_intersphinx = list(intersphinx_mapping.keys())
-hoverxref_intersphinx_type = 'modal'
+hoverxref_intersphinx = [
+    'readthedocs',
+    'sphinx',
+]
+hoverxref_intersphinx_types = {
+    'readthedocs': 'modal',
+    'sphinx': 'tooltip',
+}
 
 # Used when building the documentation from the terminal and using a local Read
 # the Docs instance as backend
