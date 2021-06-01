@@ -93,7 +93,7 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_intersphinx
 
-   Description: Enable Sphinx's hoverxref extension on intersphinx targets from from ``intersphinx_mapping``.
+   Description: Enable Sphinx's hoverxref extension on intersphinx targets from ``intersphinx_mapping``.
 
    Default: ``[]``
 
