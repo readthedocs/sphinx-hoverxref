@@ -197,6 +197,7 @@ def missing_reference(app, env, node, contnode):
     # By default we skip adding hoverxref to the node to avoid possible
     # problems. We want to be sure we have to add hoverxref on it
     skip_node = True
+    inventory_name_matched = None
 
     if domain == 'std':
         # Using ``:ref:`` manually, we could write intersphinx like:
@@ -210,6 +211,7 @@ def missing_reference(app, env, node, contnode):
             inventory_name, _ = target.split(':', 1)
             if inventory_name in app.config.hoverxref_intersphinx:
                 skip_node = False
+                inventory_name_matched = inventory_name
     else:
         # Using intersphinx via ``sphinx.ext.autodoc`` generates links for docstrings like:
         # :py:class:`float`
@@ -226,11 +228,12 @@ def missing_reference(app, env, node, contnode):
                 # The object **does** exist on the inventories defined by the
                 # user: enable hoverxref on this node
                 skip_node = False
+                inventory_name_matched = inventory_name
                 break
 
     newnode = sphinx_missing_reference(app, env, node, contnode)
     if newnode is not None and not skip_node:
-        hoverxref_type = app.config.hoverxref_intersphinx_type or app.config.hoverxref_default_type
+        hoverxref_type = app.config.hoverxref_intersphinx_types.get(inventory_name_matched) or app.config.hoverxref_default_type
         classes = newnode.get('classes')
         classes.extend(['hoverxref', hoverxref_type])
         newnode.replace_attr('classes', classes)
@@ -363,7 +366,7 @@ def setup(app):
     app.add_config_value('hoverxref_role_types', {}, 'env')
     app.add_config_value('hoverxref_default_type', 'tooltip', 'env')
     app.add_config_value('hoverxref_intersphinx', [], 'env')
-    app.add_config_value('hoverxref_intersphinx_type', None, 'env')
+    app.add_config_value('hoverxref_intersphinx_types', {}, 'env')
     app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
 
     # Tooltipster settings

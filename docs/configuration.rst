@@ -104,15 +104,23 @@ These settings are global and have effect on both, tooltips and modal dialogues.
       The Sphinx's target project **must be hosted on Read the Docs** to work.
       This is a current limitation that we may be able to remove in the future.
 
-.. confval:: hoverxref_intersphinx_type
+.. confval:: hoverxref_intersphinx_types
 
    Description: Style used for intersphinx links.
 
-   Default: ``None``. It uses :confval:`hoverxref_default_type` if not defined.
-
-   Options: ``tooltip`` or ``modal``
+   Default: ``{}``. It uses :confval:`hoverxref_default_type` if the intersphinx target is not defined in this config.
 
    Type: str
+
+   Example:
+
+   .. code-block:: python
+
+      {
+          'readthdocs': 'modal',
+          'sphinx': 'tooltip',
+          'python': 'tooltip',
+      }
 
 .. confval:: hoverxref_sphinxtabs
 
