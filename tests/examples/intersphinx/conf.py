@@ -4,13 +4,8 @@ master_doc = 'index'
 extensions = [
     'hoverxref.extension',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.autodoc',
 ]
-
-hoverxref_intersphinx = [
-    'python',
-]
-hoverxref_intersphinx_type = 'modal'
-autosectionlabel_prefix_document = True
 
 # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
 intersphinx_mapping = {

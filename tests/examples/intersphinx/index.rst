@@ -7,3 +7,10 @@ This is an example page.
 :ref:`This a :ref: to datetime.datetime Python's function using intersphinx <python:datetime-datetime>`.
 
 :ref:`This a :ref: to Config File v2 Read the Docs' page using intersphinx <readthedocs:config-file/v2:python>`.
+
+:py:class:`float`
+
+.. autofunction:: hoverxref.extension.setup
+
+
+:py:func:`hoverxref.extension.setup`
