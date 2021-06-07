@@ -110,16 +110,25 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    Default: ``{}``. It uses :confval:`hoverxref_default_type` if the intersphinx target is not defined in this config.
 
-   Type: str
+   Type: dict
 
    Example:
 
    .. code-block:: python
 
       {
-          'readthdocs': 'modal',
+          # make specific links to use a particular tooltip type
+          'readthdocs': {
+              'doc': 'modal',
+              'ref': 'tooltip',
+          },
+          'python': {
+              'class': 'modal',
+              'ref':, 'tooltip',
+          },
+
+          # make all links for Sphinx to be ``tooltip``
           'sphinx': 'tooltip',
-          'python': 'tooltip',
       }
 
 .. confval:: hoverxref_sphinxtabs

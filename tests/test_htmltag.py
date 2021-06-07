@@ -276,6 +276,9 @@ def test_intersphinx_python_mapping(app, status, warning):
         ],
         'hoverxref_intersphinx_types': {
             'readthedocs': 'modal',
+            'python': {
+                'class': 'modal',
+            }
         },
         'hoverxref_domains': ['py'],
     },
@@ -290,7 +293,7 @@ def test_intersphinx_all_mappings(app, status, warning):
         # Python's links do have hoverxref enabled
         '<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>',
         '<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
-        '<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/library/functions.html#float" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
+        '<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/library/functions.html#float" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
 
         # Read the Docs' link does have hoverxref enabled
         '<a class="hoverxref modal reference external" data-url="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="(in Read the Docs v5.17.0)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',

@@ -233,7 +233,12 @@ def missing_reference(app, env, node, contnode):
 
     newnode = sphinx_missing_reference(app, env, node, contnode)
     if newnode is not None and not skip_node:
-        hoverxref_type = app.config.hoverxref_intersphinx_types.get(inventory_name_matched) or app.config.hoverxref_default_type
+        hoverxref_type = app.config.hoverxref_intersphinx_types.get(inventory_name_matched)
+        if isinstance(hoverxref_type, dict):
+            # Specific style for a particular reftype
+            hoverxref_type = hoverxref_type.get(reftype)
+        hoverxref_type = hoverxref_type or app.config.hoverxref_default_type
+
         classes = newnode.get('classes')
         classes.extend(['hoverxref', hoverxref_type])
         newnode.replace_attr('classes', classes)
