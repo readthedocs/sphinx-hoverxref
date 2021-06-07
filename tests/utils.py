@@ -27,3 +27,10 @@ pythondomainsrcdir = os.path.join(
     'examples',
     'python-domain',
 )
+
+# srcdir with intersphinx configured
+intersphinxsrc = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    'examples',
+    'intersphinx',
+)

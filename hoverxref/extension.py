@@ -3,6 +3,8 @@ import inspect
 import types
 from docutils import nodes
 import sphinx
+from sphinx.ext.intersphinx import InventoryAdapter
+from sphinx.ext.intersphinx import missing_reference as sphinx_missing_reference
 from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
@@ -139,6 +141,114 @@ def setup_sphinx_tabs(app, config):
             app.disconnect(listener_id)
 
 
+def setup_intersphinx(app, config):
+    """
+    Disconnect ``missing-reference`` from ``sphinx.ext.intershinx``.
+
+    As there is no way to hook into the ``missing_referece`` function to add
+    some extra data to the docutils node returned by this function, we
+    disconnect the original listener and add our custom one.
+
+    https://github.com/sphinx-doc/sphinx/blob/53c1dff/sphinx/ext/intersphinx.py
+    """
+    if not app.config.hoverxref_intersphinx:
+        # Do not disconnect original intersphinx missing-reference if the user
+        # does not have hoverxref intersphinx enabled
+        return
+
+    if sphinx.version_info < (3, 0, 0):
+        listeners = list(app.events.listeners.get('missing-reference').items())
+    else:
+        listeners = [
+            (listener.id, listener.handler)
+            for listener in app.events.listeners.get('missing-reference')
+        ]
+    for listener_id, function in listeners:
+        module_name = inspect.getmodule(function).__name__
+        if module_name == 'sphinx.ext.intersphinx':
+            app.disconnect(listener_id)
+
+
+def missing_reference(app, env, node, contnode):
+    """
+    Override original ``missing_referece`` to add data into the node.
+
+    We call the original intersphinx extension and add hoverxref CSS classes
+    plus the ``data-url`` to the node returned from it.
+
+    Sphinx intersphinx downloads all the ``objects.inv`` and load each of them
+    into a "named inventory" and also updates the "main inventory". We check if
+    reference is part of any of the "named invetories" the user defined in
+    ``hoverxref_intersphinx`` and we add hoverxref to the node **only if** the
+    reference is on those inventories.
+
+    See https://github.com/sphinx-doc/sphinx/blob/4d90277c/sphinx/ext/intersphinx.py#L244-L250
+    """
+    if not app.config.hoverxref_intersphinx:
+        # Do nothing if the user doesn't have hoverxref intersphinx enabled
+        return
+
+    # We need to grab all the attributes before calling
+    # ``sphinx_missing_reference`` because it modifies the node in-place
+    domain = node.get('refdomain')  # ``std`` if used on ``:ref:``
+    target = node['reftarget']
+    reftype = node['reftype']
+
+    # By default we skip adding hoverxref to the node to avoid possible
+    # problems. We want to be sure we have to add hoverxref on it
+    skip_node = True
+    inventory_name_matched = None
+
+    if domain == 'std':
+        # Using ``:ref:`` manually, we could write intersphinx like:
+        # :ref:`datetime <python:datetime.datetime>`
+        # and the node will have these attribues:
+        #   refdomain: std
+        #   reftype: ref
+        #   reftarget: python:datetime.datetime
+        #   refexplicit: True
+        if ':' in target:
+            inventory_name, _ = target.split(':', 1)
+            if inventory_name in app.config.hoverxref_intersphinx:
+                skip_node = False
+                inventory_name_matched = inventory_name
+    else:
+        # Using intersphinx via ``sphinx.ext.autodoc`` generates links for docstrings like:
+        # :py:class:`float`
+        # and the node will have these attribues:
+        #   refdomain: py
+        #   reftype: class
+        #   reftarget: float
+        #   refexplicit: False
+        inventories = InventoryAdapter(env)
+
+        for inventory_name in app.config.hoverxref_intersphinx:
+            inventory = inventories.named_inventory.get(inventory_name, {})
+            if inventory.get(f'{domain}:{reftype}', {}).get(target) is not None:
+                # The object **does** exist on the inventories defined by the
+                # user: enable hoverxref on this node
+                skip_node = False
+                inventory_name_matched = inventory_name
+                break
+
+    newnode = sphinx_missing_reference(app, env, node, contnode)
+    if newnode is not None and not skip_node:
+        hoverxref_type = app.config.hoverxref_intersphinx_types.get(inventory_name_matched)
+        if isinstance(hoverxref_type, dict):
+            # Specific style for a particular reftype
+            hoverxref_type = hoverxref_type.get(reftype)
+        hoverxref_type = hoverxref_type or app.config.hoverxref_default_type
+
+        classes = newnode.get('classes')
+        classes.extend(['hoverxref', hoverxref_type])
+        newnode.replace_attr('classes', classes)
+        newnode._hoverxref = {
+            'data-url': newnode.get('refuri'),
+        }
+
+    return newnode
+
+
 def setup_translators(app):
     """
     Override translators respecting the one defined (if any).
@@ -255,6 +365,8 @@ def setup(app):
     app.add_config_value('hoverxref_ignore_refs', ['genindex', 'modindex', 'search'], 'env')
     app.add_config_value('hoverxref_role_types', {}, 'env')
     app.add_config_value('hoverxref_default_type', 'tooltip', 'env')
+    app.add_config_value('hoverxref_intersphinx', [], 'env')
+    app.add_config_value('hoverxref_intersphinx_types', {}, 'env')
     app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
 
     # Tooltipster settings
@@ -288,9 +400,12 @@ def setup(app):
 
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
+    app.connect('config-inited', setup_intersphinx)
     app.connect('config-inited', is_hoverxref_configured)
     app.connect('config-inited', setup_theme)
     app.connect('build-finished', copy_asset_files)
+
+    app.connect('missing-reference', missing_reference)
 
     for f in ASSETS_FILES:
         if f.endswith('.js') or f.endswith('.js_t'):

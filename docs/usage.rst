@@ -22,6 +22,30 @@ will render to this:
 This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words to ``hoverxref``.
 
 
+Tooltip on intersphinx content
+------------------------------
+
+Sphinx comes with a nice built-in extension called :doc:`sphinx.ext.intersphinx <sphinx:usage/extensions/intersphinx>`
+that allows you to generate links to specific objects in other project's documentation pages.
+
+You can combine this extension with ``sphinx-hoverxref`` to show tooltips over these links to other projects.
+For example, this documentation itself configures intersphinx with Read the Docs documentation and allow us
+to do the following:
+
+.. code-block:: rst
+
+   Show a tooltip for :doc:`Read the Docs automation rules <readthedocs:automation-rules>`.
+
+That will render to:
+
+Show a tooltip for :doc:`Read the Docs automation rules <readthedocs:automation-rules>`.
+
+.. note::
+
+   Keep in mind that the linked project should be hosted at Read the Docs.
+   This is a limitation that will be removed in the future.
+
+
 Tooltip on custom object
 ------------------------
 
@@ -99,7 +123,7 @@ These actions are usually calling a Javascript function.
    This `may affect the rendering of tooltips`_ that includes content requiring extra rendering steps.
    **Make sure you are using Sphinx 3.4.x** if you require rendering this type of content in your tooltips.
 
-   .. _a feature to only include JS/CS in pages where they are used: https://github.com/sphinx-doc/sphinx/pull/8631
+   .. _a feature to only include JS/CSS in pages where they are used: https://github.com/sphinx-doc/sphinx/pull/8631
    .. _may affect the rendering of tooltips: https://github.com/sphinx-doc/sphinx/issues/9115
 
 

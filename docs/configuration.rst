@@ -91,10 +91,49 @@ These settings are global and have effect on both, tooltips and modal dialogues.
           'setting',
       ]
 
+.. confval:: hoverxref_intersphinx
+
+   Description: Enable Sphinx's hoverxref extension on intersphinx targets from ``intersphinx_mapping``.
+
+   Default: ``[]``
+
+   Type: list
+
+   .. warning::
+
+      The Sphinx's target project **must be hosted on Read the Docs** to work.
+      This is a current limitation that we hope to remove in the future.
+
+.. confval:: hoverxref_intersphinx_types
+
+   Description: Style used for intersphinx links.
+
+   Default: ``{}``. It uses :confval:`hoverxref_default_type` if the intersphinx target is not defined in this config.
+
+   Type: dict
+
+   Example:
+
+   .. code-block:: python
+
+      {
+          # make specific links to use a particular tooltip type
+          'readthdocs': {
+              'doc': 'modal',
+              'ref': 'tooltip',
+          },
+          'python': {
+              'class': 'modal',
+              'ref':, 'tooltip',
+          },
+
+          # make all links for Sphinx to be ``tooltip``
+          'sphinx': 'tooltip',
+      }
 
 .. confval:: hoverxref_sphinxtabs
 
-   Description: trigger an extra step to render tooltips where its content has a `Sphinx Tabs`_
+   Description: Trigger an extra step to render tooltips where its content has a `Sphinx Tabs`_
 
    Default: ``False``
 
@@ -104,7 +143,7 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_mathjax
 
-   Description: trigger an extra step to render tooltips where its content has a `Mathjax`_
+   Description: Trigger an extra step to render tooltips where its content has a `Mathjax`_
 
    Default: ``False``
 

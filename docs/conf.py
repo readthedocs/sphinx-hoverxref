@@ -13,6 +13,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import datetime
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -20,7 +21,8 @@ import os
 # -- Project information -----------------------------------------------------
 
 project = 'sphinx-hoverxref'
-copyright = '2019, Manuel Kaufmann'
+year = datetime.datetime.now().year
+copyright = f'{year}, Manuel Kaufmann'
 author = 'Manuel Kaufmann'
 
 # The short X.Y version
@@ -39,6 +41,7 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.intersphinx',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.mathjax',
     'sphinx_tabs.tabs',
@@ -48,6 +51,19 @@ extensions = [
     'versionwarning.extension',
     'notfound.extension',
 ]
+
+intersphinx_mapping = {
+    'readthedocs': ('https://docs.readthedocs.io/en/stable/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
+hoverxref_intersphinx = [
+    'readthedocs',
+    'sphinx',
+]
+hoverxref_intersphinx_types = {
+    'readthedocs': 'modal',
+    'sphinx': 'tooltip',
+}
 
 # Used when building the documentation from the terminal and using a local Read
 # the Docs instance as backend
