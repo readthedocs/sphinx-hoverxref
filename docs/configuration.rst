@@ -102,7 +102,7 @@ These settings are global and have effect on both, tooltips and modal dialogues.
    .. warning::
 
       The Sphinx's target project **must be hosted on Read the Docs** to work.
-      This is a current limitation that we may be able to remove in the future.
+      This is a current limitation that we hope to remove in the future.
 
 .. confval:: hoverxref_intersphinx_types
 
