@@ -56,45 +56,14 @@ Serve the documentation locally with this command:
 
 Now, you can hit http://localhost:9000/ and you should see your documentation here.
 
-
-Avoid CORS on local backend
-+++++++++++++++++++++++++++
-
-When building the documentation locally,
-the API calls will be blocked by the browser because of :abbr:`CORS (Cross Origin Resource Sharing)`
-(you are hitting the URL http://localhost:9000/ and the API calls are to https://readthedocs.org/).
-
-You can disable this while developing our extension.
-To do this, you can open Google Chrome with these arguments:
-
-.. prompt:: bash
-
-   google-chrome-stable --disable-web-security --user-data-dir='/tmp/testing'
-
-If Firefox, you can install this add-ons: `Allow CORS: Access-Control-Allow-Origin <https://addons.mozilla.org/es/firefox/addon/access-control-allow-origin/>`_.
-
-
 Using a local Read the Docs instance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can `install Read the Docs locally following these instructions`_.
-Although, it may be too complicated just to retrieve the same content that you could have in https://readthedocs.org.
+You don't need to change anything to be able to use your local instance,
+the default :confval:`hoverxref_api_host` value should work.
 
-To make the extension to work, you will need to define this setting in your ``conf.py`` file:
-
-.. code-block:: python
-
-   hoverxref_api_host = 'http://dev.readthedocs.io:8000'
-
-.. tip::
-
-   The value of this setting should be the same as ``PUBLIC_API_URL``.
-
-Once you have done that, you can just import the project directly in your local instance,
-and the tooltips should work without problem.
-
-.. _install Read the Docs locally following these instructions: https://docs.readthedocs.io/en/stable/development/install.html
-
+.. _install Read the Docs locally following these instructions: https://docs.readthedocs.io/page/development/install.html
 
 Permanent tooltip to work with CSS
 ----------------------------------

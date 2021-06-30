@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Configuration file for the Sphinx documentation builder.
 #
 # This file does only contain a selection of the most common options. For a
@@ -65,21 +63,9 @@ hoverxref_intersphinx_types = {
     'sphinx': 'tooltip',
 }
 
-# Used when building the documentation from the terminal and using a local Read
-# the Docs instance as backend
-hoverxref_api_host = 'http://localhost:8000'
-
-if os.environ.get('READTHEDOCS') == 'True':
-    # Building on Read the Docs
+# Used when building the documentation locally.
+if os.environ.get('READTHEDOCS') != 'True':
     hoverxref_api_host = 'https://readthedocs.org'
-
-    if os.environ.get('PROXIED_API_ENDPOINT') == 'True':
-        # Use the proxied API endpoint
-        hoverxref_api_host = '/_'
-
-if os.environ.get('LOCAL_READTHEDOCS') == 'True':
-    # Building on a local Read the Docs instance
-    hoverxref_api_host = 'http://community.dev.readthedocs.io'
 
 hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True

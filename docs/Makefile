@@ -8,7 +8,6 @@ SOURCEDIR     = .
 BUILDDIR      = _build
 
 # sphinx-hoverxref expected variables
-export READTHEDOCS=True
 export READTHEDOCS_PROJECT=sphinx-hoverxref
 export READTHEDOCS_VERSION=latest
 
