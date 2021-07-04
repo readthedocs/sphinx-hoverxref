@@ -353,6 +353,11 @@ def setup(app):
     # ``override`` was introduced in 1.8
     app.require_sphinx('1.8')
 
+    # Inject into all files for Sphinx 4.0.2 or newer.
+    # Incompatible with Sphinx 3.5 to 4.0.1
+    if sphinx.version_info >= (4, 0, 2):
+        app.set_html_assets_policy('always')
+    
     default_project = os.environ.get('READTHEDOCS_PROJECT')
     default_version = os.environ.get('READTHEDOCS_VERSION')
     app.add_config_value('hoverxref_project', default_project, 'html')
