@@ -339,7 +339,8 @@ def setup_theme(app, exception):
 
 def setup_assets_policy(app, exception):
     """Tell Sphinx to always include assets in all HTML pages."""
-    if sphinx.version_info >= (4, 1, 0):
+    if hasattr(app, 'set_html_assets_policy'):
+        # ``app.set_html_assets_policy`` was introduced in Sphinx 4.1.0
         # https://github.com/sphinx-doc/sphinx/pull/9174
         app.set_html_assets_policy('always')
 
