@@ -5,7 +5,7 @@
 # https://github.com/sphinx-doc/sphinx/pull/8631
 sphinx==3.4.3  # pyup: <3.5
 
-sphinx-autoapi==1.8.1
+sphinx-autoapi==1.8.3
 sphinx-rtd-theme==0.5.2
 sphinx-tabs==3.0.0
 sphinx-prompt==1.4.0
