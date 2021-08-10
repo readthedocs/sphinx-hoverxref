@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  tests:
+    docker:
+      - image: 'cimg/python:3.6'
+    steps:
+      - checkout
+      - run: pip install --user tox
+      - run: tox
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - tests
