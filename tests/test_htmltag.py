@@ -1,3 +1,4 @@
+import re
 import pytest
 import sphinx
 import textwrap
@@ -214,11 +215,14 @@ def test_intersphinx_default_configs(app, status, warning):
     assert path.exists() is True
     content = open(path).read()
 
+    chunks_regex = [
+        r'<a class="reference external" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="\(in Python v3.\d\d?\)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>',
+        r'<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="\(in Python v3.\d\d?\)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
+        r'<a class="reference external" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="\(in Read the Docs v\d\d?.\d\d?.\d\d?\)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
+        r'<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="\(in Python v3.\d\d?\)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
+    ]
+
     chunks = [
-        '<a class="reference external" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>',
-        '<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
-        '<a class="reference external" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="(in Read the Docs v5.17.0)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
-        '<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
         '<a class="reference internal" href="#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
     ]
 
@@ -235,6 +239,9 @@ def test_intersphinx_default_configs(app, status, warning):
     for chunk in chunks:
         assert chunk in content
 
+    for chunk in chunks_regex:
+        assert re.search(chunk, content)
+
 
 @pytest.mark.sphinx(
     srcdir=intersphinxsrc,
@@ -250,21 +257,27 @@ def test_intersphinx_python_mapping(app, status, warning):
     assert path.exists() is True
     content = open(path).read()
 
-    chunks = [
+    chunks_regex = [
         # Python's links do have hoverxref enabled
-        '<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>',
-        '<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
-        '<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/library/functions.html#float" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
+        r'<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="\(in Python v3.\d\d?\)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>',
+        r'<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="\(in Python v3.\d\d?\)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
+        r'<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/library/functions.html#float" href="https://docs.python.org/3/library/functions.html#float" title="\(in Python v3.\d\d?\)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
 
         # Read the Docs' link does not have hoverxref enabled
-        '<a class="reference external" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="(in Read the Docs v5.17.0)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
+        r'<a class="reference external" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="\(in Read the Docs v\d\d?.\d\d?.\d\d?\)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
 
+    ]
+
+    chunks = [
         # Python's domain does not have hoverxref enabled
         '<a class="reference internal" href="#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
     ]
 
     for chunk in chunks:
         assert chunk in content
+
+    for chunk in chunks_regex:
+        assert re.search(chunk, content)
 
 
 @pytest.mark.sphinx(
@@ -289,18 +302,24 @@ def test_intersphinx_all_mappings(app, status, warning):
     assert path.exists() is True
     content = open(path).read()
 
-    chunks = [
+    chunks_regex = [
         # Python's links do have hoverxref enabled
-        '<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>',
-        '<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="(in Python v3.9)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
-        '<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/library/functions.html#float" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
+        r'<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/tutorial/index.html#tutorial-index" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="\(in Python v3.\d\d?\)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>',
+        r'<a class="hoverxref tooltip reference external" data-url="https://docs.python.org/3/library/datetime.html#datetime-datetime" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="\(in Python v3.\d\d?\)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
+        r'<a class="hoverxref modal reference external" data-url="https://docs.python.org/3/library/functions.html#float" href="https://docs.python.org/3/library/functions.html#float" title="\(in Python v3.\d\d?\)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
 
         # Read the Docs' link does have hoverxref enabled
-        '<a class="hoverxref modal reference external" data-url="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="(in Read the Docs v5.17.0)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
+        r'<a class="hoverxref modal reference external" data-url="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="\(in Read the Docs v\d\d?.\d\d?.\d+\)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
 
+    ]
+
+    chunks = [
         # Python domain's link does have hoverxref enabled
         '<a class="hoverxref tooltip reference internal" data-doc="index" data-docpath="/index.html" data-project="myproject" data-section="hoverxref.extension.setup" data-version="myversion" href="#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
     ]
 
     for chunk in chunks:
         assert chunk in content
+
+    for chunk in chunks_regex:
+        assert re.search(chunk, content)
