@@ -1,16 +1,45 @@
 version: 2.1
 
 jobs:
-  tests:
+  tests-py36:
     docker:
       - image: 'cimg/python:3.6'
     steps:
       - checkout
       - run: pip install --user tox
-      - run: tox
+        # I didn't find a way using TOXENV with regular expression, similar to TOX_SKIP_ENV
+        # https://tox.readthedocs.io/en/latest/config.html#conf-envlist
+      - run: tox -e $(tox -l | grep -e "^py36" | paste -sd ",")
+  tests-py37:
+    docker:
+      - image: 'cimg/python:3.7'
+    steps:
+      - checkout
+      - run: pip install --user tox
+      - run: tox -e $(tox -l | grep -e "^py37" | paste -sd ",")
+
+  tests-py38:
+    docker:
+      - image: 'cimg/python:3.8'
+    steps:
+      - checkout
+      - run: pip install --user tox
+      - run: tox -e $(tox -l | grep -e "^py38" | paste -sd ",")
+
+  tests-py39:
+    docker:
+      - image: 'cimg/python:3.9'
+    steps:
+      - checkout
+      - run: pip install --user tox
+      - run: tox -e $(tox -l | grep -e "^py39" | paste -sd ",")
+
 
 workflows:
   version: 2
   test:
     jobs:
-      - tests
+      - tests-py36
+      - tests-py37
+      - tests-py38
+      - tests-py39
