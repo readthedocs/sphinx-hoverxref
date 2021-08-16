@@ -1,38 +1,45 @@
 version: 2.1
 
+commands:
+  run-tests:
+    steps:
+      - checkout
+      - run: pip install --user tox
+      - run: tox
+
 jobs:
   tests-py36:
     docker:
       - image: 'cimg/python:3.6'
+    environment:
+      # Use TOX_SKIP_ENV with a negated regex to only match the environment we
+      # want to run for this particular Python version
+      TOX_SKIP_ENV: '^(?!py36-)'
     steps:
-      - checkout
-      - run: pip install --user tox
-        # I didn't find a way using TOXENV with regular expression, similar to TOX_SKIP_ENV
-        # https://tox.readthedocs.io/en/latest/config.html#conf-envlist
-      - run: tox -e $(tox -l | grep -e "^py36" | paste -sd ",")
+      - run-tests
   tests-py37:
     docker:
       - image: 'cimg/python:3.7'
+    environment:
+      TOX_SKIP_ENV: '^(?!py37-)'
     steps:
-      - checkout
-      - run: pip install --user tox
-      - run: tox -e $(tox -l | grep -e "^py37" | paste -sd ",")
+      - run-tests
 
   tests-py38:
     docker:
       - image: 'cimg/python:3.8'
+    environment:
+      TOX_SKIP_ENV: '^(?!py38-)'
     steps:
-      - checkout
-      - run: pip install --user tox
-      - run: tox -e $(tox -l | grep -e "^py38" | paste -sd ",")
+      - run-tests
 
   tests-py39:
     docker:
       - image: 'cimg/python:3.9'
+    environment:
+      TOX_SKIP_ENV: '^(?!py39-)'
     steps:
-      - checkout
-      - run: pip install --user tox
-      - run: tox -e $(tox -l | grep -e "^py39" | paste -sd ",")
+      - run-tests
 
 
 workflows:
