@@ -12,9 +12,11 @@ jobs:
     docker:
       - image: 'cimg/python:3.6'
     environment:
-      # Use TOX_SKIP_ENV with a negated regex to only match the environment we
-      # want to run for this particular Python version
-      TOX_SKIP_ENV: '^(?!py36-)'
+        # Select only the environments that match the Python version we have
+        # installed in this Docker image (e.g. `py36-*`). Use TOX_SKIP_ENV with
+        # a negated regex to only match the environment we want to run. Read
+        # more at https://github.com/tox-dev/tox/issues/238
+        TOX_SKIP_ENV: '^(?!py36-)'
     steps:
       - run-tests
   tests-py37:
