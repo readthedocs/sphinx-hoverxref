@@ -1,0 +1,54 @@
+version: 2.1
+
+commands:
+  run-tests:
+    steps:
+      - checkout
+      - run: pip install --user tox
+      - run: tox
+
+jobs:
+  tests-py36:
+    docker:
+      - image: 'cimg/python:3.6'
+    environment:
+        # Select only the environments that match the Python version we have
+        # installed in this Docker image (e.g. `py36-*`). Use TOX_SKIP_ENV with
+        # a negated regex to only match the environment we want to run. Read
+        # more at https://github.com/tox-dev/tox/issues/238
+        TOX_SKIP_ENV: '^(?!py36-)'
+    steps:
+      - run-tests
+  tests-py37:
+    docker:
+      - image: 'cimg/python:3.7'
+    environment:
+      TOX_SKIP_ENV: '^(?!py37-)'
+    steps:
+      - run-tests
+
+  tests-py38:
+    docker:
+      - image: 'cimg/python:3.8'
+    environment:
+      TOX_SKIP_ENV: '^(?!py38-)'
+    steps:
+      - run-tests
+
+  tests-py39:
+    docker:
+      - image: 'cimg/python:3.9'
+    environment:
+      TOX_SKIP_ENV: '^(?!py39-)'
+    steps:
+      - run-tests
+
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - tests-py36
+      - tests-py37
+      - tests-py38
+      - tests-py39
