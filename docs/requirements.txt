@@ -7,7 +7,7 @@ sphinx==3.4.3  # pyup: <3.5
 
 sphinx-autoapi==1.8.4
 sphinx-rtd-theme==0.5.2
-sphinx-tabs==3.0.0
+sphinx-tabs==3.2.0
 sphinx-prompt==1.4.0
 sphinx-version-warning==1.1.2
 sphinx-notfound-page==0.7.1
