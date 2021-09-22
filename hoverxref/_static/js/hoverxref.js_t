@@ -178,7 +178,7 @@ $(document).ready(function() {
         var url = getEmbedURL(url);
         $.get(url, function(data) {
             var content = $('<div></div>');
-            content.html(data['content'][0]);
+            content.html(data['content']);
 
             var h1 = $('h1:first', content);
             var title = h1.text()
