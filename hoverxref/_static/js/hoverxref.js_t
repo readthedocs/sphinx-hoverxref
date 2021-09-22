@@ -184,7 +184,8 @@ $(document).ready(function() {
             var title = h1.text()
             if (title) {
                 var link = $('a', h1).attr('href') || '#';
-                var a = $('<a></a>').attr('href', link).text('{{ hoverxref_modal_prefix_title }}' + title.replace('¶', ''));
+                var title = title.replace('¶', '').replace('', '');
+                var a = $('<a></a>').attr('href', link).text('{{ hoverxref_modal_prefix_title }}' + title);
             }
             else {
                 var a = '{{ hoverxref_modal_prefix_title }}{{ hoverxref_modal_default_title }}';
