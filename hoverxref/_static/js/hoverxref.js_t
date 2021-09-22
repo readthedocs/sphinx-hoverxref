@@ -101,6 +101,7 @@ $(document).ready(function() {
         animationDuration: {{ hoverxref_tooltip_animation_duration }},
         side: '{{ hoverxref_tooltip_side }}',
         content: '{{ hoverxref_tooltip_content }}',
+        contentAsHTML: true,
 
         functionBefore: function(instance, helper) {
             var $origin = $(helper.origin);
