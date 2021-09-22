@@ -48,7 +48,9 @@ class HoverXRefBaseDomain:
         url = refnode.get('refuri')
         if url:
             refnode._hoverxref.update({
-                'data-url': url,
+                # FIXME: data-url requires to use the full URL here. At this
+                # point, we need to know the domain where the project is hosted
+                'data-url': f'https://sphinx-hoverxref--146.org.readthedocs.build/en/146/{url}',
             })
         else:
             logger.info(
