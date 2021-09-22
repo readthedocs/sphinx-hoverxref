@@ -184,7 +184,10 @@ $(document).ready(function() {
             var title = h1.text()
             if (title) {
                 var link = $('a', h1).attr('href') || '#';
+
+                // Remove permalink icon from the title
                 var title = title.replace('¶', '').replace('', '');
+
                 var a = $('<a></a>').attr('href', link).text('{{ hoverxref_modal_prefix_title }}' + title);
             }
             else {
