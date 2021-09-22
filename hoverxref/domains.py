@@ -38,12 +38,14 @@ class HoverXRefBaseDomain:
 
         project = env.config.hoverxref_project
         version = env.config.hoverxref_version
+        url = refnode.get('refuri')
         refnode._hoverxref = {
             'data-project': project,
             'data-version': version,
             'data-doc': docname,
             'data-docpath': docpath,
             'data-section': labelid,
+            'data-url': url,
         }
 
     def _get_docpath(self, builder, docname):
