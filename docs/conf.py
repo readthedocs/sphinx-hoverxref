@@ -82,7 +82,7 @@ if os.environ.get('LOCAL_READTHEDOCS') == 'True':
     hoverxref_api_host = 'http://community.dev.readthedocs.io'
 
 # TODO: remove me when EmbedAPIv3 gets deployed in production
-hoverxref_api_host = 'http://community.dev.readthedocs.io'
+hoverxref_api_host = 'https://readthedocs.ngrok.io'
 
 hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
