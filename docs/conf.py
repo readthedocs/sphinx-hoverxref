@@ -55,14 +55,23 @@ extensions = [
 intersphinx_mapping = {
     'readthedocs': ('https://docs.readthedocs.io/en/stable/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+    'sympy': ('https://docs.sympy.org/latest/', None),
+    'numpy': ('https://numpy.org/doc/stable/', None),
+    'python': ('https://docs.python.org/3/', None),
 }
 hoverxref_intersphinx = [
     'readthedocs',
     'sphinx',
+    'sympy',
+    'numpy',
+    'python',
 ]
 hoverxref_intersphinx_types = {
     'readthedocs': 'modal',
     'sphinx': 'tooltip',
+    'sympy': 'tooltip',
+    'numpy': 'tooltip',
+    'python': 'tooltip',
 }
 
 # Used when building the documentation from the terminal and using a local Read

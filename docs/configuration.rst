@@ -101,8 +101,9 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    .. warning::
 
-      The Sphinx's target project **must be hosted on Read the Docs** to work.
-      This is a current limitation that we hope to remove in the future.
+      The Sphinx's target project **must be hosted on Read the Docs** to work or,
+      be one of the allowed external projects:
+      currently CPython, SymPy, NumPy are supported.
 
 .. confval:: hoverxref_intersphinx_types
 
