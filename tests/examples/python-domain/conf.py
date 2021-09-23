@@ -6,6 +6,3 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'hoverxref.extension',
 ]
-
-hoverxref_project = 'myproject'
-hoverxref_version = 'myversion'

@@ -12,7 +12,7 @@ class HoverXRefBaseDomain:
         'hoverxrefmodal',
     )
 
-    def _inject_hoverxref_data(self, env, refnode, typ, docname, docpath, labelid):
+    def _inject_hoverxref_data(self, env, refnode, typ):
         classes = ['hoverxref']
         type_class = None
         if typ == 'hoverxreftooltip':
@@ -35,33 +35,12 @@ class HoverXRefBaseDomain:
             classes.append(type_class)
 
         refnode.replace_attr('classes', classes)
-
-        project = env.config.hoverxref_project
-        version = env.config.hoverxref_version
-        refnode._hoverxref = {
-            'data-project': project,
-            'data-version': version,
-            'data-doc': docname,
-            'data-docpath': docpath,
-            'data-section': labelid,
-        }
-        url = refnode.get('refuri')
-        if url:
-            refnode._hoverxref.update({
-                # FIXME: data-url requires to use the full URL here. At this
-                # point, we need to know the domain where the project is hosted
-                'data-url': f'https://sphinx-hoverxref--146.org.readthedocs.build/en/146/{url}',
-            })
-        else:
-            logger.info(
-                'refuri not found for node. node=%s',
-                refnode.__dict__,
-            )
-
-    def _get_docpath(self, builder, docname):
-        docpath = builder.get_outfilename(docname)
-        docpath = docpath.replace(builder.outdir, '')
-        return docpath
+        # TODO: log something else here, so we can unique identify this node
+        logger.debug(
+            ':%s: _hoverxref injected. classes=%s',
+            typ,
+            classes,
+        )
 
     def _is_ignored_ref(self, env, target):
         # HACK: skip all references if the builder is non-html. We shouldn't
@@ -90,27 +69,10 @@ class HoverXRefPythonDomainMixin(HoverXRefBaseDomain):
         if refnode is None:
             return refnode
 
-        if any([
-                not env.config.hoverxref_is_configured,
-                self._is_ignored_ref(env, target),
-        ]):
+        if self._is_ignored_ref(env, target):
             return refnode
 
-        modname = node.get('py:module')
-        clsname = node.get('py:class')
-        searchmode = node.hasattr('refspecific') and 1 or 0
-        matches = self.find_obj(env, modname, clsname, target,
-                                typ, searchmode)
-        name, obj = matches[0]
-
-        docname, labelid = obj[0], name
-        docpath = self._get_docpath(builder, docname)
-        self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
-        logger.debug(
-            ':ref: _hoverxref injected: fromdocname=%s %s',
-            fromdocname,
-            refnode._hoverxref,
-        )
+        self._inject_hoverxref_data(env, refnode, typ)
         return refnode
 
 
@@ -122,8 +84,8 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
     (``sphinx.addnodes.pending_xref``). These nodes are translated to regular
     ``docsutils.nodes.reference`` for this domain class.
 
-    Before loosing the data used to resolve the reference, our customized domain
-    saves it inside the node itself to be used later by the ``HTMLTranslator``.
+    This class add the required ``hoverxref`` and ``modal``/``tooltip`` to tell
+    the frontend to show a modal/tooltip on this element.
     """
 
     def resolve_xref(self, env, fromdocname, builder, typ, target, node, contnode):
@@ -140,21 +102,13 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
             return refnode
 
         if any([
-                not env.config.hoverxref_is_configured,
                 self._is_ignored_ref(env, target),
                 not (env.config.hoverxref_auto_ref or typ in self.hoverxref_types)
         ]):
             return refnode
 
 
-        docname, labelid, _ = get_ref_xref_data(self, node, target)
-        docpath = self._get_docpath(builder, docname)
-        self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
-        logger.debug(
-            ':ref: _hoverxref injected: fromdocname=%s %s',
-            fromdocname,
-            refnode._hoverxref,
-        )
+        self._inject_hoverxref_data(env, refnode, typ)
         return refnode
 
     def _resolve_obj_xref(self, env, fromdocname, builder, typ, target, node, contnode):
@@ -163,21 +117,12 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
             return refnode
 
         if any([
-                not env.config.hoverxref_is_configured,
                 self._is_ignored_ref(env, target),
                 typ not in env.config.hoverxref_roles,
         ]):
             return refnode
 
-        docname, labelid = get_ref_obj_data(self, node, typ, target)
-        docpath = self._get_docpath(builder, docname)
-        self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
-        logger.debug(
-            ':%s: _hoverxref injected: fromdocname=%s %s',
-            typ,
-            fromdocname,
-            refnode._hoverxref,
-        )
+        self._inject_hoverxref_data(env, refnode, typ)
         return refnode
 
     # TODO: combine this method with ``_resolve_obj_xref``
@@ -187,19 +132,10 @@ class HoverXRefStandardDomainMixin(HoverXRefBaseDomain):
             return refnode
 
         if any([
-                not env.config.hoverxref_is_configured,
                 self._is_ignored_ref(env, target),
                 typ not in env.config.hoverxref_roles,
         ]):
             return refnode
 
-        docname, labelid = get_ref_numref_data(self, node, typ, target)
-        docpath = self._get_docpath(builder, docname)
-        self._inject_hoverxref_data(env, refnode, typ, docname, docpath, labelid)
-        logger.debug(
-            ':%s: _hoverxref injected: fromdocname=%s %s',
-            typ,
-            fromdocname,
-            refnode._hoverxref,
-        )
+        self._inject_hoverxref_data(env, refnode, typ)
         return refnode

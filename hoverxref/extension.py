@@ -15,7 +15,6 @@ from .domains import (
     HoverXRefPythonDomainMixin,
     HoverXRefStandardDomainMixin,
 )
-from .translators import HoverXRefHTMLTranslatorMixin
 
 logger = logging.getLogger(__name__)
 
@@ -253,68 +252,8 @@ def missing_reference(app, env, node, contnode):
         classes = newnode.get('classes')
         classes.extend(['hoverxref', hoverxref_type])
         newnode.replace_attr('classes', classes)
-        newnode._hoverxref = {
-            'data-url': newnode.get('refuri'),
-        }
 
     return newnode
-
-
-def setup_translators(app):
-    """
-    Override translators respecting the one defined (if any).
-
-    We create a new class by inheriting the Sphinx Translator already defined
-    and our own ``HoverXRefHTMLTranslatorMixin`` that includes the logic to
-    ``_hoverxref`` attributes.
-    """
-
-    if app.builder.format != 'html':
-        # do not modify non-html builders
-        return
-
-    for name, klass in app.registry.translators.items():
-        translator = types.new_class(
-            'HoverXRefHTMLTranslator',
-            (
-                HoverXRefHTMLTranslatorMixin,
-                klass,
-            ),
-            {},
-        )
-        app.set_translator(name, translator, override=True)
-
-    translator = types.new_class(
-        'HoverXRefHTMLTranslator',
-        (
-            HoverXRefHTMLTranslatorMixin,
-            app.builder.default_translator_class,
-        ),
-        {},
-    )
-    app.set_translator(app.builder.name, translator, override=True)
-
-
-
-def is_hoverxref_configured(app, config):
-    """
-    Save a config if hoverxref is properly configured.
-
-    It checks for ``hoverxref_project`` and ``hoverxref_version`` being defined
-    and set ``hoverxref_is_configured=True`` if configured.
-    """
-    config.hoverxref_is_configured = True
-
-    project = config.hoverxref_project
-    version = config.hoverxref_version
-    if not project or not version:
-        config.hoverxref_is_configured = False
-        # ``hoverxref`` extension is not fully configured
-        logger.info(
-            'hoverxref extension is not fully configured. '
-            'Tooltips may not work as expected. '
-            'Check out the documentation for hoverxref_project and hoverxref_version configuration options.',
-        )
 
 
 def setup_theme(app, exception):
@@ -372,10 +311,6 @@ def setup(app):
     # ``override`` was introduced in 1.8
     app.require_sphinx('1.8')
 
-    default_project = os.environ.get('READTHEDOCS_PROJECT')
-    default_version = os.environ.get('READTHEDOCS_VERSION')
-    app.add_config_value('hoverxref_project', default_project, 'html')
-    app.add_config_value('hoverxref_version', default_version, 'html')
     app.add_config_value('hoverxref_auto_ref', False, 'env')
     app.add_config_value('hoverxref_mathjax', False, 'env')
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
@@ -414,14 +349,11 @@ def setup(app):
     app.add_config_value('hoverxref_modal_default_title', 'Note', 'env')
     app.add_config_value('hoverxref_modal_prefix_title', '📝 ', 'env')
 
-    app.connect('builder-inited', setup_translators)
-
     app.connect('config-inited', deprecated_configs_warning)
 
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
     app.connect('config-inited', setup_intersphinx)
-    app.connect('config-inited', is_hoverxref_configured)
     app.connect('config-inited', setup_theme)
     app.connect('config-inited', setup_assets_policy)
     app.connect('build-finished', copy_asset_files)

@@ -167,22 +167,6 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    Type: string
 
-.. confval:: hoverxref_project
-
-   Description: Read the Docs project slug
-
-   Default: It defaults to ``READTHEDOCS_PROJECT`` environment variable
-
-   Type: string
-
-.. confval:: hoverxref_version
-
-   Description: Read the Docs version slug
-
-   Default: It defaults to ``READTHEDOCS_VERSION`` environment variable
-
-   Type: string
-
 
 Tooltipster
 -----------

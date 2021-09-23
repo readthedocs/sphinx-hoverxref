@@ -21,8 +21,6 @@ To setup this approach, you need to put these settings in the ``conf.py`` of you
 
 .. code-block:: python
 
-   hoverxref_project = 'sphinx-hoverxref'
-   hoverxref_version = 'latest'
    hoverxref_api_host = 'https://readthedocs.org'
 
 After building the documentation all the requests will be done to URLs like::
