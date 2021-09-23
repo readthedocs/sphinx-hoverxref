@@ -222,9 +222,20 @@ def missing_reference(app, env, node, contnode):
         #   refexplicit: False
         inventories = InventoryAdapter(env)
 
+        # TODO: credits to https://github.com/readthedocs/sphinx-hoverxref/pull/144
+        # This chunk of code needs tests :)
+        reftype_fallbacks = {
+            'meth': 'method',
+            'mod': 'module',
+        }
+
         for inventory_name in app.config.hoverxref_intersphinx:
             inventory = inventories.named_inventory.get(inventory_name, {})
-            if inventory.get(f'{domain}:{reftype}', {}).get(target) is not None:
+            inventory_member = (
+                inventory.get(f'{domain}:{reftype}') or
+                inventory.get(f'{domain}:{reftype_fallbacks.get(reftype)}')
+            )
+            if inventory_member and inventory_member.get(target) is not None:
                 # The object **does** exist on the inventories defined by the
                 # user: enable hoverxref on this node
                 skip_node = False
