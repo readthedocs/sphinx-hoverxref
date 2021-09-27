@@ -87,8 +87,9 @@ if os.environ.get('LOCAL_READTHEDOCS') == 'True':
     # Building on a local Read the Docs instance
     hoverxref_api_host = 'http://community.dev.readthedocs.io'
 
-# TODO: remove me when EmbedAPIv3 gets deployed in production
-hoverxref_api_host = 'https://readthedocs.ngrok.io'
+if os.environ.get('NGROK_READTHEDOCS') == 'True':
+    # Building on a local Read the Docs instance using NGROK for HTTPS
+    hoverxref_api_host = 'https://readthedocs.ngrok.io'
 
 hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
