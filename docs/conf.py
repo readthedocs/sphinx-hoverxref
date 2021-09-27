@@ -69,9 +69,6 @@ hoverxref_intersphinx = [
 hoverxref_intersphinx_types = {
     'readthedocs': 'modal',
     'sphinx': 'tooltip',
-    'sympy': 'tooltip',
-    'numpy': 'tooltip',
-    'python': 'tooltip',
 }
 
 # Used when building the documentation from the terminal and using a local Read
