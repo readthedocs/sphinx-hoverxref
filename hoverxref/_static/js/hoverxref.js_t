@@ -93,6 +93,9 @@ function getEmbedURL(url) {
 
 
 $(document).ready(function() {
+    // remove ``title=`` attribute for intersphinx nodes that have hoverxref enabled
+    $('.hoverxref.external').each(function () { $(this).removeAttr('title') });
+
     $('.hoverxref.tooltip').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
