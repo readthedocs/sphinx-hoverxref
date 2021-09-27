@@ -1,5 +1,4 @@
 from sphinx.util import logging
-from .utils import get_ref_xref_data, get_ref_obj_data, get_ref_numref_data
 
 logger = logging.getLogger(__name__)
 

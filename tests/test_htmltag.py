@@ -114,7 +114,7 @@ def test_python_domain(app, status, warning):
     chunks = [
         '<a class="hoverxref tooltip reference internal" href="api.html#hoverxref.extension.HoverXRefStandardDomainMixin" title="hoverxref.extension.HoverXRefStandardDomainMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">This</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">:py:class:</span> <span class="pre">role</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">Python</span> <span class="pre">object</span></code></a>',
         '<a class="hoverxref tooltip reference internal" href="api.html#module-hoverxref.extension" title="hoverxref.extension"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hoverxref.extension</span></code></a>',
-        '<a class="hoverxref tooltip reference internal" href="api.html#hoverxref.utils.get_ref_xref_data" title="hoverxref.utils.get_ref_xref_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.utils.get_ref_xref_data()</span></code></a>',
+        '<a class="hoverxref tooltip reference internal" href="api.html#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
     ]
 
     for chunk in chunks:
