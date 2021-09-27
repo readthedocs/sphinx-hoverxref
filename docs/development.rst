@@ -82,7 +82,7 @@ To make the extension to work, you will need to define this setting in your ``co
 
 .. code-block:: python
 
-   hoverxref_api_host = 'http://dev.readthedocs.io:8000'
+   hoverxref_api_host = 'http://community.dev.readthedocs.io'
 
 .. tip::
 

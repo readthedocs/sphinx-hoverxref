@@ -7,7 +7,7 @@ and will embed the content of the document/section the link is pointing to, into
 
 ``:hoverxref:`` role uses Sphinx's internals reference resolution to find out where the link points to.
 So, the way of referencing the section works in the same way as the ``:ref:`` standard role.
-See :ref:`Sphinx's ref role documentation <sphinx:ref-role>` for more information.
+See Sphinx's :rst:role:`ref` for more information.
 
 Simplest usage example,
 
