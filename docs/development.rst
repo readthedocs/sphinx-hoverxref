@@ -25,7 +25,7 @@ To setup this approach, you need to put these settings in the ``conf.py`` of you
 
 After building the documentation all the requests will be done to URLs like::
 
-  https://readthedocs.org/api/v2/embed/?project=sphinx-hoverxref&version=latest&doc=...&section=...
+  https://readthedocs.org/api/v3/embed/?doctool=sphinx&doctoolversion=...&url=...
 
 .. note::
 

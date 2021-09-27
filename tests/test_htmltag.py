@@ -43,19 +43,18 @@ def test_js_render(app, status, warning):
         "contentAsHTML: true",
         "content: 'Loading...'",
         "var url = 'https://readthedocs.org' + '/api/v3/embed/?' + $.param(params);",
-        # TODO: fix this chunk of test
-        # textwrap.indent(
-        #     textwrap.dedent("""
-        #     var params = {
-        #       'doctool': 'sphinx',
-        #       'doctoolversion': '{}',
-        #       'url': url,
-        #     }""".format(sphinx.__version__)),
-        #     '    ',
-        # ).strip(),
+        textwrap.indent(
+            textwrap.dedent("""
+            var params = {{
+                'doctool': 'sphinx',
+                'doctoolversion': '{}',
+                'url': url,
+            }}""".format(sphinx.__version__)),
+            '    ',
+        ).strip(),
         "var sphinxtabs = false",
         "var mathjax = false",
-        "var url = getEmbedURL(url);",
+        "var url = getEmbedURL(href);",
     ]
 
     for chunk in chunks:

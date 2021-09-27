@@ -105,14 +105,11 @@ $(document).ready(function() {
 
         functionBefore: function(instance, helper) {
             var $origin = $(helper.origin);
-            // TODO: we are failing on some elements to set the URL from the
-            // backend, but we can use `href` instead.
-            var url = $origin.data('url') || $origin.prop('href');
-
+            var href = $origin.prop('href');
 
             // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
             if ($origin.data('loaded') !== true) {
-                var url = getEmbedURL(url);
+                var url = getEmbedURL(href);
                 $.get(url, function(data) {
                     // call the 'content' method to update the content of our tooltip with the returned data.
                     // note: this content update will trigger an update animation (see the updateAnimation option)
@@ -176,10 +173,8 @@ $(document).ready(function() {
     {% endif %}
 
     function showModal(element) {
-        // TODO: we are failing on some elements to set the URL from the
-        // backend, but we can use `href` instead.
-        var url = element.data('url') || element.prop('href');
-        var url = getEmbedURL(url);
+        var href = element.prop('href');
+        var url = getEmbedURL(href);
         $.get(url, function(data) {
             var content = $('<div></div>');
             content.html(data['content']);
