@@ -65,10 +65,6 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    Description: List containing the Sphinx Domain's names where ``hoverxref`` has to be applied.
 
-   .. warning::
-
-      Only Python Domain (``py``) is currently supported.
-
    Default: ``[]``
 
    Type: list

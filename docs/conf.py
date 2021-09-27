@@ -50,7 +50,10 @@ extensions = [
     'hoverxref.extension',
     'versionwarning.extension',
     'notfound.extension',
+    'sphinxcontrib.bibtex',
 ]
+
+bibtex_bibfiles = ['refs.bib']
 
 intersphinx_mapping = {
     'readthedocs': ('https://docs.readthedocs.io/en/stable/', None),
@@ -95,6 +98,7 @@ hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
 hoverxref_roles = [
     'confval',
+    'term',
 ]
 
 hoverxref_role_types = {
@@ -107,6 +111,7 @@ hoverxref_role_types = {
 }
 hoverxref_domains = [
     'py',
+    'cite',
 ]
 hoverxref_sphinxtabs = True
 hoverxref_mathjax = True

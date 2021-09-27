@@ -3,7 +3,7 @@ import pytest
 import sphinx
 import textwrap
 
-from .utils import srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir, intersphinxsrc
+from .utils import srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir, intersphinxsrc, bibtexdomainsrcdir
 
 
 @pytest.mark.sphinx(
@@ -115,6 +115,50 @@ def test_python_domain(app, status, warning):
         '<a class="hoverxref tooltip reference internal" href="api.html#hoverxref.extension.HoverXRefStandardDomainMixin" title="hoverxref.extension.HoverXRefStandardDomainMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">This</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">:py:class:</span> <span class="pre">role</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">Python</span> <span class="pre">object</span></code></a>',
         '<a class="hoverxref tooltip reference internal" href="api.html#module-hoverxref.extension" title="hoverxref.extension"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hoverxref.extension</span></code></a>',
         '<a class="hoverxref tooltip reference internal" href="api.html#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
+    ]
+
+    for chunk in chunks:
+        assert chunk in content
+
+
+@pytest.mark.skipif(
+    sphinx.version_info < (2, 1, 0),
+    reason='sphinxcontrib-bibtex requires Sphinx>=2.1 to work',
+)
+@pytest.mark.sphinx(
+    srcdir=bibtexdomainsrcdir,
+    confoverrides={
+        'hoverxref_domains': ['cite'],
+    },
+)
+def test_bibtex_domain(app, status, warning):
+    app.build()
+    path = app.outdir / 'index.html'
+    assert path.exists() is True
+    content = open(path).read()
+
+    chunks = [
+        '<p>See <span id="id1">Nelson [<a class="hoverxref tooltip reference internal" href="#id4" title="Edward Nelson. Radically Elementary Probability Theory. Princeton University Press, 1987.">Nel87</a>]</span> for an introduction to non-standard analysis.\nNon-standard analysis is fun <span id="id2">[<a class="hoverxref tooltip reference internal" href="#id4" title="Edward Nelson. Radically Elementary Probability Theory. Princeton University Press, 1987.">Nel87</a>]</span>.</p>',
+    ]
+
+    for chunk in chunks:
+        assert chunk in content
+
+
+@pytest.mark.sphinx(
+    srcdir=srcdir,
+    confoverrides={
+        'hoverxref_roles': ['term'],
+    },
+)
+def test_glossary_term_domain(app, status, warning):
+    app.build()
+    path = app.outdir / 'glossary.html'
+    assert path.exists() is True
+    content = open(path).read()
+
+    chunks = [
+        '<p>See definition <a class="hoverxref tooltip reference internal" href="#term-builder"><span class="xref std std-term">builder</span></a> for more information.</p>',
     ]
 
     for chunk in chunks:
