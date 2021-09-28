@@ -93,6 +93,11 @@ function getEmbedURL(url) {
 
 
 $(document).ready(function() {
+    // Remove ``title=`` attribute for intersphinx nodes that have hoverxref enabled.
+    // It doesn't make sense the browser shows the default tooltip (browser's built-in)
+    // and immediately after that our tooltip was shown.
+    $('.hoverxref.external').each(function () { $(this).removeAttr('title') });
+
     $('.hoverxref.tooltip').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
