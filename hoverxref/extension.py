@@ -12,6 +12,7 @@ from sphinx.util import logging
 from . import version
 from .domains import (
     HoverXRefBaseDomain,
+    HoverXRefBibtexDomainMixin,
     HoverXRefPythonDomainMixin,
     HoverXRefStandardDomainMixin,
 )
@@ -114,6 +115,17 @@ def setup_domains(app, config):
             (
                 HoverXRefPythonDomainMixin,
                 app.registry.domains.get('py'),
+            ),
+            {}
+        )
+        app.add_domain(domain, override=True)
+
+    if 'cite' in app.config.hoverxref_domains:
+        domain = types.new_class(
+            'HoverXRefBibtexDomain',
+            (
+                HoverXRefBibtexDomainMixin,
+                app.registry.domains.get('cite'),
             ),
             {}
         )

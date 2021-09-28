@@ -113,6 +113,44 @@ To enable ``hoverxref`` on a domain, you need to use the config :confval:`hoverx
 indicating which are the domains you desire.
 
 
+Tooltip on glossary terms
+-------------------------
+
+You can add tooltips to glossary terms:
+
+.. code-block:: rst
+
+   See the :term:`sphinx:environment` definition in the glossary.
+
+That will render to:
+
+See the :term:`sphinx:environment` definition in the glossary.
+
+To enable ``hoverxref`` on glossary terms, you need to add ``'term'`` to :confval:`hoverxref_roles`.
+
+
+Tooltip on sphinxcontrib-bibtex cites
+-------------------------------------
+
+If you want to show a tooltip on `sphinxcontrib-bibtex <https://sphinxcontrib-bibtex.readthedocs.io/en/latest/>`_ cites,
+you just need to enable it in :confval:`hoverxref_domains` by adding ``'cite'`` to that list.
+Example:
+
+.. code-block:: rst
+
+   See :cite:t:`1987:nelson` for an introduction to non-standard analysis.
+   Non-standard analysis is fun :cite:p:`1987:nelson`.
+
+See :cite:t:`1987:nelson` for an introduction to non-standard analysis.
+Non-standard analysis is fun :cite:p:`1987:nelson`.
+
+.. note::
+
+   Note that tooltips on sphinxcontrib-bibtex are supported on ``Sphinx>=2.1`` only.
+
+.. bibliography::
+
+
 Tooltip with content that needs extra rendering steps
 -----------------------------------------------------
 
