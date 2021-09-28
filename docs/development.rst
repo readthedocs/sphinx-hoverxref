@@ -21,13 +21,11 @@ To setup this approach, you need to put these settings in the ``conf.py`` of you
 
 .. code-block:: python
 
-   hoverxref_project = 'sphinx-hoverxref'
-   hoverxref_version = 'latest'
    hoverxref_api_host = 'https://readthedocs.org'
 
 After building the documentation all the requests will be done to URLs like::
 
-  https://readthedocs.org/api/v2/embed/?project=sphinx-hoverxref&version=latest&doc=...&section=...
+  https://readthedocs.org/api/v3/embed/?doctool=sphinx&doctoolversion=...&url=...
 
 .. note::
 
@@ -84,7 +82,7 @@ To make the extension to work, you will need to define this setting in your ``co
 
 .. code-block:: python
 
-   hoverxref_api_host = 'http://dev.readthedocs.io:8000'
+   hoverxref_api_host = 'http://community.dev.readthedocs.io'
 
 .. tip::
 

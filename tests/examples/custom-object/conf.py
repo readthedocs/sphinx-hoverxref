@@ -6,8 +6,6 @@ extensions = [
     'hoverxref.extension',
 ]
 
-hoverxref_project = 'myproject'
-hoverxref_version = 'myversion'
 hoverxref_roles = [
     'confval',
     'numref',

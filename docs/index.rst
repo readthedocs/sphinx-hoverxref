@@ -99,8 +99,8 @@ Badges:
 .. _Read the Docs: https://readthedocs.org
 
 
-.. |Build| image:: https://travis-ci.org/readthedocs/sphinx-hoverxref.svg?branch=master
-   :target: https://travis-ci.org/readthedocs/sphinx-hoverxref
+.. |Build| image:: https://circleci.com/gh/readthedocs/sphinx-hoverxref.svg?style=svg
+   :target: https://circleci.com/gh/readthedocs/sphinx-hoverxref
    :alt: Build status
 .. |PyPI version| image:: https://img.shields.io/pypi/v/sphinx-hoverxref.svg
    :target: https://pypi.org/project/sphinx-hoverxref

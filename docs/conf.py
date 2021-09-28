@@ -55,10 +55,16 @@ extensions = [
 intersphinx_mapping = {
     'readthedocs': ('https://docs.readthedocs.io/en/stable/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+    'sympy': ('https://docs.sympy.org/latest/', None),
+    'numpy': ('https://numpy.org/doc/stable/', None),
+    'python': ('https://docs.python.org/3/', None),
 }
 hoverxref_intersphinx = [
     'readthedocs',
     'sphinx',
+    'sympy',
+    'numpy',
+    'python',
 ]
 hoverxref_intersphinx_types = {
     'readthedocs': 'modal',
@@ -81,6 +87,10 @@ if os.environ.get('LOCAL_READTHEDOCS') == 'True':
     # Building on a local Read the Docs instance
     hoverxref_api_host = 'http://community.dev.readthedocs.io'
 
+if os.environ.get('NGROK_READTHEDOCS') == 'True':
+    # Building on a local Read the Docs instance using NGROK for HTTPS
+    hoverxref_api_host = 'https://readthedocs.ngrok.io'
+
 hoverxref_tooltip_maxwidth = 650
 hoverxref_auto_ref = True
 hoverxref_roles = [
@@ -93,6 +103,7 @@ hoverxref_role_types = {
     'confval': 'tooltip',
     'mod': 'modal',
     'class': 'modal',
+    'obj': 'tooltip',
 }
 hoverxref_domains = [
     'py',
