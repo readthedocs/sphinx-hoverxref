@@ -232,22 +232,15 @@ def missing_reference(app, env, node, contnode):
         #   reftarget: float
         #   refexplicit: False
         inventories = InventoryAdapter(env)
-
-        # Intersphinx inventories come with "method" but sphinx autodoc has "meth"
-        # TODO: credits to https://github.com/readthedocs/sphinx-hoverxref/pull/144
-        # This chunk of code needs tests :)
-        reftype_fallbacks = {
-            'meth': 'method',
-            'mod': 'module',
-        }
+        env_domain = inventories.env.get_domain(domain)
+        # Intersphinx inventories may come with concrete types for domain roles.
+        # (e.g. for python, when reftype=='meth', inventory uses "method" or "classmethod"...
+        # so check in order, starting from the current reftype.
+        keys_to_check = [reftype, *env_domain.objtypes_for_role(reftype)]
 
         for inventory_name in app.config.hoverxref_intersphinx:
             inventory = inventories.named_inventory.get(inventory_name, {})
-            inventory_member = (
-                inventory.get(f'{domain}:{reftype}') or
-                inventory.get(f'{domain}:{reftype_fallbacks.get(reftype)}')
-            )
-            if inventory_member and inventory_member.get(target) is not None:
+            if any(inventory.get(f"{domain}:{key}", {}).get(target) for key in keys_to_check):
                 # The object **does** exist on the inventories defined by the
                 # user: enable hoverxref on this node
                 skip_node = False
