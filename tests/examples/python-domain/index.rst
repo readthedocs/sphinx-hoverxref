@@ -7,4 +7,4 @@ This is an example page with a Python Domain role usage.
 
 :py:mod:`hoverxref.extension`
 
-:py:func:`hoverxref.utils.get_ref_xref_data`
+:py:func:`hoverxref.extension.setup`

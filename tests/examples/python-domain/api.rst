@@ -9,4 +9,4 @@ API
 .. automodule:: hoverxref.extension
 
 
-.. autofunction:: hoverxref.utils.get_ref_xref_data
+.. autofunction:: hoverxref.extension.setup

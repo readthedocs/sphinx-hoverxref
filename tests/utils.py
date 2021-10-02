@@ -28,6 +28,13 @@ pythondomainsrcdir = os.path.join(
     'python-domain',
 )
 
+# srcdir with ``:cite:`` call
+bibtexdomainsrcdir = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    'examples',
+    'bibtex-domain',
+)
+
 # srcdir with intersphinx configured
 intersphinxsrc = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
