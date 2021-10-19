@@ -16,3 +16,5 @@ include hoverxref/_static/js/micromodal.min.js
 include hoverxref/_static/css/micromodal.css
 include hoverxref/_static/css/sphinx_material.css
 include hoverxref/_static/css/sphinx_rtd_theme.css
+
+prune tests

@@ -13,7 +13,7 @@ setuptools.setup(
     description='Sphinx extension to embed content in a tooltip on xref hover',
     url='https://github.com/readthedocs/sphinx-hoverxref',
     license='MIT',
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=['common', 'tests']),
     long_description=long_description,
     long_description_content_type='text/x-rst',
     include_package_data=True,

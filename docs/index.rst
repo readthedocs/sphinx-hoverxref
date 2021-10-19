@@ -86,6 +86,7 @@ Badges:
    usage
    configuration
    development
+   releasing
 
 
 .. toctree::
