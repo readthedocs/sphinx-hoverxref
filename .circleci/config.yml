@@ -1,54 +1,63 @@
 version: 2.1
 
 commands:
-  run-tests:
+  run-tox:
+    description: "Run tox"
+    parameters:
+      version:
+        type: string
+      sphinx-version:
+        type: string
+        default: "18,20,21,22,23,24,30,31,32,33,34,35,40,41,42,latest"
     steps:
       - checkout
       - run: pip install --user tox
-      - run: tox
+      - run: tox -e "<<parameters.version>>-sphinx{<<parameters.sphinx-version>>}"
 
 jobs:
-  tests-py36:
+  py36:
     docker:
       - image: 'cimg/python:3.6'
-    environment:
-        # Select only the environments that match the Python version we have
-        # installed in this Docker image (e.g. `py36-*`). Use TOX_SKIP_ENV with
-        # a negated regex to only match the environment we want to run. Read
-        # more at https://github.com/tox-dev/tox/issues/238
-        TOX_SKIP_ENV: '^(?!py36-)'
     steps:
-      - run-tests
-  tests-py37:
+      - run-tox:
+          version: py36
+  py37:
     docker:
       - image: 'cimg/python:3.7'
-    environment:
-      TOX_SKIP_ENV: '^(?!py37-)'
     steps:
-      - run-tests
+      - run-tox:
+          version: py37
 
-  tests-py38:
+  py38:
     docker:
       - image: 'cimg/python:3.8'
-    environment:
-      TOX_SKIP_ENV: '^(?!py38-)'
     steps:
-      - run-tests
+      - run-tox:
+          version: py38
 
-  tests-py39:
+  py39:
     docker:
       - image: 'cimg/python:3.9'
-    environment:
-      TOX_SKIP_ENV: '^(?!py39-)'
     steps:
-      - run-tests
+      - run-tox:
+          version: py39
 
+  py310:
+    docker:
+      - image: 'cimg/python:3.10'
+    steps:
+      - run-tox:
+          version: py310
+          # Do not run tests for Python 3.10 and some versions of Sphinx because it's broken
+          # See https://github.com/sphinx-doc/sphinx/issues/9816
+          sphinx-version: "18,20,21,22,23,24,42,latest"
 
 workflows:
   version: 2
   test:
     jobs:
-      - tests-py36
-      - tests-py37
-      - tests-py38
-      - tests-py39
+      - py36
+      - py37
+      - py38
+      - py39
+      - py310
