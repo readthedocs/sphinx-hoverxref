@@ -44,6 +44,16 @@ jobs:
       - run-tests
 
 
+  tests-py310:
+    docker:
+      - image: 'cimg/python:3.10'
+    environment:
+      # Skip py310-sphinx{35,40,41} because it's broken
+      # See https://github.com/sphinx-doc/sphinx/issues/9816
+      TOX_SKIP_ENV: '^(?!py310-)|(^py310-sphinx(35|40|41)$)'
+    steps:
+      - run-tests
+
 workflows:
   version: 2
   test:
@@ -52,3 +62,4 @@ workflows:
       - tests-py37
       - tests-py38
       - tests-py39
+      - tests-py310
