@@ -65,6 +65,8 @@ def copy_asset_files(app, exception):
                 # Then, add the values that the user overrides
                 context[attr] = getattr(app.config, attr)
 
+        context['http_hoverxref_version'] = version
+
         # Finally, add some non-hoverxref extra configs
         configs = ['html_theme']
         for attr in configs:
