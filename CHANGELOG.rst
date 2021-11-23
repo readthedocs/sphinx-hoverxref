@@ -4,6 +4,12 @@ Changelog
 This page shows all the changes done on each version.
 
 
+Version 0.9b1
+-------------
+
+* Send ``X-HoverXRef-Version`` HTTP header when hitting the API
+
+
 Version 0.8b1
 -------------
 
