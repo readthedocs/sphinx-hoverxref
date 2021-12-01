@@ -3,6 +3,10 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.0.0
+-------------
+
+* Official release
 
 Version 0.9b1
 -------------
