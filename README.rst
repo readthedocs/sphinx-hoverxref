@@ -21,6 +21,14 @@ Example
 Installation
 ------------
 
+You can install sphinx-hoverxref from PyPI:
+
+::
+
+   pip install sphinx-hoverxref
+
+Or, alternatively, install it from GitHub directly (requires git):
+
 ::
 
    pip install git+https://github.com/readthedocs/sphinx-hoverxref@master
