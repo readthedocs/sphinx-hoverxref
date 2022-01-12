@@ -57,7 +57,7 @@ def test_js_render(app, status, warning):
         "var sphinxtabs = false",
         "var mathjax = false",
         "var url = getEmbedURL(href);",
-        f"request.setRequestHeader('X-HoverXRef-Version', '{version}');",
+        f"headers: {{'X-HoverXRef-Version': '{version}'}}",
     ]
 
     for chunk in chunks:
