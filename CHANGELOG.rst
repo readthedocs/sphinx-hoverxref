@@ -3,6 +3,12 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.0.1
+-------------
+
+*  Ajax header: send the header on each call instead with .ajaxSetup (https://github.com/readthedocs/sphinx-hoverxref/pull/167)
+*  Tests: solve problem with RTD documentation's title (https://github.com/readthedocs/sphinx-hoverxref/pull/168)
+
 Version 1.0.0
 -------------
 
