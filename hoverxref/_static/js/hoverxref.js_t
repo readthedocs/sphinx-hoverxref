@@ -93,57 +93,62 @@ function getEmbedURL(url) {
 
 
 $(document).ready(function() {
-    // Remove ``title=`` attribute for intersphinx nodes that have hoverxref enabled.
+    // On initial element hover, add the tooltip and then
+    // remove ``title=`` attribute for intersphinx nodes that have hoverxref enabled.
     // It doesn't make sense the browser shows the default tooltip (browser's built-in)
     // and immediately after that our tooltip was shown.
-    $('.hoverxref.external').each(function () { $(this).removeAttr('title') });
 
-    $('.hoverxref.tooltip').tooltipster({
-        theme: {{ hoverxref_tooltip_theme }},
-        interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
-        maxWidth: {{ hoverxref_tooltip_maxwidth }},
-        animation: '{{ hoverxref_tooltip_animation }}',
-        animationDuration: {{ hoverxref_tooltip_animation_duration }},
-        side: '{{ hoverxref_tooltip_side }}',
-        content: '{{ hoverxref_tooltip_content }}',
-        contentAsHTML: true,
+    // As per tooltipster docs, this is known to be less performant, but it is far, far
+    // better than calling this function for every available element on page load.
+    $('.hoverxref.tooltip').one('mouseenter click', function(event) {
+        $(this).removeAttr('title');
+        $(this).tooltipster({
+            theme: {{ hoverxref_tooltip_theme }},
+            interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
+            maxWidth: {{ hoverxref_tooltip_maxwidth }},
+            animation: '{{ hoverxref_tooltip_animation }}',
+            animationDuration: {{ hoverxref_tooltip_animation_duration }},
+            side: '{{ hoverxref_tooltip_side }}',
+            content: '{{ hoverxref_tooltip_content }}',
+            contentAsHTML: true,
 
-        functionBefore: function(instance, helper) {
-            var $origin = $(helper.origin);
-            var href = $origin.prop('href');
+            functionBefore: function(instance, helper) {
+                var $origin = $(helper.origin);
+                var href = $origin.prop('href');
 
-            // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
-            if ($origin.data('loaded') !== true) {
-                var url = getEmbedURL(href);
-                $.ajax({
-                    url: url,
-                    headers: {'X-HoverXRef-Version': '{{ http_hoverxref_version }}'},
-                }).done(
-                    function (data) {
-                        // call the 'content' method to update the content of our tooltip with the returned data.
-                        // note: this content update will trigger an update animation (see the updateAnimation option)
-                        instance.content(data['content']);
+                // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
+                if ($origin.data('loaded') !== true) {
+                    var url = getEmbedURL(href);
+                    $.ajax({
+                        url: url,
+                        headers: {'X-HoverXRef-Version': '{{ http_hoverxref_version }}'},
+                    }).done(
+                        function (data) {
+                            // call the 'content' method to update the content of our tooltip with the returned data.
+                            // note: this content update will trigger an update animation (see the updateAnimation option)
+                            instance.content(data['content']);
 
-                        // to remember that the data has been loaded
-                        $origin.data('loaded', true);
-                    }
+                            // to remember that the data has been loaded
+                            $origin.data('loaded', true);
+                        }
+                    );
+                }
+            },
+
+            functionReady: function(instance, helper) {
+                // most of Read the Docs Sphinx theme bases its style on "rst-content".
+                // We add that class to the tooltipser HTML tag here by default or a user-defined one.
+                helper.tooltip.classList.add('{{ hoverxref_tooltip_class }}');
+                reLoadSphinxTabs();
+                setTimeout(
+                    reRenderTooltip,
+                    50,
+                    instance,
+                    helper
                 );
             }
-        },
-
-        functionReady: function(instance, helper) {
-            // most of Read the Docs Sphinx theme bases its style on "rst-content".
-            // We add that class to the tooltipser HTML tag here by default or a user-defined one.
-            helper.tooltip.classList.add('{{ hoverxref_tooltip_class }}');
-            reLoadSphinxTabs();
-            setTimeout(
-                reRenderTooltip,
-                50,
-                instance,
-                helper
-            );
-        }
-    })
+        }).tooltipster('open');
+    });
 
     var modalHtml = `
   <div class="modal micromodal-slide {{ hoverxref_modal_class }}" id="micromodal" aria-hidden="true">
