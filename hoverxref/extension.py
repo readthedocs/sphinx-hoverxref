@@ -235,25 +235,19 @@ def missing_reference(app, env, node, contnode):
         #   refexplicit: False
         inventories = InventoryAdapter(env)
 
-        # TODO: credits to https://github.com/readthedocs/sphinx-hoverxref/pull/144
-        # This chunk of code needs tests :)
-        reftype_fallbacks = {
-            'meth': 'method',
-            'mod': 'module',
-        }
-
         for inventory_name in app.config.hoverxref_intersphinx:
             inventory = inventories.named_inventory.get(inventory_name, {})
-            inventory_member = (
-                inventory.get(f'{domain}:{reftype}') or
-                inventory.get(f'{domain}:{reftype_fallbacks.get(reftype)}')
-            )
-            if inventory_member and inventory_member.get(target) is not None:
-                # The object **does** exist on the inventories defined by the
-                # user: enable hoverxref on this node
-                skip_node = False
-                inventory_name_matched = inventory_name
-                break
+            # Logic of `.objtypes_for_role` stolen from
+            # https://github.com/sphinx-doc/sphinx/blob/b8789b4c/sphinx/ext/intersphinx.py#L397
+            for objtype in env.get_domain(domain).objtypes_for_role(reftype):
+                inventory_member = inventory.get(f'{domain}:{objtype}')
+
+                if inventory_member and inventory_member.get(target) is not None:
+                    # The object **does** exist on the inventories defined by the
+                    # user: enable hoverxref on this node
+                    skip_node = False
+                    inventory_name_matched = inventory_name
+                    break
 
     newnode = sphinx_missing_reference(app, env, node, contnode)
     if newnode is not None and not skip_node:

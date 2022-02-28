@@ -306,6 +306,7 @@ def test_intersphinx_python_mapping(app, status, warning):
             }
         },
         'hoverxref_domains': ['py'],
+        'default_role': 'obj',
     },
 )
 def test_intersphinx_all_mappings(app, status, warning):
@@ -323,6 +324,9 @@ def test_intersphinx_all_mappings(app, status, warning):
         # Read the Docs' link does have hoverxref enabled
         r'<a class="hoverxref modal reference external" href="https://docs.readthedocs.io/en/stable/config-file/v2.html#python" title="\(in Read the Docs user documentation v\d\d?.\d\d?.\d+\)"><span class="xref std std-ref">This a :ref: to Config File v2 Read the Docs’ page using intersphinx</span></a>',
 
+        # Using `default_role = 'obj'`
+        # Note the difference with the same `float` line previouly. Here it uses `py-obj` instead of `py-class`.
+        '<a class="hoverxref tooltip reference external" href="https://docs.python.org/3/library/functions.html#float" title="\(in Python v3.\d\d?\)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>'
     ]
 
     chunks = [
