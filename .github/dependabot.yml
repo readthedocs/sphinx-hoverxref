@@ -1,0 +1,13 @@
+version: 2
+
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "humitos"
+    open-pull-requests-limit: 3
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
