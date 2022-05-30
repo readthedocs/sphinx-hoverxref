@@ -71,7 +71,7 @@ snowballstemmer==2.2.0
     # via sphinx
 sphinx==4.5.0
     # via
-    #   -r requirements.in
+    #   -r docs/requirements.in
     #   sphinx-autoapi
     #   sphinx-autobuild
     #   sphinx-prompt
@@ -80,23 +80,23 @@ sphinx==4.5.0
     #   sphinx-version-warning
     #   sphinxcontrib-bibtex
 sphinx-autoapi==1.8.4
-    # via -r requirements.in
+    # via -r docs/requirements.in
 sphinx-autobuild==2021.3.14
-    # via -r requirements.in
+    # via -r docs/requirements.in
 sphinx-notfound-page==0.8
-    # via -r requirements.in
+    # via -r docs/requirements.in
 sphinx-prompt==1.4.0
-    # via -r requirements.in
+    # via -r docs/requirements.in
 sphinx-rtd-theme==1.0.0
-    # via -r requirements.in
+    # via -r docs/requirements.in
 sphinx-tabs==3.3.1
-    # via -r requirements.in
+    # via -r docs/requirements.in
 sphinx-version-warning==1.1.2
-    # via -r requirements.in
+    # via -r docs/requirements.in
 sphinxcontrib-applehelp==1.0.2
     # via sphinx
-sphinxcontrib-bibtex==2.4.1
-    # via -r requirements.in
+sphinxcontrib-bibtex==2.4.2
+    # via -r docs/requirements.in
 sphinxcontrib-devhelp==1.0.2
     # via sphinx
 sphinxcontrib-htmlhelp==2.0.0
