@@ -55,12 +55,17 @@ test = [
     "tox",
 ]
 
-# We are using pip-tools and I didn't find a way to specify `docs/requirements.txt` here,
-# to keep everything in sync between `docs/requirements.in`, `docs/requirements.txt` and `pyproject.toml`
-#
-# doc = [
-#   "Sphinx"
-# ]
+doc = [
+    "sphinx",
+    "sphinx-autoapi",
+    "sphinx-rtd-theme",
+    "sphinx-tabs",
+    "sphinx-prompt",
+    "sphinx-version-warning",
+    "sphinx-notfound-page",
+    "sphinx-autobuild",
+    "sphinxcontrib-bibtex",
+]
 
 [project.urls]
 Documentation = "https://sphinx-hoverxref.readthedocs.io/"
