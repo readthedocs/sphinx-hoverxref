@@ -3,7 +3,7 @@ import pytest
 import sphinx
 import textwrap
 
-from hoverxref import version
+from hoverxref import __version__
 
 from .utils import srcdir, prefixdocumentsrcdir, customobjectsrcdir, pythondomainsrcdir, intersphinxsrc, bibtexdomainsrcdir
 
@@ -57,7 +57,7 @@ def test_js_render(app, status, warning):
         "var sphinxtabs = false",
         "var mathjax = false",
         "var url = getEmbedURL(href);",
-        f"headers: {{'X-HoverXRef-Version': '{version}'}}",
+        f"headers: {{'X-HoverXRef-Version': '{__version__}'}}",
     ]
 
     for chunk in chunks:

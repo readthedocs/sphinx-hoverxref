@@ -1,0 +1,84 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "sphinx-hoverxref"
+authors = [
+    {name = "Manuel Kaufmann", email = "humitos@gmail.com"}
+]
+description = "Sphinx extension to show tooltips with content embedded when hover a reference."
+keywords=[
+    "tooltip",
+    "modal",
+    "hover",
+    "hoverxref",
+    "sphinx",
+    "documentation",
+]
+dependencies = [
+    "Sphinx >=1.8",
+]
+version = "1.0.1"
+readme = "README.rst"
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Sphinx",
+    "Framework :: Sphinx :: Extension",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Software Development :: Documentation",
+]
+
+[tool.flit.module]
+name = "hoverxref"
+
+[tool.flit.sdist]
+exclude = [
+  "common",
+  "tests",
+  ".circleci",
+  ".github",
+  ".gitignore",
+  ".readthedocs.yml",
+  "pytest.ini",
+  "conftest.py",
+  "tox.ini",
+]
+
+[project.optional-dependencies]
+test = [
+    "tox",
+]
+
+# We are using pip-tools and I didn't find a way to specify `docs/requirements.txt` here,
+# to keep everything in sync between `docs/requirements.in`, `docs/requirements.txt` and `pyproject.toml`
+#
+# doc = [
+#   "Sphinx"
+# ]
+
+[project.urls]
+Documentation = "https://sphinx-hoverxref.readthedocs.io/"
+Source = "https://github.com/readthedocs/sphinx-hoverxref"
+Tracker = "https://github.com/readthedocs/sphinx-hoverxref/issues"
+
+[tool.bumpver]
+current_version = "1.0.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "Release {new_version}"
+commit = true
+tag = true
+push = true
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'version = "{version}"',
+]
+"hoverxref/__init__.py" = [
+    '__version__ = "{version}"',
+]
