@@ -17,7 +17,7 @@ keywords=[
     "documentation",
 ]
 dependencies = [
-    "Sphinx >=1.8",
+    "sphinx >=1.8",
 ]
 version = "1.0.1"
 readme = "README.rst"
@@ -32,22 +32,6 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Topic :: Documentation :: Sphinx",
     "Topic :: Software Development :: Documentation",
-]
-
-[tool.flit.module]
-name = "hoverxref"
-
-[tool.flit.sdist]
-exclude = [
-  "common",
-  "tests",
-  ".circleci",
-  ".github",
-  ".gitignore",
-  ".readthedocs.yml",
-  "pytest.ini",
-  "conftest.py",
-  "tox.ini",
 ]
 
 [project.optional-dependencies]
@@ -71,6 +55,22 @@ doc = [
 Documentation = "https://sphinx-hoverxref.readthedocs.io/"
 Source = "https://github.com/readthedocs/sphinx-hoverxref"
 Tracker = "https://github.com/readthedocs/sphinx-hoverxref/issues"
+
+[tool.flit.module]
+name = "hoverxref"
+
+[tool.flit.sdist]
+exclude = [
+  "common",
+  "tests",
+  ".circleci",
+  ".github",
+  ".gitignore",
+  ".readthedocs.yml",
+  "pytest.ini",
+  "conftest.py",
+  "tox.ini",
+]
 
 [tool.bumpver]
 current_version = "1.0.1"
