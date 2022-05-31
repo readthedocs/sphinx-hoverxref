@@ -9,13 +9,13 @@ Install the package
 
       .. prompt:: bash
 
-         pip install --pre sphinx-hoverxref
+         pip install sphinx-hoverxref
 
    .. tab:: from GitHub
 
       .. prompt:: bash
 
-         pip install git+https://github.com/readthedocs/sphinx-hoverxref@master
+         pip install git+https://github.com/readthedocs/sphinx-hoverxref@main
 
 
 Once we have the package installed,
