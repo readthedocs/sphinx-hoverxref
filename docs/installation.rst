@@ -15,7 +15,7 @@ Install the package
 
       .. prompt:: bash
 
-         pip install git+https://github.com/readthedocs/sphinx-hoverxref@main
+         pip install git+https://github.com/readthedocs/sphinx-hoverxref
 
 
 Once we have the package installed,
