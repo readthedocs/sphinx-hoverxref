@@ -9,7 +9,7 @@ from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
 
-from . import version
+from . import __version__
 from .domains import (
     HoverXRefBaseDomain,
     HoverXRefBibtexDomainMixin,
@@ -65,7 +65,7 @@ def copy_asset_files(app, exception):
                 # Then, add the values that the user overrides
                 context[attr] = getattr(app.config, attr)
 
-        context['http_hoverxref_version'] = version
+        context['http_hoverxref_version'] = __version__
 
         # Finally, add some non-hoverxref extra configs
         configs = ['html_theme']
@@ -375,7 +375,7 @@ def setup(app):
             app.add_css_file(f)
 
     return {
-        'version': version,
+        'version': __version__,
         'parallel_read_safe': True,
         'parallel_write_safe': True,
     }

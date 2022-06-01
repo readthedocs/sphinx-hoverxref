@@ -1,16 +1,23 @@
 Releasing a new version
 =======================
 
+This project uses `flit <https://flit.pypa.io/en/latest/>`_  and `bumpver <https://github.com/mbarkhau/bumpver>`_ for this process.
 These are the steps needed to release a new version:
 
-#. Increment the version in ``hoverxerf/__init__.py``
-#. Update the ``CHANGELOG.rst``
-#. Commit the changes: ``git commit -m "Release $NEW_VERSION"``
-#. Tag the release in git: ``git tag $NEW_VERSION``
-#. Push the tag to GitHub: ``git push --tags origin``
-#. Upload the package to PyPI::
+#. Install the dependencies::
+
+     $ pip install flit bumpver
+
+#. Update the ``CHANGELOG.rst`` with the changes included in this release
+#. Increase version (``--patch``, ``--minor`` or ``--major``)::
+
+     $ bumpver update --minor
+
+#. Build the package and check everything is correct::
 
      $ rm -rf dist/ build/
-     $ pip install twine build
-     $ python -m build --wheel --sdist
-     $ twine upload dist/*
+     $ flit build
+
+#. Upload the package to PyPI::
+
+     $ flit publish
