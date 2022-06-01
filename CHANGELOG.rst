@@ -3,6 +3,16 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.1.0
+-------------
+
+* Improve intersphinx robustness
+* Update all dependencies for building documentation
+* Packaging: use bumpver and flit to build/publish
+* Improve documentation installing instructions
+* Setup pip-tools together with dependabot to handle dependencies updates
+* Remove tests for Python 3.6 and Python 3.7 and add newer Sphinx versions (4.4, 4.5 and 5.0)
+
 Version 1.0.1
 -------------
 
