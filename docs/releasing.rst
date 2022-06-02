@@ -9,9 +9,13 @@ These are the steps needed to release a new version:
      $ pip install flit bumpver
 
 #. Update the ``CHANGELOG.rst`` with the changes included in this release
+#. Add ``CHANGELOG.rst`` to git stage::
+
+     $ git add CHANGELOG.rst
+
 #. Increase version (``--patch``, ``--minor`` or ``--major``)::
 
-     $ bumpver update --minor
+     $ bumpver update --minor --allow-dirty
 
 #. Build the package and check everything is correct::
 
