@@ -3,6 +3,11 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.1.1
+-------------
+
+* Fix an issue with intersphinx and domains when the ``reftype`` was unknown
+
 Version 1.1.0
 -------------
 
