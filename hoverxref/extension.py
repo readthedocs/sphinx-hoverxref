@@ -197,7 +197,7 @@ def missing_reference(app, env, node, contnode):
 
     See https://github.com/sphinx-doc/sphinx/blob/4d90277c/sphinx/ext/intersphinx.py#L244-L250
     """
-    if not app.config.hoverxref_intersphinx:
+    if not app.config.hoverxref_intersphinx or 'sphinx.ext.intersphinx' not in app.config.extensions:
         # Do nothing if the user doesn't have hoverxref intersphinx enabled
         return
 
@@ -239,7 +239,13 @@ def missing_reference(app, env, node, contnode):
             inventory = inventories.named_inventory.get(inventory_name, {})
             # Logic of `.objtypes_for_role` stolen from
             # https://github.com/sphinx-doc/sphinx/blob/b8789b4c/sphinx/ext/intersphinx.py#L397
-            for objtype in env.get_domain(domain).objtypes_for_role(reftype):
+            objtypes_for_role = env.get_domain(domain).objtypes_for_role(reftype)
+
+            # If the reftype is not defined on the domain, we skip it
+            if not objtypes_for_role:
+                continue
+
+            for objtype in objtypes_for_role:
                 inventory_member = inventory.get(f'{domain}:{objtype}')
 
                 if inventory_member and inventory_member.get(target) is not None:
