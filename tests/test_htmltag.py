@@ -371,3 +371,21 @@ def test_intersphinx_all_mappings(app, status, warning):
 
     for chunk in chunks_regex:
         assert re.search(chunk, content)
+
+
+@pytest.mark.sphinx(
+    srcdir=srcdir,
+)
+def test_jquery_cdn_injection(app, status, warning):
+    """The extension should not change the output if not configured."""
+    app.build()
+    path = app.outdir / 'index.html'
+    assert path.exists() is True
+    content = open(path).read()
+
+    chunk = '<script crossorigin="anonymous" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>'
+
+    if sphinx.version_info >= (6, 0, 0):
+        assert chunk in content
+    else:
+        assert chunk not in content
