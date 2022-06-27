@@ -96,9 +96,9 @@ $(document).ready(function() {
     // Remove ``title=`` attribute for intersphinx nodes that have hoverxref enabled.
     // It doesn't make sense the browser shows the default tooltip (browser's built-in)
     // and immediately after that our tooltip was shown.
-    $('.hoverxref.external').each(function () { $(this).removeAttr('title') });
+    $('.hxr-hoverxref.external').each(function () { $(this).removeAttr('title') });
 
-    $('.hoverxref.tooltip').tooltipster({
+    $('.hxr-hoverxref.hxr-tooltip').tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
         maxWidth: {{ hoverxref_tooltip_maxwidth }},
@@ -235,7 +235,7 @@ $(document).ready(function() {
     };
 
     var delay = {{ hoverxref_modal_hover_delay }}, setTimeoutConst;
-    $('.hoverxref.modal').hover(function(event) {
+    $('.hxr-hoverxref.hxr-modal').hover(function(event) {
         var element = $(this);
         console.debug('Event: ' + event + ' Element: ' + element);
         event.preventDefault();

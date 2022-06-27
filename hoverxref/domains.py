@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 
 class HoverXRefBaseDomain:
 
+    css_class_prefix = 'hxr-'
     hoverxref_types = (
         'hoverxref',
         'hoverxreftooltip',
@@ -14,13 +15,13 @@ class HoverXRefBaseDomain:
     )
 
     def _inject_hoverxref_data(self, env, refnode, typ):
-        classes = ['hoverxref']
+        classes = ['hxr-hoverxref']
         type_class = None
         if typ == 'hoverxreftooltip':
-            type_class = 'tooltip'
+            type_class = 'hxr-tooltip'
             classes.append(type_class)
         elif typ == 'hoverxrefmodal':
-            type_class = 'modal'
+            type_class = 'hxr-modal'
             classes.append(type_class)
         if not type_class:
             type_class = env.config.hoverxref_role_types.get(typ)
@@ -33,11 +34,13 @@ class HoverXRefBaseDomain:
                     default,
                     typ,
                 )
-            classes.append(type_class)
+
+            # Examples: hxr-tooltip, hxr-modal
+            classes.append(f'{self.css_class_prefix}{type_class}')
 
         refnode.replace_attr('classes', classes)
         # TODO: log something else here, so we can unique identify this node
-        logger.debug(
+        logger.info(
             ':%s: _hoverxref injected. classes=%s',
             typ,
             classes,

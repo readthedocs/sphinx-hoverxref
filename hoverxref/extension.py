@@ -19,6 +19,7 @@ from .domains import (
 
 logger = logging.getLogger(__name__)
 
+CSS_CLASS_PREFIX = 'hxr-'
 
 HOVERXREF_ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -264,7 +265,7 @@ def missing_reference(app, env, node, contnode):
         hoverxref_type = hoverxref_type or app.config.hoverxref_default_type
 
         classes = newnode.get('classes')
-        classes.extend(['hoverxref', hoverxref_type])
+        classes.extend(['hxr-hoverxref', f'{CSS_CLASS_PREFIX}{hoverxref_type}'])
         newnode.replace_attr('classes', classes)
 
     return newnode
