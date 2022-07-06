@@ -19,6 +19,12 @@ from .domains import (
 
 logger = logging.getLogger(__name__)
 
+CSS_CLASS_PREFIX = 'hxr-'
+CSS_DEFAULT_CLASS = f'{CSS_CLASS_PREFIX}hoverxref'
+CSS_CLASSES = {
+    'tooltip': f'{CSS_CLASS_PREFIX}tooltip',
+    'modal': f'{CSS_CLASS_PREFIX}modal',
+}
 
 HOVERXREF_ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -27,7 +33,7 @@ HOVERXREF_ASSETS_FILES = [
 TOOLTIP_ASSETS_FILES = [
     # Tooltipster's Styles
     'js/tooltipster.bundle.min.js',
-    'css/tooltipster.custom.css',
+    'css/tooltipster.custom.css_t',
     'css/tooltipster.bundle.min.css',
 
     # Tooltipster's Themes
@@ -65,6 +71,7 @@ def copy_asset_files(app, exception):
                 # Then, add the values that the user overrides
                 context[attr] = getattr(app.config, attr)
 
+        context['hoverxref_css_class_prefix'] = CSS_CLASS_PREFIX
         context['http_hoverxref_version'] = __version__
 
         # Finally, add some non-hoverxref extra configs
@@ -73,10 +80,13 @@ def copy_asset_files(app, exception):
             context[attr] = getattr(app.config, attr)
 
         for f in ASSETS_FILES:
+            # Example: "./_static/js/hoverxref.js_t"
             path = os.path.join(os.path.dirname(__file__), '_static', f)
+            # Example: "<app.outdir>/_static/css" or "<app.outdir>/_static/js"
+            output = os.path.join(app.outdir, '_static', f.split('/')[0])
             copy_asset(
                 path,
-                os.path.join(app.outdir, '_static', f.split('.')[-1].replace('js_t', 'js')),
+                output,
                 context=context,
             )
 
@@ -264,7 +274,7 @@ def missing_reference(app, env, node, contnode):
         hoverxref_type = hoverxref_type or app.config.hoverxref_default_type
 
         classes = newnode.get('classes')
-        classes.extend(['hoverxref', hoverxref_type])
+        classes.extend([CSS_DEFAULT_CLASS, CSS_CLASSES[hoverxref_type]])
         newnode.replace_attr('classes', classes)
 
     return newnode
@@ -374,11 +384,13 @@ def setup(app):
 
     app.connect('missing-reference', missing_reference)
 
+    # Include all assets previously copied/rendered by ``copy_asset_files`` as
+    # Javascript and CSS files into the Sphinx application
     for f in ASSETS_FILES:
         if f.endswith('.js') or f.endswith('.js_t'):
             app.add_js_file(f.replace('.js_t', '.js'))
-        if f.endswith('.css'):
-            app.add_css_file(f)
+        if f.endswith('.css') or f.endswith('.css_t'):
+            app.add_css_file(f.replace('.css_t', '.css'))
 
     return {
         'version': __version__,
