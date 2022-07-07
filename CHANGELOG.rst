@@ -3,6 +3,11 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.1.2
+-------------
+
+* Prefix all the CSS classes with ``hxr-`` to avoid collisions with other frameworks
+
 Version 1.1.1
 -------------
 
