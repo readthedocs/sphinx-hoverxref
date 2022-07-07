@@ -69,7 +69,7 @@ six==1.16.0
     #   pybtex
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==4.5.0
+sphinx==5.0.2
     # via
     #   sphinx-autoapi
     #   sphinx-autobuild
