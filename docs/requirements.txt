@@ -16,7 +16,7 @@ charset-normalizer==2.0.12
     # via requests
 colorama==0.4.4
     # via sphinx-autobuild
-docutils==0.17.1
+docutils==0.19
     # via
     #   pybtex-docutils
     #   sphinx
