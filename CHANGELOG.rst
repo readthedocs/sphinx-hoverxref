@@ -3,6 +3,11 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.1.3
+-------------
+
+* Ignore ``pending_xref`` (missing references) that don't have domains (https://github.com/readthedocs/sphinx-hoverxref/pull/210)
+
 Version 1.1.2
 -------------
 
