@@ -235,7 +235,11 @@ def missing_reference(app, env, node, contnode):
             if inventory_name in app.config.hoverxref_intersphinx:
                 skip_node = False
                 inventory_name_matched = inventory_name
-    else:
+
+    # Skip this node completely if the domain is empty (`None` or `''`).
+    # I found this happens in weird scenarios.
+    # I'm considering this an edge case and ignore it for now.
+    elif domain:
         # Using intersphinx via ``sphinx.ext.autodoc`` generates links for docstrings like:
         # :py:class:`float`
         # and the node will have these attribues:
