@@ -1,7 +1,7 @@
 Welcome to sphinx-hoverxref!
 ============================
 
-``sphinx-hoverxref`` is a Sphinx_ extension to show a floating window (*tooltips* or *modal* dialogues) on the cross references of the documentation embedding the content of the linked section on them. With ``sphinx-hoverxref``, you don't need to click a link to see what's in there.
+``sphinx-hoverxref`` is a :doc:`Sphinx <sphinx:index>` extension to show a floating window (*tooltips* or *modal* dialogues) on the cross references of the documentation embedding the content of the linked section on them. With ``sphinx-hoverxref``, you don't need to click a link to see what's in there.
 
 .. figure:: poliastro-usage.gif
    :align: center
@@ -101,7 +101,6 @@ Badges:
    autoapi/hoverxref/index
 
 
-.. _Sphinx: https://www.sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.org
 
 
