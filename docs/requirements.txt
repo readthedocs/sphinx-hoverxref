@@ -89,7 +89,7 @@ sphinx-prompt==1.5.0
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-rtd-theme==1.0.0
     # via sphinx-hoverxref (pyproject.toml)
-sphinx-tabs==3.3.1
+sphinx-tabs==3.4.1
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-version-warning==1.1.2
     # via sphinx-hoverxref (pyproject.toml)
