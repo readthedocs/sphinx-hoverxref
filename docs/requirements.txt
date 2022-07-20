@@ -83,7 +83,7 @@ sphinx-autoapi==1.8.4
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-autobuild==2021.3.14
     # via sphinx-hoverxref (pyproject.toml)
-sphinx-notfound-page==0.8
+sphinx-notfound-page==0.8.3
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-prompt==1.5.0
     # via sphinx-hoverxref (pyproject.toml)
