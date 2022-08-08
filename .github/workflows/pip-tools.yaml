@@ -8,9 +8,8 @@ name: Update dependencies with pip-tools
 
 on:
   schedule:
-    # Run weekly on day 0 at 00:00 UTC
-    # TODO: revert this change
-    - cron: "*/5 * * * *"
+    # Run weekly on Mondays at 00:00 UTC
+    - cron: "0 0 * * 1"
 
 jobs:
   update-dependencies:
