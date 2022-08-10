@@ -20,14 +20,15 @@ will render to this:
 This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words to ``hoverxref``.
 
 
-Tooltip on intersphinx content
+Tooltip on Intersphinx content
 ------------------------------
 
 Sphinx comes with a nice built-in extension called :doc:`sphinx.ext.intersphinx <sphinx:usage/extensions/intersphinx>`
-that allows you to generate links to specific objects in other project's documentation pages.
+that allows you to generate references to specific objects in an external documentation project.
 
-You can combine this extension with ``sphinx-hoverxref`` to show tooltips over these links to other projects.
-For example, this documentation itself configures intersphinx with Read the Docs documentation and allow us
+You can combine ``intersphinx`` and ``sphinx-hoverxref`` to show tooltips from these mapped projects. To enable an Intersphinx mapping, you need to list it in :confval:`hoverxref_domains`.
+
+As an example, this documentation itself configures Intersphinx with Read the Docs documentation and allow us
 to do the following:
 
 .. code-block:: rst
