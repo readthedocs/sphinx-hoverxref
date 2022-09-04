@@ -177,6 +177,14 @@ These settings have effect only in tooltips.
    Type: string
 
 
+.. confval:: hoverxref_tooltip_lazy
+   Description: Whether to lazily generate tooltips (insert the html on hover, rather than on page load). This is known to be slower, but prevents the browser from stalling on load for very big doc pages.
+
+   Default ``True``
+
+   Type: bool
+
+
 .. warning::
 
    The following settings are passed directly to Tooltipster_.

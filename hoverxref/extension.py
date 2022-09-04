@@ -351,6 +351,7 @@ def setup(app):
     app.add_config_value('hoverxref_intersphinx_types', {}, 'env')
     app.add_config_value('hoverxref_api_host', 'https://readthedocs.org', 'env')
     app.add_config_value('hoverxref_sphinx_version', sphinx.__version__, 'env')
+    app.add_config_value('hoverxref_tooltip_lazy', False, 'env')
 
     # Tooltipster settings
     # Deprecated in favor of ``hoverxref_api_host``
