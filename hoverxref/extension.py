@@ -9,7 +9,7 @@ from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
 
-from . import version
+from . import __version__
 from .domains import (
     HoverXRefBaseDomain,
     HoverXRefBibtexDomainMixin,
@@ -19,6 +19,12 @@ from .domains import (
 
 logger = logging.getLogger(__name__)
 
+CSS_CLASS_PREFIX = 'hxr-'
+CSS_DEFAULT_CLASS = f'{CSS_CLASS_PREFIX}hoverxref'
+CSS_CLASSES = {
+    'tooltip': f'{CSS_CLASS_PREFIX}tooltip',
+    'modal': f'{CSS_CLASS_PREFIX}modal',
+}
 
 HOVERXREF_ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -27,7 +33,7 @@ HOVERXREF_ASSETS_FILES = [
 TOOLTIP_ASSETS_FILES = [
     # Tooltipster's Styles
     'js/tooltipster.bundle.min.js',
-    'css/tooltipster.custom.css',
+    'css/tooltipster.custom.css_t',
     'css/tooltipster.bundle.min.css',
 
     # Tooltipster's Themes
@@ -65,7 +71,8 @@ def copy_asset_files(app, exception):
                 # Then, add the values that the user overrides
                 context[attr] = getattr(app.config, attr)
 
-        context['http_hoverxref_version'] = version
+        context['hoverxref_css_class_prefix'] = CSS_CLASS_PREFIX
+        context['http_hoverxref_version'] = __version__
 
         # Finally, add some non-hoverxref extra configs
         configs = ['html_theme']
@@ -73,10 +80,13 @@ def copy_asset_files(app, exception):
             context[attr] = getattr(app.config, attr)
 
         for f in ASSETS_FILES:
+            # Example: "./_static/js/hoverxref.js_t"
             path = os.path.join(os.path.dirname(__file__), '_static', f)
+            # Example: "<app.outdir>/_static/css" or "<app.outdir>/_static/js"
+            output = os.path.join(app.outdir, '_static', f.split('/')[0])
             copy_asset(
                 path,
-                os.path.join(app.outdir, '_static', f.split('.')[-1].replace('js_t', 'js')),
+                output,
                 context=context,
             )
 
@@ -197,7 +207,7 @@ def missing_reference(app, env, node, contnode):
 
     See https://github.com/sphinx-doc/sphinx/blob/4d90277c/sphinx/ext/intersphinx.py#L244-L250
     """
-    if not app.config.hoverxref_intersphinx:
+    if not app.config.hoverxref_intersphinx or 'sphinx.ext.intersphinx' not in app.config.extensions:
         # Do nothing if the user doesn't have hoverxref intersphinx enabled
         return
 
@@ -225,7 +235,11 @@ def missing_reference(app, env, node, contnode):
             if inventory_name in app.config.hoverxref_intersphinx:
                 skip_node = False
                 inventory_name_matched = inventory_name
-    else:
+
+    # Skip this node completely if the domain is empty (`None` or `''`).
+    # I found this happens in weird scenarios.
+    # I'm considering this an edge case and ignore it for now.
+    elif domain:
         # Using intersphinx via ``sphinx.ext.autodoc`` generates links for docstrings like:
         # :py:class:`float`
         # and the node will have these attribues:
@@ -235,25 +249,25 @@ def missing_reference(app, env, node, contnode):
         #   refexplicit: False
         inventories = InventoryAdapter(env)
 
-        # TODO: credits to https://github.com/readthedocs/sphinx-hoverxref/pull/144
-        # This chunk of code needs tests :)
-        reftype_fallbacks = {
-            'meth': 'method',
-            'mod': 'module',
-        }
-
         for inventory_name in app.config.hoverxref_intersphinx:
             inventory = inventories.named_inventory.get(inventory_name, {})
-            inventory_member = (
-                inventory.get(f'{domain}:{reftype}') or
-                inventory.get(f'{domain}:{reftype_fallbacks.get(reftype)}')
-            )
-            if inventory_member and inventory_member.get(target) is not None:
-                # The object **does** exist on the inventories defined by the
-                # user: enable hoverxref on this node
-                skip_node = False
-                inventory_name_matched = inventory_name
-                break
+            # Logic of `.objtypes_for_role` stolen from
+            # https://github.com/sphinx-doc/sphinx/blob/b8789b4c/sphinx/ext/intersphinx.py#L397
+            objtypes_for_role = env.get_domain(domain).objtypes_for_role(reftype)
+
+            # If the reftype is not defined on the domain, we skip it
+            if not objtypes_for_role:
+                continue
+
+            for objtype in objtypes_for_role:
+                inventory_member = inventory.get(f'{domain}:{objtype}')
+
+                if inventory_member and inventory_member.get(target) is not None:
+                    # The object **does** exist on the inventories defined by the
+                    # user: enable hoverxref on this node
+                    skip_node = False
+                    inventory_name_matched = inventory_name
+                    break
 
     newnode = sphinx_missing_reference(app, env, node, contnode)
     if newnode is not None and not skip_node:
@@ -264,7 +278,7 @@ def missing_reference(app, env, node, contnode):
         hoverxref_type = hoverxref_type or app.config.hoverxref_default_type
 
         classes = newnode.get('classes')
-        classes.extend(['hoverxref', hoverxref_type])
+        classes.extend([CSS_DEFAULT_CLASS, CSS_CLASSES[hoverxref_type]])
         newnode.replace_attr('classes', classes)
 
     return newnode
@@ -374,14 +388,16 @@ def setup(app):
 
     app.connect('missing-reference', missing_reference)
 
+    # Include all assets previously copied/rendered by ``copy_asset_files`` as
+    # Javascript and CSS files into the Sphinx application
     for f in ASSETS_FILES:
         if f.endswith('.js') or f.endswith('.js_t'):
             app.add_js_file(f.replace('.js_t', '.js'))
-        if f.endswith('.css'):
-            app.add_css_file(f)
+        if f.endswith('.css') or f.endswith('.css_t'):
+            app.add_css_file(f.replace('.css_t', '.css'))
 
     return {
-        'version': version,
+        'version': __version__,
         'parallel_read_safe': True,
         'parallel_write_safe': True,
     }

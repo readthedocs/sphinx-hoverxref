@@ -94,6 +94,32 @@ and the tooltips should work without problem.
 .. _install Read the Docs locally following these instructions: https://docs.readthedocs.io/en/stable/development/install.html
 
 
+Modifying ``hoverxref.js`` on the fly
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Instead of rebuilding the whole project,
+we can modify the Javascript file that has the ``hoverxref_api_host`` hardcoded to point it to our local instance.
+
+#. Open the documentation page you want to try on Google Chrome
+#. Press :kbd:`F12`
+#. Go to the :guilabel:`Sources`
+#. Find out the file ``js/hoverxref.js``
+#. Modify the function ``getEmbedURL`` to point the ``url`` variable to the local instance:
+
+   * ``/_`` to use the proxied API
+   * ``http://community.dev.readthedocs.io`` to use the regular API
+
+
+.. tip::
+
+   This trick is useful for online documentation we don't control and want to test a change in the backend works as we expect.
+   However, to do this, you will need to allow insecure content in your Chrome instance first:
+
+   .. prompt:: bash
+
+      google-chrome-stable --allow-running-insecure-content --user-data-dir='/tmp/testing'
+
+
 Permanent tooltip to work with CSS
 ----------------------------------
 

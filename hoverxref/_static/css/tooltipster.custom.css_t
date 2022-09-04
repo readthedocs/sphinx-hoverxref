@@ -1,4 +1,4 @@
-.hoverxref {
+.{{ hoverxref_css_class_prefix }}hoverxref {
     border-bottom: 1px dotted;
     border-color: gray;
 }

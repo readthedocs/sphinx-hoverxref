@@ -14,14 +14,15 @@ class HoverXRefBaseDomain:
     )
 
     def _inject_hoverxref_data(self, env, refnode, typ):
-        classes = ['hoverxref']
+        from .extension import CSS_CLASSES, CSS_DEFAULT_CLASS
+
+        classes = [CSS_DEFAULT_CLASS]
         type_class = None
         if typ == 'hoverxreftooltip':
             type_class = 'tooltip'
-            classes.append(type_class)
         elif typ == 'hoverxrefmodal':
             type_class = 'modal'
-            classes.append(type_class)
+
         if not type_class:
             type_class = env.config.hoverxref_role_types.get(typ)
             if not type_class:
@@ -33,7 +34,9 @@ class HoverXRefBaseDomain:
                     default,
                     typ,
                 )
-            classes.append(type_class)
+
+        # Examples: hxr-tooltip, hxr-modal
+        classes.append(CSS_CLASSES[type_class])
 
         refnode.replace_attr('classes', classes)
         # TODO: log something else here, so we can unique identify this node
