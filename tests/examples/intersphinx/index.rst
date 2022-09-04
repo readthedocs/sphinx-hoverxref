@@ -14,3 +14,6 @@ This is an example page.
 
 
 :py:func:`hoverxref.extension.setup`
+
+Using just the ``default_role = "obj"`` with intersphinx object: `float`.
+See https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-default_role
