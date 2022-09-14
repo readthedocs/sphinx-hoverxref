@@ -90,6 +90,7 @@ Badges:
    installation
    usage
    configuration
+   who-is-using-it
    development
    releasing
 
