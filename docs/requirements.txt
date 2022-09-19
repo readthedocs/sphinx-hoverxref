@@ -6,11 +6,11 @@
 #
 alabaster==0.7.12
     # via sphinx
-astroid==2.12.9
+astroid==2.12.10
     # via sphinx-autoapi
 babel==2.10.3
     # via sphinx
-certifi==2022.6.15.2
+certifi==2022.9.14
     # via requests
 charset-normalizer==2.1.1
     # via requests
