@@ -91,14 +91,8 @@ function getEmbedURL(url) {
     return url
 }
 
-
-$(document).ready(function() {
-    // Remove ``title=`` attribute for intersphinx nodes that have hoverxref enabled.
-    // It doesn't make sense the browser shows the default tooltip (browser's built-in)
-    // and immediately after that our tooltip was shown.
-    $('.{{ hoverxref_css_class_prefix }}hoverxref.external').each(function () { $(this).removeAttr('title') });
-
-    $('.{{ hoverxref_css_class_prefix }}hoverxref.{{ hoverxref_css_class_prefix }}tooltip').tooltipster({
+function addTooltip(target) {
+    return target.tooltipster({
         theme: {{ hoverxref_tooltip_theme }},
         interactive: {{ 'true' if hoverxref_tooltip_interactive else 'false' }},
         maxWidth: {{ hoverxref_tooltip_maxwidth }},
@@ -144,6 +138,33 @@ $(document).ready(function() {
             );
         }
     })
+}
+
+
+$(document).ready(function() {
+    // Remove ``title=`` attribute for intersphinx nodes that have hoverxref enabled.
+    // It doesn't make sense the browser shows the default tooltip (browser's built-in)
+    // and immediately after that our tooltip was shown.
+
+    // Support lazy-loading here by switching between on-page-load (calling .tooltipster directly)
+    // or delaying it until after a mouseenter or click event.
+    // On large pages (the use case for lazy-loaded tooltipster) this moves dom manipulation to
+    // on-interaction, which is known to be less performant on small pages (as per tooltipster docs),
+    // but on massive docs pages fixes an otherwise severe page load stall when tooltipster
+    // manipulates the html for every single tooltip at once.
+    {% if hoverxref_tooltip_lazy %}
+    $('.{{ hoverxref_css_class_prefix }}hoverxref.{{ hoverxref_css_class_prefix }}tooltip').one('mouseenter click touchstart tap', function(event) {
+        $(this).removeAttr('title');
+        {# If we're lazy-tipstering, we've used up the click event, so open the modal too with tooltipster('open') #}
+        addTooltip($(this)).tooltipster('open');
+    });
+    {% else %}
+    $('.{{ hoverxref_css_class_prefix }}hoverxref.external').each(function () { $(this).removeAttr('title') });
+    addTooltip(
+        $('.{{ hoverxref_css_class_prefix }}hoverxref.{{ hoverxref_css_class_prefix }}tooltip')
+    )
+    {% endif %}
+
 
     var modalHtml = `
   <div class="modal micromodal-slide {{ hoverxref_modal_class }}" id="micromodal" aria-hidden="true">

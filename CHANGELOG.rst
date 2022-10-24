@@ -3,6 +3,11 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.2.0
+-------------
+
+* New config ``hoverxref_tooltip_lazy`` to improve large page experience (https://github.com/readthedocs/sphinx-hoverxref/pull/227/)
+
 Version 1.1.3
 -------------
 
