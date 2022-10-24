@@ -49,6 +49,7 @@ doc = [
     "sphinx-notfound-page",
     "sphinx-autobuild",
     "sphinxcontrib-bibtex",
+    "sphinxemoji",
 ]
 
 [project.urls]

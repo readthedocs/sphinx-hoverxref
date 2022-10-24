@@ -51,6 +51,7 @@ extensions = [
     'versionwarning.extension',
     'notfound.extension',
     'sphinxcontrib.bibtex',
+    'sphinxemoji.sphinxemoji',
 ]
 
 bibtex_bibfiles = ['refs.bib']
