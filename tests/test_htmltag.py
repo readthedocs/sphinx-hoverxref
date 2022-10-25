@@ -351,6 +351,7 @@ def test_intersphinx_all_mappings(app, status, warning):
         # Python's links do have hoverxref enabled
         r'<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/tutorial/index.html#tutorial-index" title="\(in Python v3.\d\d?\)"><span class="xref std std-ref">This a :ref: to The Python Tutorial using intersphinx</span></a>',
         r'<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/datetime.html#datetime-datetime" title="\(in Python v3.\d\d?\)"><span class="xref std std-ref">This a :ref: to datetime.datetime Python’s function using intersphinx</span></a>',
+        r'<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time.minute" title="\(in Python v3.\d\d?\)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Python\'s</span> <span class="pre">datetime.time.minute</span></code></a>',
         r'<a class="hxr-hoverxref hxr-modal reference external" href="https://docs.python.org/3/library/functions.html#float" title="\(in Python v3.\d\d?\)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>',
 
         # Read the Docs' link does have hoverxref enabled

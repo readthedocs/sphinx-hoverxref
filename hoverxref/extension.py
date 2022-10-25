@@ -222,19 +222,18 @@ def missing_reference(app, env, node, contnode):
     skip_node = True
     inventory_name_matched = None
 
-    if domain == 'std':
-        # Using ``:ref:`` manually, we could write intersphinx like:
+    if ':' in target:
+        # Using intersphinx with an explicit inventory name like:
         # :ref:`datetime <python:datetime.datetime>`
         # and the node will have these attribues:
         #   refdomain: std
         #   reftype: ref
         #   reftarget: python:datetime.datetime
         #   refexplicit: True
-        if ':' in target:
-            inventory_name, _ = target.split(':', 1)
-            if inventory_name in app.config.hoverxref_intersphinx:
-                skip_node = False
-                inventory_name_matched = inventory_name
+        inventory_name, _ = target.split(':', 1)
+        if inventory_name in app.config.hoverxref_intersphinx:
+            skip_node = False
+            inventory_name_matched = inventory_name
 
     # Skip this node completely if the domain is empty (`None` or `''`).
     # I found this happens in weird scenarios.
