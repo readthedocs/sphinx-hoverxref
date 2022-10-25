@@ -41,7 +41,10 @@ test = [
 ]
 
 doc = [
-    "sphinx",
+    # Build the documentation with Sphinx 6.x to try
+    # sphinxcontrib-jquery
+    "sphinx==6.0.0b2",
+
     "sphinx-autoapi",
     "sphinx-rtd-theme",
     "sphinx-tabs==3.3.1",
