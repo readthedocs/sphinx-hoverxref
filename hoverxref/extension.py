@@ -396,6 +396,9 @@ def setup(app):
         if f.endswith('.css') or f.endswith('.css_t'):
             app.add_css_file(f.replace('.css_t', '.css'))
 
+    # Sphinx>=6 won't include jQuery anymore
+    app.setup_extension('sphinxcontrib.jquery')
+
     return {
         'version': __version__,
         'parallel_read_safe': True,

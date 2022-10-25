@@ -103,6 +103,8 @@ sphinxcontrib-devhelp==1.0.2
     # via sphinx
 sphinxcontrib-htmlhelp==2.0.0
     # via sphinx
+sphinxcontrib-jquery==2.0.0
+    # via sphinx-hoverxref (pyproject.toml)
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
 sphinxcontrib-qthelp==1.0.3
@@ -119,3 +121,6 @@ urllib3==1.26.12
     # via requests
 wrapt==1.14.1
     # via astroid
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
