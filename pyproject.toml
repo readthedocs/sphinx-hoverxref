@@ -18,6 +18,7 @@ keywords=[
 ]
 dependencies = [
     "sphinx >=1.8",
+    "sphinxcontrib-jquery",
 ]
 version = "1.2.0"
 readme = "README.rst"
