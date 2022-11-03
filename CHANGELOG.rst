@@ -3,6 +3,11 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.3.0
+-------------
+
+* Handle explicit intersphinx inventory names in all domains --not just ``std`` (https://github.com/readthedocs/sphinx-hoverxref/pull/236)
+
 Version 1.2.0
 -------------
 
