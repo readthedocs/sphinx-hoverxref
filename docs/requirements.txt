@@ -10,7 +10,7 @@ astroid==2.12.13
     # via sphinx-autoapi
 babel==2.11.0
     # via sphinx
-certifi==2022.9.24
+certifi==2022.12.7
     # via requests
 charset-normalizer==2.1.1
     # via requests
@@ -39,7 +39,7 @@ livereload==2.6.3
     # via sphinx-autobuild
 markupsafe==2.1.1
     # via jinja2
-packaging==21.3
+packaging==22.0
     # via sphinx
 pybtex==0.24.0
     # via
@@ -52,9 +52,7 @@ pygments==2.13.0
     #   sphinx
     #   sphinx-prompt
     #   sphinx-tabs
-pyparsing==3.0.9
-    # via packaging
-pytz==2022.6
+pytz==2022.7
     # via babel
 pyyaml==6.0
     # via

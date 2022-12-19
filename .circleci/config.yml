@@ -11,7 +11,8 @@ commands:
         default: "18,20,21,22,23,24,30,31,32,33,34,35,40,41,42,43,44,45,50,latest"
     steps:
       - checkout
-      - run: pip install --user tox
+      # Tox >=4 fails with `ValueError: py310-sphinx{18`
+      - run: pip install --user 'tox<4'
       - run: tox -e "<<parameters.version>>-sphinx{<<parameters.sphinx-version>>}"
 
 jobs:
