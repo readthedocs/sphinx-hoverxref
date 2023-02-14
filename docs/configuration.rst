@@ -178,6 +178,7 @@ These settings have effect only in tooltips.
 
 
 .. confval:: hoverxref_tooltip_lazy
+
    Description: Whether to lazily generate tooltips (insert the HTML for the tooltip on hover, rather than on page load).
    This is known to be slower, but prevents the browser from stalling on load for very big doc pages.
    We recommend you keeping it as `False` unless you are experiencing page load issues.
