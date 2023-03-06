@@ -44,7 +44,7 @@ doc = [
     "sphinx",
     "sphinx-autoapi",
     "sphinx-rtd-theme",
-    "sphinx-tabs==3.3.1",
+    "sphinx-tabs",
     "sphinx-prompt",
     "sphinx-version-warning",
     "sphinx-notfound-page",
