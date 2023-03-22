@@ -9,16 +9,22 @@ from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
 
-from . import version
+from . import __version__
 from .domains import (
     HoverXRefBaseDomain,
+    HoverXRefBibtexDomainMixin,
     HoverXRefPythonDomainMixin,
     HoverXRefStandardDomainMixin,
 )
-from .translators import HoverXRefHTMLTranslatorMixin
 
 logger = logging.getLogger(__name__)
 
+CSS_CLASS_PREFIX = 'hxr-'
+CSS_DEFAULT_CLASS = f'{CSS_CLASS_PREFIX}hoverxref'
+CSS_CLASSES = {
+    'tooltip': f'{CSS_CLASS_PREFIX}tooltip',
+    'modal': f'{CSS_CLASS_PREFIX}modal',
+}
 
 HOVERXREF_ASSETS_FILES = [
     'js/hoverxref.js_t',  # ``_t`` tells Sphinx this is a template
@@ -27,7 +33,7 @@ HOVERXREF_ASSETS_FILES = [
 TOOLTIP_ASSETS_FILES = [
     # Tooltipster's Styles
     'js/tooltipster.bundle.min.js',
-    'css/tooltipster.custom.css',
+    'css/tooltipster.custom.css_t',
     'css/tooltipster.bundle.min.css',
 
     # Tooltipster's Themes
@@ -65,16 +71,22 @@ def copy_asset_files(app, exception):
                 # Then, add the values that the user overrides
                 context[attr] = getattr(app.config, attr)
 
+        context['hoverxref_css_class_prefix'] = CSS_CLASS_PREFIX
+        context['http_hoverxref_version'] = __version__
+
         # Finally, add some non-hoverxref extra configs
         configs = ['html_theme']
         for attr in configs:
             context[attr] = getattr(app.config, attr)
 
         for f in ASSETS_FILES:
+            # Example: "./_static/js/hoverxref.js_t"
             path = os.path.join(os.path.dirname(__file__), '_static', f)
+            # Example: "<app.outdir>/_static/css" or "<app.outdir>/_static/js"
+            output = os.path.join(app.outdir, '_static', f.split('/')[0])
             copy_asset(
                 path,
-                os.path.join(app.outdir, '_static', f.split('.')[-1].replace('js_t', 'js')),
+                output,
                 context=context,
             )
 
@@ -115,6 +127,17 @@ def setup_domains(app, config):
             (
                 HoverXRefPythonDomainMixin,
                 app.registry.domains.get('py'),
+            ),
+            {}
+        )
+        app.add_domain(domain, override=True)
+
+    if 'cite' in app.config.hoverxref_domains:
+        domain = types.new_class(
+            'HoverXRefBibtexDomain',
+            (
+                HoverXRefBibtexDomainMixin,
+                app.registry.domains.get('cite'),
             ),
             {}
         )
@@ -184,7 +207,7 @@ def missing_reference(app, env, node, contnode):
 
     See https://github.com/sphinx-doc/sphinx/blob/4d90277c/sphinx/ext/intersphinx.py#L244-L250
     """
-    if not app.config.hoverxref_intersphinx:
+    if not app.config.hoverxref_intersphinx or 'sphinx.ext.intersphinx' not in app.config.extensions:
         # Do nothing if the user doesn't have hoverxref intersphinx enabled
         return
 
@@ -199,20 +222,23 @@ def missing_reference(app, env, node, contnode):
     skip_node = True
     inventory_name_matched = None
 
-    if domain == 'std':
-        # Using ``:ref:`` manually, we could write intersphinx like:
+    if ':' in target:
+        # Using intersphinx with an explicit inventory name like:
         # :ref:`datetime <python:datetime.datetime>`
         # and the node will have these attribues:
         #   refdomain: std
         #   reftype: ref
         #   reftarget: python:datetime.datetime
         #   refexplicit: True
-        if ':' in target:
-            inventory_name, _ = target.split(':', 1)
-            if inventory_name in app.config.hoverxref_intersphinx:
-                skip_node = False
-                inventory_name_matched = inventory_name
-    else:
+        inventory_name, _ = target.split(':', 1)
+        if inventory_name in app.config.hoverxref_intersphinx:
+            skip_node = False
+            inventory_name_matched = inventory_name
+
+    # Skip this node completely if the domain is empty (`None` or `''`).
+    # I found this happens in weird scenarios.
+    # I'm considering this an edge case and ignore it for now.
+    elif domain:
         # Using intersphinx via ``sphinx.ext.autodoc`` generates links for docstrings like:
         # :py:class:`float`
         # and the node will have these attribues:
@@ -224,12 +250,23 @@ def missing_reference(app, env, node, contnode):
 
         for inventory_name in app.config.hoverxref_intersphinx:
             inventory = inventories.named_inventory.get(inventory_name, {})
-            if inventory.get(f'{domain}:{reftype}', {}).get(target) is not None:
-                # The object **does** exist on the inventories defined by the
-                # user: enable hoverxref on this node
-                skip_node = False
-                inventory_name_matched = inventory_name
-                break
+            # Logic of `.objtypes_for_role` stolen from
+            # https://github.com/sphinx-doc/sphinx/blob/b8789b4c/sphinx/ext/intersphinx.py#L397
+            objtypes_for_role = env.get_domain(domain).objtypes_for_role(reftype)
+
+            # If the reftype is not defined on the domain, we skip it
+            if not objtypes_for_role:
+                continue
+
+            for objtype in objtypes_for_role:
+                inventory_member = inventory.get(f'{domain}:{objtype}')
+
+                if inventory_member and inventory_member.get(target) is not None:
+                    # The object **does** exist on the inventories defined by the
+                    # user: enable hoverxref on this node
+                    skip_node = False
+                    inventory_name_matched = inventory_name
+                    break
 
     newnode = sphinx_missing_reference(app, env, node, contnode)
     if newnode is not None and not skip_node:
@@ -240,70 +277,10 @@ def missing_reference(app, env, node, contnode):
         hoverxref_type = hoverxref_type or app.config.hoverxref_default_type
 
         classes = newnode.get('classes')
-        classes.extend(['hoverxref', hoverxref_type])
+        classes.extend([CSS_DEFAULT_CLASS, CSS_CLASSES[hoverxref_type]])
         newnode.replace_attr('classes', classes)
-        newnode._hoverxref = {
-            'data-url': newnode.get('refuri'),
-        }
 
     return newnode
-
-
-def setup_translators(app):
-    """
-    Override translators respecting the one defined (if any).
-
-    We create a new class by inheriting the Sphinx Translator already defined
-    and our own ``HoverXRefHTMLTranslatorMixin`` that includes the logic to
-    ``_hoverxref`` attributes.
-    """
-
-    if app.builder.format != 'html':
-        # do not modify non-html builders
-        return
-
-    for name, klass in app.registry.translators.items():
-        translator = types.new_class(
-            'HoverXRefHTMLTranslator',
-            (
-                HoverXRefHTMLTranslatorMixin,
-                klass,
-            ),
-            {},
-        )
-        app.set_translator(name, translator, override=True)
-
-    translator = types.new_class(
-        'HoverXRefHTMLTranslator',
-        (
-            HoverXRefHTMLTranslatorMixin,
-            app.builder.default_translator_class,
-        ),
-        {},
-    )
-    app.set_translator(app.builder.name, translator, override=True)
-
-
-
-def is_hoverxref_configured(app, config):
-    """
-    Save a config if hoverxref is properly configured.
-
-    It checks for ``hoverxref_project`` and ``hoverxref_version`` being defined
-    and set ``hoverxref_is_configured=True`` if configured.
-    """
-    config.hoverxref_is_configured = True
-
-    project = config.hoverxref_project
-    version = config.hoverxref_version
-    if not project or not version:
-        config.hoverxref_is_configured = False
-        # ``hoverxref`` extension is not fully configured
-        logger.info(
-            'hoverxref extension is not fully configured. '
-            'Tooltips may not work as expected. '
-            'Check out the documentation for hoverxref_project and hoverxref_version configuration options.',
-        )
 
 
 def setup_theme(app, exception):
@@ -337,6 +314,14 @@ def setup_theme(app, exception):
         )
 
 
+def setup_assets_policy(app, exception):
+    """Tell Sphinx to always include assets in all HTML pages."""
+    if hasattr(app, 'set_html_assets_policy'):
+        # ``app.set_html_assets_policy`` was introduced in Sphinx 4.1.0
+        # https://github.com/sphinx-doc/sphinx/pull/9174
+        app.set_html_assets_policy('always')
+
+
 def deprecated_configs_warning(app, exception):
     """Log warning message if old configs are used."""
     default, rebuild, types = app.config.values.get('hoverxref_tooltip_api_host')
@@ -353,10 +338,6 @@ def setup(app):
     # ``override`` was introduced in 1.8
     app.require_sphinx('1.8')
 
-    default_project = os.environ.get('READTHEDOCS_PROJECT')
-    default_version = os.environ.get('READTHEDOCS_VERSION')
-    app.add_config_value('hoverxref_project', default_project, 'html')
-    app.add_config_value('hoverxref_version', default_version, 'html')
     app.add_config_value('hoverxref_auto_ref', False, 'env')
     app.add_config_value('hoverxref_mathjax', False, 'env')
     app.add_config_value('hoverxref_sphinxtabs', False, 'env')
@@ -368,6 +349,8 @@ def setup(app):
     app.add_config_value('hoverxref_intersphinx', [], 'env')
     app.add_config_value('hoverxref_intersphinx_types', {}, 'env')
     app.add_config_value('hoverxref_api_host', '/_', 'env')
+    app.add_config_value('hoverxref_sphinx_version', sphinx.__version__, 'env')
+    app.add_config_value('hoverxref_tooltip_lazy', False, 'env')
 
     # Tooltipster settings
     # Deprecated in favor of ``hoverxref_api_host``
@@ -394,27 +377,30 @@ def setup(app):
     app.add_config_value('hoverxref_modal_default_title', 'Note', 'env')
     app.add_config_value('hoverxref_modal_prefix_title', '📝 ', 'env')
 
-    app.connect('builder-inited', setup_translators)
-
     app.connect('config-inited', deprecated_configs_warning)
 
     app.connect('config-inited', setup_domains)
     app.connect('config-inited', setup_sphinx_tabs)
     app.connect('config-inited', setup_intersphinx)
-    app.connect('config-inited', is_hoverxref_configured)
     app.connect('config-inited', setup_theme)
+    app.connect('config-inited', setup_assets_policy)
     app.connect('build-finished', copy_asset_files)
 
     app.connect('missing-reference', missing_reference)
 
+    # Include all assets previously copied/rendered by ``copy_asset_files`` as
+    # Javascript and CSS files into the Sphinx application
     for f in ASSETS_FILES:
         if f.endswith('.js') or f.endswith('.js_t'):
             app.add_js_file(f.replace('.js_t', '.js'))
-        if f.endswith('.css'):
-            app.add_css_file(f)
+        if f.endswith('.css') or f.endswith('.css_t'):
+            app.add_css_file(f.replace('.css_t', '.css'))
+
+    # Sphinx>=6 won't include jQuery anymore
+    app.setup_extension('sphinxcontrib.jquery')
 
     return {
-        'version': version,
+        'version': __version__,
         'parallel_read_safe': True,
         'parallel_write_safe': True,
     }

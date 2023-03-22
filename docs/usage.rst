@@ -7,9 +7,7 @@ and will embed the content of the document/section the link is pointing to, into
 
 ``:hoverxref:`` role uses Sphinx's internals reference resolution to find out where the link points to.
 So, the way of referencing the section works in the same way as the ``:ref:`` standard role.
-See `Sphinx's ref role documentation`_ for more information.
-
-.. _Sphinx's ref role documentation: https://www.sphinx-doc.org/en/stable/usage/restructuredtext/roles.html#cross-referencing-arbitrary-locations
+See Sphinx's :rst:role:`ref` for more information.
 
 Simplest usage example,
 
@@ -22,14 +20,15 @@ will render to this:
 This will :hoverxref:`show a tooltip <hoverxref:hoverxref>` in the linked words to ``hoverxref``.
 
 
-Tooltip on intersphinx content
+Tooltip on Intersphinx content
 ------------------------------
 
 Sphinx comes with a nice built-in extension called :doc:`sphinx.ext.intersphinx <sphinx:usage/extensions/intersphinx>`
-that allows you to generate links to specific objects in other project's documentation pages.
+that allows you to generate references to specific objects in an external documentation project.
 
-You can combine this extension with ``sphinx-hoverxref`` to show tooltips over these links to other projects.
-For example, this documentation itself configures intersphinx with Read the Docs documentation and allow us
+You can combine ``intersphinx`` and ``sphinx-hoverxref`` to show tooltips from these mapped projects. To enable an Intersphinx mapping, you need to list it in :confval:`hoverxref_domains`.
+
+As an example, this documentation itself configures Intersphinx with Read the Docs documentation and allow us
 to do the following:
 
 .. code-block:: rst
@@ -42,14 +41,23 @@ Show a tooltip for :doc:`Read the Docs automation rules <readthedocs:automation-
 
 .. note::
 
-   Keep in mind that the linked project should be hosted at Read the Docs.
-   This is a limitation that will be removed in the future.
+   Keep in mind that the linked project should be hosted at Read the Docs or,
+   be one of the allowed external projects:
+   currently CPython, SymPy, NumPy are supported.
+
+
+Example with projects not hosted on Read the Docs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Show a tooltip for CPython documentation: :py:mod:`webbrowser <webbrowser>`.
+* Show a tooltip for SymPy documentation: :py:class:`sympy.functions.combinatorial.numbers.tribonacci <sympy.functions.combinatorial.numbers.tribonacci>`.
+* Show a tooltip for NumPy documentation: :py:class:`numpy.single <numpy.single>`.
 
 
 Tooltip on custom object
 ------------------------
 
-Sphinx has the ability to define custom objects (via `Sphinx.add_object_type`_).
+Sphinx has the ability to define custom objects (via :py:meth:`Sphinx.add_object_type <sphinx.application.Sphinx.add_object_type>`).
 ``hoverxref`` can also show a tooltip on these objects if desired.
 You need to tell ``hoverxref`` which are the roles where the tooltip has to appear on.
 To do this, use :confval:`hoverxref_roles <hoverxref_roles>` config.
@@ -106,6 +114,44 @@ To enable ``hoverxref`` on a domain, you need to use the config :confval:`hoverx
 indicating which are the domains you desire.
 
 
+Tooltip on glossary terms
+-------------------------
+
+You can add tooltips to glossary terms:
+
+.. code-block:: rst
+
+   See the :term:`sphinx:environment` definition in the glossary.
+
+That will render to:
+
+See the :term:`sphinx:environment` definition in the glossary.
+
+To enable ``hoverxref`` on glossary terms, you need to add ``'term'`` to :confval:`hoverxref_roles`.
+
+
+Tooltip on sphinxcontrib-bibtex cites
+-------------------------------------
+
+If you want to show a tooltip on `sphinxcontrib-bibtex <https://sphinxcontrib-bibtex.readthedocs.io/en/latest/>`_ cites,
+you just need to enable it in :confval:`hoverxref_domains` by adding ``'cite'`` to that list.
+Example:
+
+.. code-block:: rst
+
+   See :cite:t:`1987:nelson` for an introduction to non-standard analysis.
+   Non-standard analysis is fun :cite:p:`1987:nelson`.
+
+See :cite:t:`1987:nelson` for an introduction to non-standard analysis.
+Non-standard analysis is fun :cite:p:`1987:nelson`.
+
+.. note::
+
+   Note that tooltips on sphinxcontrib-bibtex are supported on ``Sphinx>=2.1`` only.
+
+.. bibliography::
+
+
 Tooltip with content that needs extra rendering steps
 -----------------------------------------------------
 
@@ -119,9 +165,9 @@ These actions are usually calling a Javascript function.
 
 .. warning::
 
-   Note that Sphinx>3.5 adds `a feature to only include JS/CSS in pages where they are used`_ instead of in all the pages.
+   Note that Sphinx>=3.5 adds `a feature to only include JS/CSS in pages where they are used`_ instead of in all the pages.
    This `may affect the rendering of tooltips`_ that includes content requiring extra rendering steps.
-   **Make sure you are using Sphinx 3.4.x** if you require rendering this type of content in your tooltips.
+   **Make sure you are using Sphinx <=3.4.x or >=4.1.x** if you require rendering this type of content in your tooltips.
 
    .. _a feature to only include JS/CSS in pages where they are used: https://github.com/sphinx-doc/sphinx/pull/8631
    .. _may affect the rendering of tooltips: https://github.com/sphinx-doc/sphinx/issues/9115
@@ -150,8 +196,6 @@ To render a tooltip where its contents has a ``mathjax`` you need to enable :con
 
 Show a :hoverxref:`tooltip with Mathjax <mathjax:Mathjax>` formulas.
 
-
-.. _Sphinx.add_object_type: https://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.add_object_type
 
 .. _sphinx-tabs: https://github.com/djungelorm/sphinx-tabs
 .. _mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax

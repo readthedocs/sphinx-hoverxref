@@ -65,10 +65,6 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    Description: List containing the Sphinx Domain's names where ``hoverxref`` has to be applied.
 
-   .. warning::
-
-      Only Python Domain (``py``) is currently supported.
-
    Default: ``[]``
 
    Type: list
@@ -101,8 +97,9 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
    .. warning::
 
-      The Sphinx's target project **must be hosted on Read the Docs** to work.
-      This is a current limitation that we hope to remove in the future.
+      The Sphinx's target project **must be hosted on Read the Docs** to work or,
+      be one of the allowed external projects:
+      currently CPython, SymPy, NumPy are supported.
 
 .. confval:: hoverxref_intersphinx_types
 
@@ -152,33 +149,16 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 .. _Mathjax: http://www.sphinx-doc.org/es/master/usage/extensions/math.html#module-sphinx.ext.mathjax
 
 
-.. warning::
-
-   You shouldn't modify the following three settings (api_host, project, version) unless you know what you are doing.
-   Their defaults should be fine to build the documentation and make it work in Read the Docs.
-
-
 .. confval:: hoverxref_api_host
 
    Description: Host or root URL for the API to retrieve the content of the floating window
 
+   .. warning::
+
+     You shouldn't modify this setting unless you know what you are doing.
+     Its default should be fine to build the documentation and make it work in Read the Docs.
+
    Default: ``/_``
-
-   Type: string
-
-.. confval:: hoverxref_project
-
-   Description: Read the Docs project slug
-
-   Default: It defaults to ``READTHEDOCS_PROJECT`` environment variable
-
-   Type: string
-
-.. confval:: hoverxref_version
-
-   Description: Read the Docs version slug
-
-   Default: It defaults to ``READTHEDOCS_VERSION`` environment variable
 
    Type: string
 
@@ -195,6 +175,17 @@ These settings have effect only in tooltips.
    Default: ``rst-content``
 
    Type: string
+
+
+.. confval:: hoverxref_tooltip_lazy
+
+   Description: Whether to lazily generate tooltips (insert the HTML for the tooltip on hover, rather than on page load).
+   This is known to be slower, but prevents the browser from stalling on load for very big doc pages.
+   We recommend you keeping it as `False` unless you are experiencing page load issues.
+
+   Default ``False``
+
+   Type: bool
 
 
 .. warning::

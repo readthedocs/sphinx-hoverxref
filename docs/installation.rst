@@ -9,13 +9,13 @@ Install the package
 
       .. prompt:: bash
 
-         pip install --pre sphinx-hoverxref
+         pip install sphinx-hoverxref
 
    .. tab:: from GitHub
 
       .. prompt:: bash
 
-         pip install git+https://github.com/readthedocs/sphinx-hoverxref@master
+         pip install git+https://github.com/readthedocs/sphinx-hoverxref
 
 
 Once we have the package installed,
@@ -37,8 +37,8 @@ you can use ``:hoverxref:`` role to show a tooltip [#]_ when hovering with the m
 .. warning::
 
    This extension **requires a backend server** to retrieve the tooltip content.
-   Currently only `Read the Docs`_ is supported,
-   so it will only work if your documentation is hosted on Read the Docs.
+   Currently, only `Read the Docs`_ is supported as backend server.
+   Take into account that your documentation has to be hosted on Read the Docs for this extension to work.
 
 If you prefer to apply this behavior to *all* your ``:ref:`` in your documentation,
 you can use the config :confval:`hoverxref_auto_ref`.

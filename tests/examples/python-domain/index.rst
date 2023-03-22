@@ -7,4 +7,7 @@ This is an example page with a Python Domain role usage.
 
 :py:mod:`hoverxref.extension`
 
-:py:func:`hoverxref.utils.get_ref_xref_data`
+:py:func:`hoverxref.extension.setup`
+
+Note that ``:py:const:`` does not exist in the Python domain, but it shouldn't make the build to fail.
+"Constant" should be rendered in the same way as the other Python objects: :py:const:`Constant`

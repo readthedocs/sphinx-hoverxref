@@ -21,13 +21,11 @@ To setup this approach, you need to put these settings in the ``conf.py`` of you
 
 .. code-block:: python
 
-   hoverxref_project = 'sphinx-hoverxref'
-   hoverxref_version = 'latest'
    hoverxref_api_host = 'https://readthedocs.org'
 
 After building the documentation all the requests will be done to URLs like::
 
-  https://readthedocs.org/api/v2/embed/?project=sphinx-hoverxref&version=latest&doc=...&section=...
+  https://readthedocs.org/api/v3/embed/?doctool=sphinx&doctoolversion=...&url=...
 
 .. note::
 
@@ -56,14 +54,71 @@ Serve the documentation locally with this command:
 
 Now, you can hit http://localhost:9000/ and you should see your documentation here.
 
+
+Avoid CORS on local backend
++++++++++++++++++++++++++++
+
+When building the documentation locally,
+the API calls will be blocked by the browser because of :abbr:`CORS (Cross Origin Resource Sharing)`
+(you are hitting the URL http://localhost:9000/ and the API calls are to https://readthedocs.org/).
+
+You can disable this while developing our extension.
+To do this, you can open Google Chrome with these arguments:
+
+.. prompt:: bash
+
+   google-chrome-stable --disable-web-security --user-data-dir='/tmp/testing'
+
+If Firefox, you can install this add-ons: `Allow CORS: Access-Control-Allow-Origin <https://addons.mozilla.org/es/firefox/addon/access-control-allow-origin/>`_.
+
+
 Using a local Read the Docs instance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can `install Read the Docs locally following these instructions`_.
-You don't need to change anything to be able to use your local instance,
-the default :confval:`hoverxref_api_host` value should work.
+Although, it may be too complicated just to retrieve the same content that you could have in https://readthedocs.org.
 
-.. _install Read the Docs locally following these instructions: https://docs.readthedocs.io/page/development/install.html
+To make the extension to work, you will need to define this setting in your ``conf.py`` file:
+
+.. code-block:: python
+
+   hoverxref_api_host = 'http://community.dev.readthedocs.io'
+
+.. tip::
+
+   The value of this setting should be the same as ``PUBLIC_API_URL``.
+
+Once you have done that, you can just import the project directly in your local instance,
+and the tooltips should work without problem.
+
+.. _install Read the Docs locally following these instructions: https://docs.readthedocs.io/en/stable/development/install.html
+
+
+Modifying ``hoverxref.js`` on the fly
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Instead of rebuilding the whole project,
+we can modify the Javascript file that has the ``hoverxref_api_host`` hardcoded to point it to our local instance.
+
+#. Open the documentation page you want to try on Google Chrome
+#. Press :kbd:`F12`
+#. Go to the :guilabel:`Sources`
+#. Find out the file ``js/hoverxref.js``
+#. Modify the function ``getEmbedURL`` to point the ``url`` variable to the local instance:
+
+   * ``/_`` to use the proxied API
+   * ``http://community.dev.readthedocs.io`` to use the regular API
+
+
+.. tip::
+
+   This trick is useful for online documentation we don't control and want to test a change in the backend works as we expect.
+   However, to do this, you will need to allow insecure content in your Chrome instance first:
+
+   .. prompt:: bash
+
+      google-chrome-stable --allow-running-insecure-content --user-data-dir='/tmp/testing'
+
 
 Permanent tooltip to work with CSS
 ----------------------------------

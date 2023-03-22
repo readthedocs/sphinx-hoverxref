@@ -1,7 +1,12 @@
 Welcome to sphinx-hoverxref!
 ============================
 
-``sphinx-hoverxref`` is a Sphinx_ extension to show a floating window (*tooltips* or *modal* dialogues) on the cross references of the documentation embedding the content of the linked section on them. With ``sphinx-hoverxref``, you don't need to click a link to see what's in there.
+``sphinx-hoverxref`` is a :doc:`Sphinx <sphinx:index>` extension to show a floating window (*tooltips* or *modal* dialogues) on the cross references of the documentation embedding the content of the linked section on them. With ``sphinx-hoverxref``, you don't need to click a link to see what's in there.
+
+.. figure:: poliastro-usage.gif
+   :align: center
+
+   Example using ``sphinx-hoverxref`` in `poliastro <https://docs.poliastro.space/>`_
 
 
 Usage
@@ -85,7 +90,9 @@ Badges:
    installation
    usage
    configuration
+   who-is-using-it
    development
+   releasing
 
 
 .. toctree::
@@ -95,12 +102,11 @@ Badges:
    autoapi/hoverxref/index
 
 
-.. _Sphinx: https://www.sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.org
 
 
-.. |Build| image:: https://travis-ci.org/readthedocs/sphinx-hoverxref.svg?branch=master
-   :target: https://travis-ci.org/readthedocs/sphinx-hoverxref
+.. |Build| image:: https://circleci.com/gh/readthedocs/sphinx-hoverxref.svg?style=svg
+   :target: https://circleci.com/gh/readthedocs/sphinx-hoverxref
    :alt: Build status
 .. |PyPI version| image:: https://img.shields.io/pypi/v/sphinx-hoverxref.svg
    :target: https://pypi.org/project/sphinx-hoverxref
