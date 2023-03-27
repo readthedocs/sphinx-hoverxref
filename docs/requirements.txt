@@ -6,7 +6,7 @@
 #
 alabaster==0.7.13
     # via sphinx
-astroid==2.15.0
+astroid==2.15.1
     # via sphinx-autoapi
 babel==2.12.1
     # via sphinx
