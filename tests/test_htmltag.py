@@ -44,7 +44,7 @@ def test_js_render(app, status, warning):
         "animationDuration: 0",
         "contentAsHTML: true",
         "content: 'Loading...'",
-        "var url = 'https://readthedocs.org' + '/api/v3/embed/?' + $.param(params);",
+        "var url = '/_' + '/api/v3/embed/?' + $.param(params);",
         textwrap.indent(
             textwrap.dedent("""
             var params = {{

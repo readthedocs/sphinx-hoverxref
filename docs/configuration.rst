@@ -151,14 +151,14 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_api_host
 
-   Description: Host URL for the API to retrieve the content of the floating window
+   Description: Host or root URL for the API to retrieve the content of the floating window
 
    .. warning::
 
      You shouldn't modify this setting unless you know what you are doing.
      Its default should be fine to build the documentation and make it work in Read the Docs.
 
-   Default: ``https://readthedocs.org``
+   Default: ``/_``
 
    Type: string
 
