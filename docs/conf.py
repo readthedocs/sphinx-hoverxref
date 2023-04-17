@@ -49,6 +49,7 @@ extensions = [
     'versionwarning.extension',
     'notfound.extension',
     'sphinxcontrib.bibtex',
+    'sphinxcontrib.jquery',
     'sphinxemoji.sphinxemoji',
 ]
 
