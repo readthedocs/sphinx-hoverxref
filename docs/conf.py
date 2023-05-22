@@ -48,7 +48,7 @@ extensions = [
     'hoverxref.extension',
     'versionwarning.extension',
     'notfound.extension',
-    'sphinxcontrib.bibtex',
+#    'sphinxcontrib.bibtex',
     'sphinxcontrib.jquery',
     'sphinxemoji.sphinxemoji',
 ]
