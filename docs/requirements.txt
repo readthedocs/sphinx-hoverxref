@@ -12,7 +12,7 @@ astroid==2.15.6
     # via sphinx-autoapi
 babel==2.12.1
     # via sphinx
-certifi==2023.5.7
+certifi==2023.7.22
     # via requests
 charset-normalizer==3.2.0
     # via requests
@@ -50,12 +50,12 @@ pybtex==0.24.0
     #   sphinxcontrib-bibtex
 pybtex-docutils==1.0.2
     # via sphinxcontrib-bibtex
-pygments==2.15.1
+pygments==2.16.1
     # via
     #   sphinx
     #   sphinx-prompt
     #   sphinx-tabs
-pyyaml==6.0
+pyyaml==6.0.1
     # via
     #   pybtex
     #   sphinx-autoapi
@@ -119,7 +119,7 @@ tornado==6.3.2
     # via livereload
 typing-extensions==4.7.1
     # via astroid
-urllib3==2.0.3
+urllib3==2.0.4
     # via requests
 wrapt==1.15.0
     # via astroid
