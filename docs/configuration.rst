@@ -151,14 +151,14 @@ These settings are global and have effect on both, tooltips and modal dialogues.
 
 .. confval:: hoverxref_api_host
 
-   Description: Host URL for the API to retrieve the content of the floating window
+   Description: Host or root URL for the API to retrieve the content of the floating window
 
    .. warning::
 
      You shouldn't modify this setting unless you know what you are doing.
      Its default should be fine to build the documentation and make it work in Read the Docs.
 
-   Default: ``https://readthedocs.org``
+   Default: ``/_``
 
    Type: string
 
@@ -178,6 +178,7 @@ These settings have effect only in tooltips.
 
 
 .. confval:: hoverxref_tooltip_lazy
+
    Description: Whether to lazily generate tooltips (insert the HTML for the tooltip on hover, rather than on page load).
    This is known to be slower, but prevents the browser from stalling on load for very big doc pages.
    We recommend you keeping it as `False` unless you are experiencing page load issues.

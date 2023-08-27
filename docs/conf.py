@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Configuration file for the Sphinx documentation builder.
 #
 # This file does only contain a selection of the most common options. For a
@@ -75,12 +73,8 @@ hoverxref_intersphinx_types = {
     'sphinx': 'tooltip',
 }
 
-# Used when building the documentation from the terminal and using a local Read
-# the Docs instance as backend
-hoverxref_api_host = 'http://localhost:8000'
-
-if os.environ.get('READTHEDOCS') == 'True':
-    # Building on Read the Docs
+# Used when building the documentation locally.
+if os.environ.get('READTHEDOCS') != 'True':
     hoverxref_api_host = 'https://readthedocs.org'
 
     if os.environ.get('PROXIED_API_ENDPOINT') == 'True':
@@ -139,7 +133,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

@@ -54,24 +54,6 @@ Serve the documentation locally with this command:
 
 Now, you can hit http://localhost:9000/ and you should see your documentation here.
 
-
-Avoid CORS on local backend
-+++++++++++++++++++++++++++
-
-When building the documentation locally,
-the API calls will be blocked by the browser because of :abbr:`CORS (Cross Origin Resource Sharing)`
-(you are hitting the URL http://localhost:9000/ and the API calls are to https://readthedocs.org/).
-
-You can disable this while developing our extension.
-To do this, you can open Google Chrome with these arguments:
-
-.. prompt:: bash
-
-   google-chrome-stable --disable-web-security --user-data-dir='/tmp/testing'
-
-If Firefox, you can install this add-ons: `Allow CORS: Access-Control-Allow-Origin <https://addons.mozilla.org/es/firefox/addon/access-control-allow-origin/>`_.
-
-
 Using a local Read the Docs instance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
