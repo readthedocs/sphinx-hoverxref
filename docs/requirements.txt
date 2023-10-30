@@ -10,7 +10,7 @@ anyascii==0.3.2
     # via sphinx-autoapi
 astroid==3.0.1
     # via sphinx-autoapi
-babel==2.13.0
+babel==2.13.1
     # via sphinx
 certifi==2023.7.22
     # via requests
