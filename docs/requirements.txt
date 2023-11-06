@@ -14,7 +14,7 @@ babel==2.13.1
     # via sphinx
 certifi==2023.7.22
     # via requests
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via requests
 colorama==0.4.6
     # via sphinx-autobuild
