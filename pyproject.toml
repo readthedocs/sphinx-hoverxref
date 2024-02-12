@@ -49,7 +49,10 @@ doc = [
     "sphinx-version-warning",
     "sphinx-notfound-page",
     "sphinx-autobuild",
-    "sphinxcontrib-bibtex",
+    # versions older than this don't pin
+    # docutils which is necessary for
+    # bibtex html rendering to work properly
+    "sphinxcontrib-bibtex>=2.6.0",
     "sphinxemoji",
 ]
 
