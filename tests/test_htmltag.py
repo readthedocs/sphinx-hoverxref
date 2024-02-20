@@ -156,10 +156,6 @@ def test_python_domain_intersphinx(app, status, warning):
         assert chunk in content
 
 
-@pytest.mark.skipif(
-    sphinx.version_info < (2, 1, 0),
-    reason='sphinxcontrib-bibtex requires Sphinx>=2.1 to work',
-)
 @pytest.mark.sphinx(
     srcdir=bibtexdomainsrcdir,
     confoverrides={
@@ -270,14 +266,9 @@ def test_intersphinx_default_configs(app, status, warning):
         '<a class="reference internal" href="#hoverxref.extension.setup" title="hoverxref.extension.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">hoverxref.extension.setup()</span></code></a>',
     ]
 
-    if sphinx.version_info >= (4, 0):
-        chunks.extend([
-            '<dt class="sig sig-object py" id="hoverxref.extension.setup">',
-        ])
-    else:
-        chunks.extend([
-            '<dt id="hoverxref.extension.setup">',
-        ])
+    chunks.extend([
+        '<dt class="sig sig-object py" id="hoverxref.extension.setup">',
+    ])
 
 
     for chunk in chunks:

@@ -151,17 +151,10 @@ def setup_sphinx_tabs(app, config):
     Sphinx Tabs removes the CSS/JS from pages that does not use the directive.
     Although, we need them to use inside the tooltip.
     """
-    if sphinx.version_info < (3, 0, 0):
-        listeners = list(app.events.listeners.get('html-page-context').items())
-    else:
-        listeners = [
-            (listener.id, listener.handler)
-            for listener in app.events.listeners.get('html-page-context')
-        ]
-    for listener_id, function in listeners:
-        module_name = inspect.getmodule(function).__name__
+    for listener in app.events.listeners.get('html-page-context'):
+        module_name = inspect.getmodule(listener.handler).__name__
         if module_name == 'sphinx_tabs.tabs':
-            app.disconnect(listener_id)
+            app.disconnect(listener.id)
 
 
 def setup_intersphinx(app, config):
@@ -179,17 +172,10 @@ def setup_intersphinx(app, config):
         # does not have hoverxref intersphinx enabled
         return
 
-    if sphinx.version_info < (3, 0, 0):
-        listeners = list(app.events.listeners.get('missing-reference').items())
-    else:
-        listeners = [
-            (listener.id, listener.handler)
-            for listener in app.events.listeners.get('missing-reference')
-        ]
-    for listener_id, function in listeners:
-        module_name = inspect.getmodule(function).__name__
+    for listener in app.events.listeners.get('missing-reference'):
+        module_name = inspect.getmodule(listener.handler).__name__
         if module_name == 'sphinx.ext.intersphinx':
-            app.disconnect(listener_id)
+            app.disconnect(listener.id)
 
 
 def missing_reference(app, env, node, contnode):
@@ -335,8 +321,8 @@ def deprecated_configs_warning(app, exception):
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
 
-    # ``override`` was introduced in 1.8
-    app.require_sphinx('1.8')
+    # Matches requirement from pyproject.toml
+    app.require_sphinx('5.0')
 
     app.add_config_value('hoverxref_auto_ref', False, 'env')
     app.add_config_value('hoverxref_mathjax', False, 'env')
