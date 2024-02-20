@@ -321,8 +321,8 @@ def deprecated_configs_warning(app, exception):
 def setup(app):
     """Setup ``hoverxref`` Sphinx extension."""
 
-    # ``override`` was introduced in 1.8
-    app.require_sphinx('1.8')
+    # Matches requirement from pyproject.toml
+    app.require_sphinx('5.0')
 
     app.add_config_value('hoverxref_auto_ref', False, 'env')
     app.add_config_value('hoverxref_mathjax', False, 'env')
