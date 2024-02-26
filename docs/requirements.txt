@@ -8,7 +8,7 @@ alabaster==0.7.16
     # via sphinx
 anyascii==0.3.2
     # via sphinx-autoapi
-astroid==3.0.3
+astroid==3.1.0
     # via sphinx-autoapi
 babel==2.14.0
     # via sphinx
@@ -115,7 +115,7 @@ sphinxemoji==0.3.1
     # via sphinx-hoverxref (pyproject.toml)
 tornado==6.4
     # via livereload
-typing-extensions==4.9.0
+typing-extensions==4.10.0
     # via astroid
 urllib3==2.2.1
     # via requests
