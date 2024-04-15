@@ -8,6 +8,8 @@ alabaster==0.7.16
     # via sphinx
 anyascii==0.3.2
     # via sphinx-autoapi
+anyio==4.3.0
+    # via starlette
 astroid==3.1.0
     # via sphinx-autoapi
 babel==2.14.0
@@ -16,6 +18,8 @@ certifi==2024.2.2
     # via requests
 charset-normalizer==3.3.2
     # via requests
+click==8.1.7
+    # via uvicorn
 colorama==0.4.6
     # via sphinx-autobuild
 docutils==0.20.1
@@ -26,8 +30,14 @@ docutils==0.20.1
     #   sphinx-rtd-theme
     #   sphinx-tabs
     #   sphinxcontrib-bibtex
-idna==3.6
-    # via requests
+exceptiongroup==1.2.0
+    # via anyio
+h11==0.14.0
+    # via uvicorn
+idna==3.7
+    # via
+    #   anyio
+    #   requests
 imagesize==1.4.1
     # via sphinx
 jinja2==3.1.3
@@ -36,8 +46,6 @@ jinja2==3.1.3
     #   sphinx-autoapi
 latexcodec==3.0.0
     # via pybtex
-livereload==2.6.3
-    # via sphinx-autobuild
 markupsafe==2.1.5
     # via jinja2
 packaging==24.0
@@ -60,9 +68,9 @@ pyyaml==6.0.1
 requests==2.31.0
     # via sphinx
 six==1.16.0
-    # via
-    #   livereload
-    #   pybtex
+    # via pybtex
+sniffio==1.3.1
+    # via anyio
 snowballstemmer==2.2.0
     # via sphinx
 sphinx==7.2.6
@@ -80,7 +88,7 @@ sphinx==7.2.6
     #   sphinxemoji
 sphinx-autoapi==3.0.0
     # via sphinx-hoverxref (pyproject.toml)
-sphinx-autobuild==2024.2.4
+sphinx-autobuild==2024.4.13
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-notfound-page==1.0.0
     # via sphinx-hoverxref (pyproject.toml)
@@ -112,9 +120,16 @@ sphinxcontrib-serializinghtml==1.1.10
     # via sphinx
 sphinxemoji==0.3.1
     # via sphinx-hoverxref (pyproject.toml)
-tornado==6.4
-    # via livereload
+starlette==0.37.2
+    # via sphinx-autobuild
 typing-extensions==4.11.0
-    # via astroid
+    # via
+    #   anyio
+    #   astroid
+    #   uvicorn
 urllib3==2.2.1
     # via requests
+uvicorn==0.29.0
+    # via sphinx-autobuild
+websockets==12.0
+    # via sphinx-autobuild
