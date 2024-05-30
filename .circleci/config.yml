@@ -8,7 +8,7 @@ commands:
         type: string
       sphinx-version:
         type: string
-        default: "50,53,60,62,70,latest"
+        default: "50,53,60,62,70,73,latest"
     steps:
       - checkout
       # Tox >=4 fails with `ValueError: py310-sphinx{18`
@@ -37,6 +37,13 @@ jobs:
       - run-tox:
           version: py310
 
+  py312:
+    docker:
+      - image: 'cimg/python:3.12'
+    steps:
+      - run-tox:
+          version: py312
+
 workflows:
   version: 2
   test:
@@ -44,4 +51,4 @@ workflows:
       - py38
       - py39
       - py310
-
+      - py312
