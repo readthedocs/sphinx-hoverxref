@@ -3,6 +3,13 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.4.0
+-------------
+
+* Require ``sphinxcontrib-bibtex>=2.6.0`` (https://github.com/readthedocs/sphinx-hoverxref/pull/281) 
+* Sphinx 5 is the minimum supported version (https://github.com/readthedocs/sphinx-hoverxref/pull/282)
+* Default ``hoverxref_api_host`` to ``/_`` to make use of our proxied API (https://github.com/readthedocs/sphinx-hoverxref/pull/134)
+
 Version 1.3.0
 -------------
 
