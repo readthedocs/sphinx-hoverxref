@@ -22,6 +22,8 @@ jobs:
     steps:
       - run-tox:
           version: py38
+          # Sphinx >=7.2 requires Python 3.9+
+          sphinx-version: "50,53,60,62,70"
 
   py39:
     docker:
