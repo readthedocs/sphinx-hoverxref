@@ -1,4 +1,5 @@
 import re
+import sys
 import pytest
 import sphinx
 import textwrap
