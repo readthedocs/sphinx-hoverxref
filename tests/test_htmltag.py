@@ -1,4 +1,5 @@
 import re
+import sys
 import pytest
 import sphinx
 import textwrap
@@ -156,6 +157,7 @@ def test_python_domain_intersphinx(app, status, warning):
         assert chunk in content
 
 
+@pytest.mark.skipif(sys.version_info >= (3, 12), reason="sphinxcontrib.bibtex is not compatible with Python 3.12")
 @pytest.mark.sphinx(
     srcdir=bibtexdomainsrcdir,
     confoverrides={
