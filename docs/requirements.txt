@@ -86,7 +86,7 @@ sphinx==7.3.7
     #   sphinxcontrib-bibtex
     #   sphinxcontrib-jquery
     #   sphinxemoji
-sphinx-autoapi==3.1.1
+sphinx-autoapi==3.1.2
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-autobuild==2024.4.16
     # via sphinx-hoverxref (pyproject.toml)
@@ -129,7 +129,7 @@ typing-extensions==4.12.2
     #   anyio
     #   astroid
     #   uvicorn
-urllib3==2.2.1
+urllib3==2.2.2
     # via requests
 uvicorn==0.30.1
     # via sphinx-autobuild
