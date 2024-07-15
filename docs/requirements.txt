@@ -10,7 +10,7 @@ anyio==4.4.0
     # via
     #   starlette
     #   watchfiles
-astroid==3.2.2
+astroid==3.2.3
     # via sphinx-autoapi
 babel==2.15.0
     # via sphinx
@@ -30,7 +30,7 @@ docutils==0.20.1
     #   sphinx-rtd-theme
     #   sphinx-tabs
     #   sphinxcontrib-bibtex
-exceptiongroup==1.2.1
+exceptiongroup==1.2.2
     # via anyio
 h11==0.14.0
     # via uvicorn
