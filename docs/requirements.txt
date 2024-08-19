@@ -131,7 +131,7 @@ typing-extensions==4.12.2
     #   uvicorn
 urllib3==2.2.2
     # via requests
-uvicorn==0.30.5
+uvicorn==0.30.6
     # via sphinx-autobuild
 watchfiles==0.23.0
     # via sphinx-autobuild
