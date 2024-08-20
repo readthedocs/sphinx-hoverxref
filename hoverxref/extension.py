@@ -174,7 +174,7 @@ def setup_intersphinx(app, config):
 
     for listener in app.events.listeners.get('missing-reference'):
         module_name = inspect.getmodule(listener.handler).__name__
-        if module_name == 'sphinx.ext.intersphinx':
+        if module_name.startswith('sphinx.ext.intersphinx'):
             app.disconnect(listener.id)
 
 
