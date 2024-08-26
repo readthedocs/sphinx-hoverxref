@@ -34,7 +34,7 @@ exceptiongroup==1.2.2
     # via anyio
 h11==0.14.0
     # via uvicorn
-idna==3.7
+idna==3.8
     # via
     #   anyio
     #   requests
@@ -135,5 +135,5 @@ uvicorn==0.30.6
     # via sphinx-autobuild
 watchfiles==0.23.0
     # via sphinx-autobuild
-websockets==12.0
+websockets==13.0
     # via sphinx-autobuild
