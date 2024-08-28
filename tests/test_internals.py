@@ -1,8 +1,5 @@
 import inspect
-import os
 import pytest
-import shutil
-from unittest import mock
 
 from .utils import srcdir
 
