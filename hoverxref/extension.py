@@ -8,7 +8,6 @@ from sphinx.ext.intersphinx import missing_reference as sphinx_missing_reference
 from sphinx.roles import XRefRole
 from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
-from packaging.version import parse, Version
 
 from . import __version__
 from .domains import (
@@ -173,14 +172,8 @@ def setup_intersphinx(app, config):
         # does not have hoverxref intersphinx enabled
         return
 
-    # Sphinx-7.4.0 turned the intersphinx module into a package, so target the module according to the version.
-    if parse(sphinx.__version__) >= Version("7.4"):
-        intersphinx_module_listener_name = 'sphinx.ext.intersphinx._resolve'
-    else:
-        intersphinx_module_listener_name = 'sphinx.ext.intersphinx'
     for listener in app.events.listeners.get('missing-reference'):
-        module_name = inspect.getmodule(listener.handler).__name__
-        if module_name == intersphinx_module_listener_name:
+        if listener.handler == sphinx_missing_reference:
             app.disconnect(listener.id)
 
 
