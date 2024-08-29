@@ -1,5 +1,10 @@
 import inspect
 import pytest
+from unittest import mock
+
+from sphinx.events import EventListener
+from sphinx.ext.intersphinx._resolve import missing_reference as intersphinx_missing_reference
+from hoverxref.extension import missing_reference
 
 from .utils import srcdir
 
@@ -46,11 +51,8 @@ def test_dont_fail_non_html_builder(app, status, warning):
     },
 )
 def test_disconnect_intersphinx_listener(app, status, warning):
-    """Confirm that disconnecting the ``missing-reference`` listener from ``sphinx.ext.intershinx`` is successful."""
+    """The ``missing-reference`` listener from ``sphinx.ext.intershinx`` should be dropped in favor of ours."""
     app.build()
-    listeners = []
-    for listener in app.events.listeners.get('missing-reference'):
-        module_name = inspect.getmodule(listener.handler).__name__
-        if module_name.startswith('sphinx.ext.intersphinx'):
-            listeners.append((module_name, listener))
-    assert not listeners, f"Expected to find zero listeners but found: {listeners}"
+    missing_reference_listeners = app.events.listeners['missing-reference']
+    assert EventListener(id=mock.ANY, priority=mock.ANY, handler=intersphinx_missing_reference) not in missing_reference_listeners
+    assert EventListener(id=mock.ANY, priority=mock.ANY, handler=missing_reference) in missing_reference_listeners
