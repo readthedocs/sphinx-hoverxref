@@ -1,9 +1,8 @@
-import inspect
 import pytest
 from unittest import mock
 
 from sphinx.events import EventListener
-from sphinx.ext.intersphinx._resolve import missing_reference as intersphinx_missing_reference
+from sphinx.ext.intersphinx import missing_reference as intersphinx_missing_reference
 from hoverxref.extension import missing_reference
 
 from .utils import srcdir
