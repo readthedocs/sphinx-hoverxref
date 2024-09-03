@@ -14,7 +14,7 @@ astroid==3.3.2
     # via sphinx-autoapi
 babel==2.16.0
     # via sphinx
-certifi==2024.7.4
+certifi==2024.8.30
     # via requests
 charset-normalizer==3.3.2
     # via requests
@@ -86,7 +86,7 @@ sphinx==7.4.7
     #   sphinxcontrib-bibtex
     #   sphinxcontrib-jquery
     #   sphinxemoji
-sphinx-autoapi==3.2.1
+sphinx-autoapi==3.3.0
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-autobuild==2024.4.16
     # via sphinx-hoverxref (pyproject.toml)
@@ -120,7 +120,7 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sphinxemoji==0.3.1
     # via sphinx-hoverxref (pyproject.toml)
-starlette==0.38.2
+starlette==0.38.4
     # via sphinx-autobuild
 tomli==2.0.1
     # via sphinx
@@ -133,7 +133,7 @@ urllib3==2.2.2
     # via requests
 uvicorn==0.30.6
     # via sphinx-autobuild
-watchfiles==0.23.0
+watchfiles==0.24.0
     # via sphinx-autobuild
-websockets==13.0
+websockets==13.0.1
     # via sphinx-autobuild
