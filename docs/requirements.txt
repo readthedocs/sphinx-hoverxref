@@ -6,11 +6,11 @@
 #
 alabaster==0.7.16
     # via sphinx
-anyio==4.4.0
+anyio==4.6.0
     # via
     #   starlette
     #   watchfiles
-astroid==3.3.2
+astroid==3.3.3
     # via sphinx-autoapi
 babel==2.16.0
     # via sphinx
@@ -88,7 +88,7 @@ sphinx==7.4.7
     #   sphinxemoji
 sphinx-autoapi==3.3.1
     # via sphinx-hoverxref (pyproject.toml)
-sphinx-autobuild==2024.9.3
+sphinx-autobuild==2024.9.19
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-notfound-page==1.0.4
     # via sphinx-hoverxref (pyproject.toml)
@@ -120,7 +120,7 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sphinxemoji==0.3.1
     # via sphinx-hoverxref (pyproject.toml)
-starlette==0.38.5
+starlette==0.38.6
     # via sphinx-autobuild
 tomli==2.0.1
     # via sphinx
@@ -135,5 +135,5 @@ uvicorn==0.30.6
     # via sphinx-autobuild
 watchfiles==0.24.0
     # via sphinx-autobuild
-websockets==13.0.1
+websockets==13.1
     # via sphinx-autobuild
