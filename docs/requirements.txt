@@ -10,7 +10,7 @@ anyio==4.6.0
     # via
     #   starlette
     #   watchfiles
-astroid==3.3.3
+astroid==3.3.4
     # via sphinx-autoapi
 babel==2.16.0
     # via sphinx
@@ -86,7 +86,7 @@ sphinx==7.4.7
     #   sphinxcontrib-bibtex
     #   sphinxcontrib-jquery
     #   sphinxemoji
-sphinx-autoapi==3.3.1
+sphinx-autoapi==3.3.2
     # via sphinx-hoverxref (pyproject.toml)
 sphinx-autobuild==2024.9.19
     # via sphinx-hoverxref (pyproject.toml)
@@ -120,7 +120,7 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sphinxemoji==0.3.1
     # via sphinx-hoverxref (pyproject.toml)
-starlette==0.38.6
+starlette==0.39.2
     # via sphinx-autobuild
 tomli==2.0.1
     # via sphinx
@@ -131,7 +131,7 @@ typing-extensions==4.12.2
     #   uvicorn
 urllib3==2.2.3
     # via requests
-uvicorn==0.30.6
+uvicorn==0.31.0
     # via sphinx-autobuild
 watchfiles==0.24.0
     # via sphinx-autobuild
