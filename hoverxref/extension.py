@@ -61,10 +61,10 @@ def copy_asset_files(app, exception):
     if exception is None:  # build succeeded
 
         context = {}
-        for attr in app.config.values:
+        for attr, opt in app.config.values.items():
             if attr.startswith('hoverxref_'):
                 # First, add the default values to the context
-                context[attr] = app.config.values[attr][0]
+                context[attr] = getattr(opt, "default", opt[0])
 
         for attr in dir(app.config):
             if attr.startswith('hoverxref_'):
@@ -277,7 +277,8 @@ def setup_theme(app, exception):
     """
     css_file = None
     theme = app.config.html_theme
-    default, rebuild, types = app.config.values.get('hoverxref_modal_class')
+    opt = app.config.values['hoverxref_modal_class']
+    default = getattr(opt, "default", opt[0])
     if theme == 'sphinx_material':
         if app.config.hoverxref_modal_class == default:
             app.config.hoverxref_modal_class = 'md-typeset'
@@ -309,8 +310,8 @@ def setup_assets_policy(app, exception):
 
 def deprecated_configs_warning(app, exception):
     """Log warning message if old configs are used."""
-    default, rebuild, types = app.config.values.get('hoverxref_tooltip_api_host')
-    if app.config.hoverxref_tooltip_api_host != default:
+    opt = app.config.values['hoverxref_tooltip_api_host']
+    if app.config.hoverxref_tooltip_api_host != getattr(opt, "default", opt[0]):
         message = '"hoverxref_tooltip_api_host" is deprecated and replaced by "hoverxref_api_host".'
         logger.warning(message)
         app.config.hoverxref_api_host = app.config.hoverxref_tooltip_api_host
