@@ -144,19 +144,6 @@ def setup_domains(app, config):
         app.add_domain(domain, override=True)
 
 
-def setup_sphinx_tabs(app, config):
-    """
-    Disconnect ``update_context`` function from ``sphinx-tabs``.
-
-    Sphinx Tabs removes the CSS/JS from pages that does not use the directive.
-    Although, we need them to use inside the tooltip.
-    """
-    for listener in app.events.listeners.get('html-page-context'):
-        module_name = inspect.getmodule(listener.handler).__name__
-        if module_name == 'sphinx_tabs.tabs':
-            app.disconnect(listener.id)
-
-
 def setup_intersphinx(app, config):
     """
     Disconnect ``missing-reference`` from ``sphinx.ext.intershinx``.
@@ -365,7 +352,6 @@ def setup(app):
     app.connect('config-inited', deprecated_configs_warning)
 
     app.connect('config-inited', setup_domains)
-    app.connect('config-inited', setup_sphinx_tabs)
     app.connect('config-inited', setup_intersphinx)
     app.connect('config-inited', setup_theme)
     app.connect('config-inited', setup_assets_policy)
