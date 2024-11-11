@@ -51,7 +51,7 @@ latexcodec==3.0.0
     # via pybtex
 markupsafe==3.0.2
     # via jinja2
-packaging==24.1
+packaging==24.2
     # via sphinx
 pybtex==0.24.0
     # via
@@ -140,5 +140,5 @@ uvicorn==0.32.0
     # via sphinx-autobuild
 watchfiles==0.24.0
     # via sphinx-autobuild
-websockets==13.1
+websockets==14.0
     # via sphinx-autobuild
