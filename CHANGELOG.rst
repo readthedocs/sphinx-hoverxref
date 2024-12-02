@@ -3,6 +3,12 @@ Changelog
 
 This page shows all the changes done on each version.
 
+Version 1.4.2
+-------------
+
+* Make it compatible with sphinx-tabs >=3.4.6 (https://github.com/readthedocs/sphinx-hoverxref/pull/318).
+* Update dependencies
+
 Version 1.4.1
 -------------
 
