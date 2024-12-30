@@ -10,7 +10,7 @@ anyio==4.7.0
     # via
     #   starlette
     #   watchfiles
-astroid==3.3.6
+astroid==3.3.8
     # via sphinx-autoapi
 babel==2.16.0
     # via sphinx
@@ -18,9 +18,9 @@ certifi==2024.12.14
     # via
     #   requests
     #   sphinx-prompt
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
     # via requests
-click==8.1.7
+click==8.1.8
     # via uvicorn
 colorama==0.4.6
     # via sphinx-autobuild
@@ -43,7 +43,7 @@ idna==3.10
     #   sphinx-prompt
 imagesize==1.4.1
     # via sphinx
-jinja2==3.1.4
+jinja2==3.1.5
     # via
     #   sphinx
     #   sphinx-autoapi
@@ -123,7 +123,7 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sphinxemoji==0.3.1
     # via sphinx-hoverxref (pyproject.toml)
-starlette==0.42.0
+starlette==0.45.0
     # via sphinx-autobuild
 tomli==2.2.1
     # via sphinx
@@ -132,7 +132,7 @@ typing-extensions==4.12.2
     #   anyio
     #   astroid
     #   uvicorn
-urllib3==2.2.3
+urllib3==2.3.0
     # via
     #   requests
     #   sphinx-prompt
