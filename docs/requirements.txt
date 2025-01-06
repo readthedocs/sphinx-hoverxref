@@ -6,7 +6,7 @@
 #
 alabaster==1.0.0
     # via sphinx
-anyio==4.7.0
+anyio==4.8.0
     # via
     #   starlette
     #   watchfiles
@@ -59,7 +59,7 @@ pybtex==0.24.0
     #   sphinxcontrib-bibtex
 pybtex-docutils==1.0.3
     # via sphinxcontrib-bibtex
-pygments==2.18.0
+pygments==2.19.0
     # via
     #   sphinx
     #   sphinx-prompt
@@ -123,7 +123,7 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sphinxemoji==0.3.1
     # via sphinx-hoverxref (pyproject.toml)
-starlette==0.45.0
+starlette==0.45.2
     # via sphinx-autobuild
 tomli==2.2.1
     # via sphinx
