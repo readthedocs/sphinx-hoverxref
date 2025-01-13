@@ -59,7 +59,7 @@ pybtex==0.24.0
     #   sphinxcontrib-bibtex
 pybtex-docutils==1.0.3
     # via sphinxcontrib-bibtex
-pygments==2.19.0
+pygments==2.19.1
     # via
     #   sphinx
     #   sphinx-prompt
@@ -138,7 +138,7 @@ urllib3==2.3.0
     #   sphinx-prompt
 uvicorn==0.34.0
     # via sphinx-autobuild
-watchfiles==1.0.3
+watchfiles==1.0.4
     # via sphinx-autobuild
 websockets==14.1
     # via sphinx-autobuild
