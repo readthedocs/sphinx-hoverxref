@@ -123,7 +123,7 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 sphinxemoji==0.3.1
     # via sphinx-hoverxref (pyproject.toml)
-starlette==0.45.2
+starlette==0.45.3
     # via sphinx-autobuild
 tomli==2.2.1
     # via sphinx
