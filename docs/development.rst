@@ -1,8 +1,8 @@
 Development
 ===========
 
-This is a very small guide to help with the development of this extension.
-Since it needs a backend and the event is only triggered only on mouse hover,
+This is a very small guide to help with the testing of this extension.
+Since it needs a backend and the event is only triggered on mouse hover,
 it could be tedious if you don't know these tips & tricks.
 
 Backend
@@ -15,7 +15,7 @@ Using readthedocs.org as backend
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This is the easiest way to have the backend working, since you do not need to do anything.
-Although, you need to use an already existent project in Read the Docs.
+Although, you need to use an already existing project in Read the Docs.
 
 To setup this approach, you need to put these settings in the ``conf.py`` of your docs:
 
@@ -29,7 +29,7 @@ After building the documentation all the requests will be done to URLs like::
 
 .. note::
 
-   The project *and* version has to be successfully built on Read the Docs to return the content requested.
+   The project *and* version have to be successfully built on Read the Docs to return the content requested.
 
 
 Building and serving docs locally
@@ -60,7 +60,7 @@ Using a local Read the Docs instance
 You can `install Read the Docs locally following these instructions`_.
 Although, it may be too complicated just to retrieve the same content that you could have in https://readthedocs.org.
 
-To make the extension to work, you will need to define this setting in your ``conf.py`` file:
+To make the extension work, you will need to define this setting in your ``conf.py`` file:
 
 .. code-block:: python
 
@@ -73,7 +73,7 @@ To make the extension to work, you will need to define this setting in your ``co
 Once you have done that, you can just import the project directly in your local instance,
 and the tooltips should work without problem.
 
-.. _install Read the Docs locally following these instructions: https://docs.readthedocs.io/en/stable/development/install.html
+.. _install Read the Docs locally following these instructions: https://docs.readthedocs.com/dev/latest/install.html
 
 
 Modifying ``hoverxref.js`` on the fly
