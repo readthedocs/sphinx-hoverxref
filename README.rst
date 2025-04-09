@@ -1,6 +1,6 @@
 .. warning::
 
-   This extension has been deprecated. Users are advised to enable the "Link previews" option in "Settings" > "Addons" > "Link previews"
+   **This extension has been deprecated**. Users are advised to enable the "Link previews" option in "Settings" > "Addons" > "Link previews"
    in the Read the Docs admin dashboard for their project to get the same functionality as this extension.
 
    For more information, please see:
