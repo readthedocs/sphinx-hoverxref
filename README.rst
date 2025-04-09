@@ -1,3 +1,15 @@
+.. warning::
+
+   This extension has been deprecated. Users are advised to enable the "Link previews" option in "Settings" > "Addons" > "Link previews"
+   in the Read the Docs admin dashboard for their project to get the same functionality as this extension.
+
+   For more information, please see:
+
+   1. https://docs.readthedocs.com/platform/stable/link-previews.html
+   2. https://about.readthedocs.com/blog/2024/07/addons-by-default/
+
+----
+
 |PyPI version| |Docs badge| |License|
 
 sphinx-hoverxref
